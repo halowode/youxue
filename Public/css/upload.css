@@ -1,0 +1,33 @@
+#pic{
+	width:100%;
+	border:1px solid #e1e1e1;
+}
+.album{
+	height: 100%;
+    margin: 10px 0 0;
+    overflow: hidden;
+    padding: 0;
+    width:98%;
+}
+.album li{
+	display: inline;
+    float: left;
+    height: 118px;
+    list-style: outside none none;
+    margin-left: 8px;
+    margin-right: 8px;
+    position: relative;
+    width: 100px;
+}
+.info{
+	font-size:12px;
+}
+.control {
+    display: block;
+    font-family: Arial;
+    height: 25px;
+    text-align:center;
+}
+.control a{
+	padding:2px;
+}

@@ -1,0 +1,161 @@
+<ul id="menu">
+    <!--
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>用户管理<s class="sz"></s></a>
+        <ul>
+            <if condition="$Think.session.uid eq 1">
+                <li><a href="{:U('User/index')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>用户管理</a></li>
+            </if>
+            <li><a href="{:U('User/edit_pass')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>修改密码</a></li>
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>角色管理<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('User/rolelist')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>管理角色</a></li>
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>合同管理<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('Index/makect')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>创建合同</a></li>
+            <li><a href="{:U('Index/search')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>管理合同</a></li>
+            <li><a href="{:U('Index/excute')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>合同执行</a></li>
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>开票管理<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('Index/checkbill')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>开票初审</a></li>
+            <li><a href="{:U('Index/recheckbill')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>开票复审</a></li>
+            <li><a href="{:U('Index/makebill')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>开具发票</a></li>
+            <li><a href="{:U('Index/listbill')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>申请列表</a></li>
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>盖章管理<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('Index/checkstamp')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>盖章初审</a></li>
+            <li><a href="{:U('Index/recheckstamp')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>盖章复审</a></li>
+            <li><a href="{:U('Index/makestamp')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>处理盖章</a></li>
+            <li><a href="{:U('Index/liststamp')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>盖章列表</a></li>
+
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>归档管理<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('Index/checkfiling')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>审核归档</a></li>
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>回款管理<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('Index/payback')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>回款录入</a></li>
+            <li><a href="{:U('Index/glian')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>回款关联</a></li>
+            <li><a href="{:U('Index/checkglian')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>关联审核</a></li>
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>信息管理<s class="sz"></s></a>
+        <ul>
+
+            <li><a href="{:U('Index/departmentadd')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>部门添加</a></li>
+            <li><a href="{:U('Index/department')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>部门列表</a></li>
+            <li><a href="{:U('Index/project')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>项目添加</a></li>
+            <li><a href="{:U('Index/proedit')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>项目列表</a></li>
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>银行管理<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('Index/bank')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>银行账号添加</a></li>
+            <li><a href="{:U('Index/bankedit')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>银行账号列表</a></li>
+        </ul>
+    </li>
+    -->
+    <volist name="arr" id="vol">
+        <if condition="($superuser eq 1) OR ($vol.isbl eq 1)">
+            <li class="menu-list">
+                <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>{$Think.lang.$key}<s class="sz"></s></a>
+                <ul>
+                    <if condition="($superuser eq 1)">
+                        <volist name="vol.datas" id="vo">
+                            <li><a href="__ROOT__/{$vo.nodeurl}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>{$vo.nodename}</a></li>
+                        </volist>
+                        <else />
+                        <volist name="vol.datas" id="vo">
+                            <in name="vo.id" value="$nidarr">
+                                <li><a href="__ROOT__/{$vo.nodeurl}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>{$vo.nodename}</a></li>
+                            </in>
+                        </volist>
+                    </if>
+
+                </ul>
+            </li>
+        </if>
+    </volist>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>借款报销<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('Reimburse/bm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>申请借款</a></li>
+            <li><a href="{:U('Reimburse/index')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>申请报销</a></li>
+            <li><a href="{:U('Reimburse/list')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>申请列表</a></li>
+            <li><a href="{:U('Reimburse/confirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>报销确认</a></li>
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>报销审核<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('Reimburse/check')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>报销初审</a></li>
+            <li><a href="{:U('Reimburse/recheck')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>报销复审</a></li>
+            <li><a href="{:U('Reimburse/reconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认初审</a></li>
+            <li><a href="{:U('Reimburse/agconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认复审</a></li>
+            <li><a href="{:U('Reimburse/lastconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认终审</a></li>
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>报销审核<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('Reimburse/check')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>报销初审</a></li>
+            <li><a href="{:U('Reimburse/recheck')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>报销复审</a></li>
+            <li><a href="{:U('Reimburse/reconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认初审</a></li>
+            <li><a href="{:U('Reimburse/agconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认复审</a></li>
+            <li><a href="{:U('Reimburse/lastconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认终审</a></li>
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>报销审核q<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('Reimburse/check')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>报销初审</a></li>
+            <li><a href="{:U('Reimburse/recheck')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>报销复审</a></li>
+            <li><a href="{:U('Reimburse/reconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认初审</a></li>
+            <li><a href="{:U('Reimburse/agconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认复审</a></li>
+            <li><a href="{:U('Reimburse/lastconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认终审</a></li>
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>报销审核a<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('Reimburse/check')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>报销初审</a></li>
+            <li><a href="{:U('Reimburse/recheck')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>报销复审</a></li>
+            <li><a href="{:U('Reimburse/reconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认初审</a></li>
+            <li><a href="{:U('Reimburse/agconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认复审</a></li>
+            <li><a href="{:U('Reimburse/lastconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认终审</a></li>
+        </ul>
+    </li>
+    <li class="menu-list">
+        <a style="cursor:pointer" class="firsta"><i  class="glyph-icon xlcd"></i>报销审核s<s class="sz"></s></a>
+        <ul>
+            <li><a href="{:U('Reimburse/check')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>报销初审</a></li>
+            <li><a href="{:U('Reimburse/recheck')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>报销复审</a></li>
+            <li><a href="{:U('Reimburse/reconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认初审</a></li>
+            <li><a href="{:U('Reimburse/agconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认复审</a></li>
+            <li><a href="{:U('Reimburse/lastconfirm')}" target="menuFrame"><i class="glyph-icon icon-chevron-right1"></i>确认终审</a></li>
+        </ul>
+    </li>
+
+
+
+
+</ul>

@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>创建合同</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/index.css" />
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+
+</head>
+
+<body style="background:#fff;height:100%;overflow-y:auto;">
+<div class="nav_top1">
+    <div class="nav_tcon1" style="width:98%;">
+        <div class="logotitle1">
+            <span>创建合同</span>
+        </div>
+    </div>
+</div>
+<form name="product_form" id="product_form" enctype="multipart/form-data" action="" method="post">
+    <div class="logo_content1">
+        <div class="logo_ccon1">
+            <div class="logo_enter1" style="border:none;float:left;">
+                <div class="login_box1">
+                    <span class="login_title1">归属公司：</span>
+                    <select name="belong"  style="width:100px">
+                        <option value="极速" <if condition="$data['belong'] eq '极速'">selected=selected</if>> 极速</option>
+                        <option value="华睿" <if condition="$data['belong'] eq '华睿'">selected=selected</if>> 华睿</option>
+                        <option value="优学" <if condition="$data['belong'] eq '优学'">selected=selected</if>> 优学</option>
+                    </select>
+                    <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1">
+                    <span class="login_title1" >合同名称：</span>
+                    <input class="use_name" name='cname'  type="text" value="{$data.cname}" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1">
+                    <span class="login_title1" >客户名称：</span>
+                    <input class="use_name" name='gname'  type="text" value="{$data.gname}" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1">
+                    <span class="login_title1" >合同金额：</span>
+                    <input class="use_name" name='total'  type="text" value="{$data.total}" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1">
+                    <span class="login_title1" >推广期间：</span>
+                    <input class="use_name" name='adperiod'  type="text" value="{$data.adperiod}" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1">
+                    <span class="login_title1" >推广位置：</span>
+                    <input class="use_name" name='adposition'  type="text" value="{$data.adposition}" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1">
+                    <span class="login_title1" >结束条款：</span>
+                    <input class="use_name" name='settleitem'  type="text" value="{$data.settleitem}" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1">
+                    <span class="login_title1" >备注：</span>
+                    <input class="use_name" name='remark'  type="text" value="{$data.remark}" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                    <input type="hidden" name="cid" value="{$cid}"/>
+                </div>
+                <input type="submit" name="submit" class="login_submit" value="保存修改" />
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

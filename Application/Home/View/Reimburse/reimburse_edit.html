@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>申请报销</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/index.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/laydate/laydate.js"></script>
+    <style>
+        .daniel_icon {
+            margin-left: 160px;
+        }
+    </style>
+    <script>
+        function addpic(){
+            $("#daniel_so").append('<div class="login_box1 form-group" style="width:80%"><span class="login_title1 col-sm-2 control-label">相关图片</span><input onchange="dd(this)" type="file" /><span class="daniel_icon"></span><span style="color:red"></span><sapn style="float:right;margin-left:300px"><a onclick="delpic(this)">-删除图片</a></span></div>');
+        }
+        function addhang(){
+            $("#d_table").append('<tr class="info"><td><input class="form-control" name="ab[]" type="text"/></td><td><input class="form-control" name="etime[]" type="text" placeholder="格式：2016-06"/></td><td><input class="form-control" name="etotal[]" type="text"/></td><td><input class="form-control" name="atotal[]" type="text"/></td><td><a class="btn btn-danger" onclick="delpic(this)">删除此行</a></td></tr>');
+        }
+        function delpic(obj){
+            $(obj).parent().parent().remove();
+        }
+        function dd(obj){
+            //创建FormData对象
+            var data = new FormData();
+            //为FormData对象添加数据
+            $.each($(obj)[0].files, function(i, file) {
+                data.append('icon', file);
+            });
+            $.ajax({
+                url:'/Index/getImg.shtml',
+                type:'POST',
+                data:data,
+                cache: false,
+                contentType: false,    //不可缺
+                processData: false,    //不可缺
+                success:function(data){
+                    if(data){
+                        if(data == 'no'){
+                            alert('上传失败');
+                            return;
+                        }
+                        $(obj).siblings(".daniel_icon").html('<img src="'+data+'" width="100" /><input  type="hidden" name="pic[]" value="'+data+'" />');
+                    }
+                },
+                error:function(){
+                    alert('上传出错,请重试或联系管理员！');
+                    return false;
+                }
+            });
+
+        }
+    </script>
+</head>
+
+<body style="background:#fff;height:100%;overflow-y:auto;">
+<div class="nav_top1">
+    <div class="nav_tcon1" style="width:98%;">
+        <div class="logotitle1">
+            <span>申请报销</span>
+        </div>
+    </div>
+</div>
+<form name="product_form" id="daniel_form" enctype="multipart/form-data" action="" method="post">
+    <div class="logo_content1">
+        <div class="logo_ccon1">
+            <div class="logo_enter1" style="border:none;float:left;">
+                <div class="login_box1 form-group">
+                    <span class="login_title1 col-sm-2 control-label">所属项目</span>
+                    <textarea class="form-control" style="margin-left: 100px;width:60%"><volist name="errmsg" id="vo"><?php echo $vo['msg'],'--'.$vo['uname'],"\r\n";?></volist>
+                    </textarea>
+                </div>
+
+            </div>
+            <div id="daniel_so" class="logo_enter1" style="border:none;float:left;">
+
+                <div class="login_box1 form-group">
+                    <span class="login_title1 col-sm-2 control-label">所属项目</span>
+                    <select id="proj" class="use_name form-control input-xsm" name="pid"   style="width:200px">
+                        <option value="">请选择</option>
+                        <volist name="pro" id="vo">
+                            <option value="{$vo.id}" <eq name="data['pid']" value="$vo.id">selected=selected</eq> > {$vo.pname}</option>
+                        </volist>
+
+                    </select>
+                    <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1 form-group">
+                    <span class="login_title1 col-sm-2 control-label">审核人</span>
+                    <select id="checkid" class="use_name form-control input-xsm" name="checkuid"   style="width:200px">
+                        <option value="">请选择</option>
+                        <volist name="cusers" id="vo">
+                            <option value="{$vo.id}" <eq name="data['checkuid']" value="$vo.id">selected=selected</eq> > {$vo.username}</option>
+                        </volist>
+                    </select>
+                    <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1 form-group">
+                    <span class="login_title1 col-sm-2 control-label">所属销售合同</span>
+                    <select id="con" class="use_name form-control input-xsm" name="cid"   style="width:200px">
+                        <option value="0" <eq name="data['cid']" value="0">selected=selected</eq>>无销售合同</option>
+                        <volist name="slc" id="vs">
+                            <option value="{$vs.id}" <eq name="data['cid']" value="$vs.id">selected=selected</eq>>{$vs.cno}</option>
+                        </volist>
+                    </select>
+                    <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1 form-group">
+                    <span class="login_title1 col-sm-2 control-label">所属采购合同</span>
+                    <select id="cgid" class="use_name form-control input-xsm" name="cgid"   style="width:200px">
+                        <option value="0" <eq name="data['cgid']" value="0">selected=selected</eq>>无采购合同</option>
+                        <volist name="cgc" id="vc">
+                            <option value="{$vc.id}" <eq name="data['cgid']" value="$vc.id">selected=selected</eq>>{$vc.cno}</option>
+                        </volist>
+                    </select>
+                    <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1 form-group" style="width:80%">
+                    <span class="login_title1 col-sm-2 control-label" >备注</span>
+                    <textarea class="use_name form-control"  name='remark'  type="text" placeholder="备注信息">{$data.remark}</textarea>
+                </div>
+                <table id="d_table" class=" table table-bordered" style="margin-left:30px;margin-top:-20px">
+                    <tr class="active">
+                        <th>报销摘要</th>
+                        <th>发生月份</th>
+                        <if condition="$rbtype eq 0">
+                            <th>发生金额</th>
+                        </if>
+                        <th>申请金额</th>
+                    </tr>
+                    <volist name="reimdata" id="vo">
+                    <tr class="info">
+                        <td width="35%"><input class="form-control" name="ab[]" value="{$vo.ab}" type="text"/></td>
+                        <td><input class="form-control" name="etime[]" value="{$vo.etime}" type="text" placeholder="格式：2016-06"/></td>
+                        <if condition="$rbtype eq 0">
+                        <td><input class="form-control" name="etotal[]" value="{$vo.etotal}" type="text"/></td>
+                        </if>
+                        <td><input class="form-control" name="atotal[]" value="{$vo.atotal}" type="text"/></td>
+                    </tr>
+                    </volist>
+                </table>
+                <div class="login_box1 form-group" style="width:80%">
+                    <span class="login_title1 col-sm-2 control-label">相关图片</span>
+                    <input onchange="dd(this)" type="file"/><span class="daniel_icon"></span><span style="color:red"></span>
+                    <sapn style="float:right;margin-right:300px"><a onclick="addpic()" id="addpic">+增加图片</a></span>
+                </div>
+                <volist name="pics" id="bill">
+                    <div class="login_box1" style="width:90%">
+                        <span class="login_title1">相关图片</span>
+                        <span class="daniel_icon"><img width="100" src="{$bill['path']}"></span>
+                        <input type="hidden" name="pic[]" value="{$bill.path}"/>
+                        <sapn style="float:right;margin-right:300px"><a onclick="delpic(this)">-删除图片</a></span>
+                    </div>
+                </volist>
+            </div>
+            <div class="nav_tcon1" style="float:left;width:98%;">
+                <input type="hidden" name="id" value="{$id}"/>
+                <input type="hidden" name="rbid" value="{$data.rbid}"/>
+                <input type="hidden" name="rbno" value="{$data.rbno}"/>
+                <if condition="$rbtype eq 0">
+                    <input style="margin-left:200px" type="submit"  class="login_submit btn btn-primary" value="申请报销" />
+                    <else/>
+                    <input style="margin-left:200px" type="submit"  class="login_submit btn btn-primary" value="申请借款" />
+                </if>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $("#daniel_form").submit(function () {
+        if($("#pro").val() == ''){
+            alert('发生项目不可为空！');
+            return false;
+        }
+        if($("#checkid").val() == ''){
+            alert('审核人不可不选！');
+            return false;
+        }
+
+    });
+    $("#proj").change(function(){
+        var str = $(this).val();
+        if(str != ''){
+            $.ajax({
+                type: "POST",
+                url: "/reimburse/getcontract",
+                data: "pid="+str,
+                dataType:'json',
+                success: function(msg){
+
+                    $("#con").children().remove();
+                    $("#con").append("<option value='0'>无销售合同</option>");
+                    $("#cgid").children().remove();
+                    $("#cgid").append("<option value='0'>无采购合同</option>");
+                    for(var i in msg[0]){
+                        $("#con").append("<option value='"+msg[0][i].id+"'>"+msg[0][i].cno+"</option>");
+                    }
+                    for(var i in msg[1]){
+                        $("#cgid").append("<option value='"+msg[1][i].id+"'>"+msg[1][i].cno+"</option>");
+                    }
+                }
+            });
+        }
+
+
+    });
+
+
+</script>
+</body>
+</html>

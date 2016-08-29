@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>角色用户管理</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/Iframe.css" />
+    <link rel="stylesheet" href="__PUBLIC__/utilLib/bootstrap.min.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/laydate/laydate.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/main.js"></script>
+</head>
+
+<body style="height:100%;overflow-y:auto;">
+<span class="cp_title" >角色用户管理</span>
+<div class="table_con">
+    <form method="get" action="">
+        <table cellpadding="0" cellspacing="1">
+            <tr>
+                <td width="5%" align="center" class="tb_title">用户编号</td>
+                <td width="10%" align="center" class="tb_title">用户名称</td>
+                <td width="10%" align="center" class="tb_title">所属部门</td>
+                <td width="20%" align="center" class="tb_title">操作</td>
+
+            </tr>
+            <notempty name="data['list']">
+                <foreach name="data['list']" key="key" item="vo">
+                    <tr>
+                        <td align="center">{$vo.id}</td>
+                        <td align="center">{$vo.username}</td>
+                        <td align="center">{$vo.depname}</td>
+                        <td align="center">
+                            <a href="{:U('delUserFromRole',['id'=>$vo[id],'rid'=>$rid])}">从角色中删除该用户</a>
+                        </td>
+                    </tr>
+                </foreach>
+                <else />
+                <tr>
+                    <td colspan="4">暂无信息</td>
+                </tr>
+            </notempty>
+            <if condition="($data['list'] neq null)">
+                <tr>
+                    <td colspan="4">
+                        {$data.show}
+                    </td>
+                </tr>
+            </if>
+        </table>
+    </form>
+</div>
+</body>
+</html>

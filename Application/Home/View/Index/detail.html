@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>创建合同</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/index.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+    <style>
+        .niandu {
+            width:120px;
+            line-height: 33px;
+        }
+    </style>
+</head>
+
+<body style="background:#fff;height:100%;overflow-y:auto;">
+<div class="nav_top1">
+    <div class="nav_tcon1" style="width:98%;">
+        <div class="logotitle1">
+            <span>合同详情</span>
+        </div>
+    </div>
+</div>
+<div>
+        <table class=" table table-bordered" style="margin-left:30px;">
+            <tr>
+                <td colspan="6" class="success" style="font-size:16px"><b>合同基本信息</b></td>
+            </tr>
+            <tr>
+                <td width="10%" colspan="2"  class=" active"><b>合同编号：</b><i>{$cdata.cno}</i></td>
+                <td width="5%" class=" warning"><b>归属公司：</b><i>{$cdata.belong}</i></td>
+                <td width="5%" class=" active"><b>合同金额：</b><i>{:number_format($cdata['total'],2)}</i></td>
+                <td width="10%" class=" info"><b>客户名称：</b><i>{$cdata.gname}</i></td>
+                <td width="8%"  class="  danger"><b>归档状态：</b><i>
+                    <if condition="$cdata.isfiling eq 3">
+                        已归档
+                        <else />
+                        未归档
+                    </if>
+                </i></td>
+
+            </tr>
+            <tr>
+                <td width="10%"  class=" info"><b>负责人：</b><i>{$cdata.fname}</i></td>
+                <td width="10%" colspan="2"  class=" danger"><b>合同名称：</b><i>{$cdata.cname}</i></td>
+                <td width="10%"  class="warning "><b>初次审核人：</b><i>{$cdata.username}</i></td>
+                <td width="10%"  class="  danger"><b>合同执行人：</b><i>{$exuname}</i></td>
+                <td width="8%"  class="  danger"><b>执行状态：</b><i>
+                    <if condition="$cdata.isex eq 1">
+                        完成
+                        <else />
+                        未执行
+                    </if>
+                </i></td>
+            </tr>
+
+        </table>
+        <table class=" table table-bordered" style="margin-left:30px;margin-top:-20px">
+            <tr>
+                <td colspan="4" class="success" style="font-size:16px"><b>开票信息</b></td>
+            </tr>
+            <volist name="bill" id="vo" mod="2">
+                <tr>
+                    <td width="5%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>发票类型：</b><i>{$vo.btype}</i></td>
+                    <td width="10%" class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>所属客户：</b><i>{$vo.gname}</i></td>
+                    <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>发票内容：</b><i>{$vo.cbcontent}</i></td>
+                    <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>发票金额：</b><i> {:number_format($vo['btotal'],2)}</i></td>
+
+
+                </tr>
+                <tr>
+                    <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>开票日期：</b><i>{$vo.cbtime}</i></td>
+                    <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>增值税：</b><i>
+                    <if condition="$vo.vat neq ''">
+                        {$vo.vat}
+                        <else />
+                        无
+                    </if>
+
+                    </i></td>
+                    <td  colspan="2"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>发票状态：</b><i>
+                    <if condition="$vo.bstatus eq 0">
+                        <span style="color:red">被驳回</span>
+                    </if>
+                    <if condition="$vo.bstatus eq 1">
+                        <span style="color:yellowgreen">初审中</span>
+                    </if>
+                    <if condition="$vo.bstatus eq 2">
+                        <span style="color:yellow">复审中</span>
+                    </if>
+                    <if condition="$vo.bstatus eq 3">
+                        <span style="color:darkgoldenrod">开票中</span>
+                    </if>
+                    <if condition="$vo.bstatus eq 4">
+                        <span style="color:dodgerblue">已开票</span>
+                    </if>
+                    </i></td>
+                </tr>
+
+            </volist>
+            <tr>
+                <td class="active " width='15%'><b>已出票金额总和：</b><i>{:number_format($oj,2)}</i></td>
+                <td class="active " width='15%'><b>未出票金额总和：</b><i>{:number_format($nj,2)}</i></td>
+                <td class="active " colspan="3" width="70%" ><b>应开票金额总和：</b><i>{:number_format($nj+$oj,2)}</i></td>
+            </tr>
+        </table>
+    <table class=" table table-bordered" style="margin-left:30px;margin-top:-20px">
+    <tr>
+        <td colspan="4" class="success" style="font-size:16px"><b>盖章信息</b></td>
+    </tr>
+    <volist name="stamp" id="vo">
+        <tr>
+            <td width="5%"  class="<?php echo $color[mt_rand(0,3)]; ?>"><b>推广期间：</b><i>{$vo.adperiod}</i></td>
+            <td width="10%" class=" active"><b>推广位置：</b><i>{$vo.adposition}</i></td>
+            <td width="10%"  class="warning "><b>结算条款：</b><i>{$vo.settleitem}</i></td>
+            <td width="10%"  class="  danger"><b>盖章状态：</b><i>
+                <if condition="$vo.status eq 0">
+                    <span style="color:red">被驳回</span>
+                </if>
+                <if condition="$vo.status eq 1">
+                    <span style="color:yellowgreen">初审中</span>
+                </if>
+                <if condition="$vo.status eq 2">
+                    <span style="color:yellow">复审中</span>
+                </if>
+                <if condition="$vo.status eq 3">
+                    <span style="color:darkgoldenrod">盖章中</span>
+                </if>
+                <if condition="$vo.status eq 4">
+                    <span style="color:dodgerblue">已盖章</span>
+                </if>
+            </i></td>
+
+        </tr>
+
+    </volist>
+
+</table>
+    <table class=" table table-bordered" style="margin-left:30px;margin-top:-20px">
+        <tr>
+            <td colspan="5" class="success" style="font-size:16px"><b>回款信息</b></td>
+        </tr>
+        <volist name="payback" id="vo" mod="2">
+            <tr>
+                <td width="15%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>回款时间：</b><i>{$vo.btime}</i></td>
+                <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>支付公司：</b><i>{$vo.paycomp}</i></td>
+                <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>收款公司：</b><i>{$vo.payee}</i></td>
+                <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>收款性质：</b><i>{$vo.btype}</i></td>
+                <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>是否确认：</b><i>
+                    <if condition="$vo.rstatus eq 2">
+                        <span style="color:red">未确认</span>
+                    </if>
+                    <if condition="$vo.rstatus eq 3">
+                        <span style="color:yellowgreen">已确认</span>
+                    </if>
+                </i></td>
+
+            </tr>
+            <tr>
+                <td width="10%" class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>回款金额：</b><i>{:number_format($vo['btotal'],2)}</i></td>
+                <td colspan="4"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>收款银行：</b><i>{$vo.banknum}</i></td>
+            </tr>
+
+        </volist>
+        <tr>
+            <td width="12%" class=" active"><b>已确认回款总额：</b><i>{$spaytotal}</i></td>
+            <td width="12%"  class="active "><b>未确认回款总额：</b><i>{$wpaytotal}</i></td>
+            <td colspan="3" width="50%" class=" active"><b>全部回款金额：</b><i>{:number_format($spaytotal + $wpaytotal,2)}</i></td>
+        </tr>
+
+    </table>
+    <table class=" table table-bordered" style="margin-left:30px;margin-top:-20px">
+        <tr>
+           <td><div class="nav_tcon1" style="margin-left:160px;float:right;width:98%;">
+               <a style="float:right;margin-right: 100px" class="btn btn-info" href="{:U("downct?cid=$cdata[id]")}">合同下载</a>
+               <a style="float:right;margin-right: 10px" class="btn btn-primary" onclick="JavaScript:history.go(-1);" style="text-emphasis:center;"> 返回上一页</a>
+
+           </div></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+
+    </table>
+
+
+</div>
+</body>
+</html>

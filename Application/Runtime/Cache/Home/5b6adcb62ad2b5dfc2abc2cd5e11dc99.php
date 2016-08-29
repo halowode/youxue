@@ -1,0 +1,44 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MCP登录</title>
+<link rel="stylesheet" type="text/css" href="/Public/css/index.css" />
+    <link rel="stylesheet" href="/Public/utilLib/bootstrap.min.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/Public/js/jquery.min.js"></script>
+<script type="text/javascript" src="/Public/js/login.js"></script>
+</head>
+
+<body style="background:#fff">
+<div class="nav_top">
+	<div class="nav_tcon">
+    	<div class="logoimg"></div>
+        <div class="logotitle" style="width:300px">
+        	<span>优学教育流程管理系统</span>
+        </div>
+    </div>
+</div>
+<form name="login_form" id="login_form" action="<?php echo U('login');?>" method="post">
+	<div class="logo_content form-group">
+		<div class="logo_ccon">
+	        <div class="logo_enter form-group">
+	        	<span style="border-bottom:solid 1px #cfcfcf">欢迎登录优学教育流程管理系统</span>
+	            <div class="login_box">
+		            <span class="login_title">用户名：</span>
+		            <input class="use_name form-control" name="logname"  type="text" placeholder="用户名" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+	            </div>
+	            <div class="login_box">
+		            <span class="login_title">密&nbsp;&nbsp;码：</span>
+		            <input class="use_password form-control" name="password" id="password" type="password" placeholder="密码" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+		        </div>
+	            <input type="submit" name="submit" class="login_submit btn btn-primary" value="登录" />
+	        </div>
+	    </div>
+	</div>
+</form>
+<div class="down_info">
+    <p>优学教育流程管理系统</p>
+    <p style="font-size:12px"> www.edu80.com版权所有   </p>
+</div>
+</body>
+</html>

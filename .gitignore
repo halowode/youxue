@@ -1,3 +1,8 @@
 #不需要纳入版本控制文件
 config.php
 *.ini
+*.log
+*.jpg
+*.png
+*.gif
+*.jpeg

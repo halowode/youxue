@@ -6,3 +6,7 @@ config.php
 *.png
 *.gif
 *.jpeg
+*.xls
+*.doc
+*.docx
+*.xlsx

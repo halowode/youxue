@@ -1,2 +1,2 @@
 <?php
-	echo "is test!";
+	echo "this is test for git!";

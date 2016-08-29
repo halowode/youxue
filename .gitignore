@@ -10,3 +10,9 @@ config.php
 *.doc
 *.docx
 *.xlsx
+*.JPG
+*.JPEG
+*.Jpg
+*.Jpeg
+*.PNG
+*.Png

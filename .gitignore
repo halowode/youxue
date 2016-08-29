@@ -16,4 +16,4 @@ config.php
 *.Jpeg
 *.PNG
 *.Png
-Application/Runtime/Cache/
+Application/Runtime/Cache/*

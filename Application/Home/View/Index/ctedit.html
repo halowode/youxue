@@ -39,6 +39,10 @@
             </div>
             <div class="logo_enter1" style="border:none;float:left;">
                 <div class="login_box1 form-group">
+                    <span class="login_title1 col-sm-2 control-label" >合同编号</span>
+                    <input class="use_name form-control" name='cno' value="{$datas.cno}"  type="text" placeholder="合同编号" /><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
+                </div>
+                <div class="login_box1 form-group">
                     <span class="login_title1 col-sm-2 control-label">归属公司</span>
                     <select class="use_name form-control input-sm" name="belong"  style="width:100px">
                         <option <if condition="$datas.belong eq '极速传媒'">selected=selected</if> value="极速传媒" > 极速传媒</option>

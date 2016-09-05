@@ -166,6 +166,26 @@
         return M('user')->where('status = 1')->select();
     }
 
+    function getSingleFieldStr($arr=[]){
+        if(is_array($arr)){
+            if(empty($arr)) exit("the param of function getSingleFieldStr cant't be an empey array!");
+            $farr = [];
+            $fstr = '';
+            foreach($arr as $key =>$val){
+                if(count($val) >1 ) exit("the array each value num cant more than one!");
+                foreach($val as $k => $v){
+                    $farr[] = $v;
+                }
+            }
+            $farr = array_unique($farr);
+            return implode(',',$farr);
+
+        }else{
+            exit("tips:the param of function getSingleFieldStr must be a array type data!");
+        }
+
+    }
+
    
     
 ?>

@@ -93,6 +93,39 @@
     <form method="get" action="">
         <table cellpadding="0" cellspacing="1">
                 <tr>
+                    <td align="right" colspan="11">
+                        <label style="margin-left:5px;">负责人:&nbsp;&nbsp;</label>
+                        <input type="text" class="input-sm" name="fname" style="float:none;" placeholder="请输入关键字" value="{$_fname}" />
+                        <label style="margin-left:5px;">合同名称:&nbsp;&nbsp;</label>
+                        <input type="text" class="input-sm" name="cname" style="float:none;" placeholder="请输入关键字" value="{$_cname}" />
+                        <label style="margin-left:5px;">客户名称:&nbsp;&nbsp;</label>
+                        <input type="text" class="input-sm" name="gname"  style="float:none;" placeholder="请输入关键字" value="{$_gname}" />
+
+                        <label style="margin-left:5px;">归档:&nbsp;&nbsp;</label>
+                        <select class="input-sm" name="isfiling" style="margin-right:5px;width:80px;">
+                            <option value="0" <if condition="$_isfiling eq ''">selected=selected</if>>-选择-</option>
+                            <option value="1" <if condition="$_isfiling eq 1">selected=selected</if>>已归档</option>
+                            <option value="2" <if condition="$_isfiling eq 2">selected=selected</if>>未归档</option>
+                        </select>
+                        <label style="margin-left:5px;">盖章:&nbsp;&nbsp;</label>
+                        <select class="input-sm" name="isstamp" style="margin-right:5px;width:80px;">
+                            <option value="0" <if condition="$_isstamp eq ''">selected=selected</if>>-选择-</option>
+                            <option value="1" <if condition="$_isstamp eq 1">selected=selected</if>>已盖章</option>
+                            <option value="2" <if condition="$_isstamp eq 2">selected=selected</if>>未盖章</option>
+                        </select>
+                        <label style="margin-left:5px;">归属:&nbsp;&nbsp;</label>
+                        <select class="input-sm" name="belong" style="margin-right:5px;width:80px;">
+                            <option value="0" <if condition="$_belong eq ''">selected=selected</if>>-选择-</option>
+                            <option value="华睿互动" <if condition="$_belong eq '华睿互动'">selected=selected</if>>华睿互动</option>
+                            <option value="优学教育" <if condition="$_belong eq '优学教育'">selected=selected</if>>优学教育</option>
+                            <option value="极速传媒" <if condition="$_belong eq '极速传媒'">selected=selected</if>>极速传媒</option>
+                        </select>
+                        <label style="margin-left:5px;">项目名称:&nbsp;&nbsp;</label>
+                        <input type="text" class="input-sm" name="pname"  style="float:none;" placeholder="请输入关键字" value="{$keyword}" />
+                        <input type="submit" name="search" id="search" value="搜索" class="bj_btn" />
+                    </td>
+                </tr>
+                <tr>
                     <td width="5%" align="center" class="tb_title">合同编号</td>
                     <td width="8%" align="center" class="tb_title">归属公司</td>
                     <td width="10%" align="center" class="tb_title">合同名称</td>

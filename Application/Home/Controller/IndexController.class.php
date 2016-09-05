@@ -134,9 +134,65 @@ class IndexController extends Controller {
         if(IS_GET){
             $uid = session('uid');
             $where = '';
+            $_fname = I('get.fname');
+            $this->assign('_fname',$_fname);
+            $_pname = I('get.pname');
+            $this->assign('_pname',$_pname);
+            $_cname = I('get.cname');
+            $this->assign('_cname',$_cname);
+            $_gname = I('get.gname');
+            $this->assign('_gname',$_gname);
+            $_isstamp = I('get.isstamp');
+            $this->assign('_isstamp',$_isstamp);
+            $_isfiling = I('get.isfiling');
+            $this->assign('_isfiling',$_isfiling);
+            $_belong = I('get.belong');
+            $this->assign('_belong',$_belong);
+            $arr = [];
+            if($_fname){
+                $arr[] = "a.fname like '%{$_fname}%'";
+            }
+            if($_pname){
+                $pidarr = M('project')->where("pname like '%{$_pname}%'")->field('id')->select();
+                $fstr = '';
+                if($pidarr){
+                    $fstr = getSingleFieldStr($pidarr);
+                }
+                if($fstr){
+                    $arr[] = " a.pid in ($fstr) ";
+                }
+            }
+            if($_gname){
+                $arr[] = "a.gname like '%{$_gname}%'";
+            }
+            if($_cname){
+                $arr[] = "a.cname like '%{$_cname}%'";
+            }
+            if($_isfiling){
+                if($_isfiling == 1){
+                    $arr[] = " a.isfiling = 3 ";
+                }else{
+                    $arr[] = " a.isfiling != 3 ";
+                }
+            }
+
+            if($_isstamp){
+                if($_isstamp == 1){
+                    $arr[] = "a.isstamp = 1";
+                }else{
+                    $arr[] = "a.isstamp != 1";
+                }
+            }
+            if($_belong){
+                $arr[] = "a.belong = '{$_belong}'";
+            }
+            if(!empty($arr)){
+                $where = implode(' and ',$arr);
+            }
+
             $isexc = 0; //是否有编辑权限
             if(!in_array(1,session('rid'))){
-                $where = 'a.uid = '.$uid;
+                $where = $where?' and a.uid = '.$uid:'a.uid = '.$uid;
             }else{
                 $isexc = 1;
             }
@@ -633,6 +689,7 @@ class IndexController extends Controller {
 
         }else{
             $bid = I("post.bid");
+            $cid = I("post.cid");
             $data['stime'] = I('post.stime');
             $data['status'] = 4;
             $data['mid'] = session('uid');
@@ -650,6 +707,7 @@ class IndexController extends Controller {
                 $r = M('message')->add($dat);
             }
             if($s && $r){
+                M('contract')->where("id = $cid")->save(['isstamp'=>1]);
                 $this->success("填写成功！",U('index/makestamp'));
             }else{
                 $this->success("填写失败！",U('index/makestamp'));

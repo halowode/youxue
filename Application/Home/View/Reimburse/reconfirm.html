@@ -61,7 +61,7 @@
             <notempty name="data['list']">
                 <foreach name="data['list']" key="key" item="vo">
                     <tr>
-                        <td align="center"><a href="{:U("detail?id=$vo[id]")}">{$vo.rbno}</a></td>
+                        <td align="center"><a href="{:U("reimburse_detail?id=$vo[rbid]")}">{$vo.rbno}</a></td>
                         <td align="center">{$vo.pname}</td>
                         <td align="center">{$vo.id}</td>
                         <td align="center">{$vo.scno}</td>

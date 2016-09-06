@@ -104,6 +104,8 @@
                             <if condition="$vo.rstatus eq 3">
                                 <span style="color:darkgoldenrod">关联完成</span>
                             </if>
+                            | <a class="btn btn-danger btn-xs" href="{:U("rebcdel?id=$vo[id]&bid=$vo[bankno]&mt=$vo[btotal]")}">删除</a>
+
                         </td>
 
                     </tr>

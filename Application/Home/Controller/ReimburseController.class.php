@@ -85,6 +85,9 @@ class ReimburseController extends Controller
             $datasg['remark'] = $datas['remark'];
             $datasg['uid'] = session('uid');
             $datasg['bstatus'] = 1;
+            $datasg['belong'] = $datas['belong'];
+            $datasg['charge'] = $datas['charge'];
+
             if(I('post.dp') == 'borrow'){
                 $datasg['rbtype'] = 1;
             }

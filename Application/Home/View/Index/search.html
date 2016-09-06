@@ -132,8 +132,7 @@
                     <td width="10%" align="center" class="tb_title">项目名称</td>
                     <td width="8%" align="center" class="tb_title">客户名称</td>
                     <td width="3%" align="center" class="tb_title">合同金额</td>
-                    <td width="6%" align="center" class="tb_title">回款总额</td>
-                    <td width="6%" align="center" class="tb_title">发票总额</td>
+
                     <td width="5%" align="center" class="tb_title">负责人</td>
                     <td width="6%" align="center" class="tb_title">合同状态</td>
                     <td width="26%" align="center" class="tb_title">操作</td>
@@ -148,8 +147,7 @@
                             <td align="center">{$vo.pname}</td>
                             <td align="center">{$vo.gname}</td>
                             <td align="center">{$vo.total}</td>
-                            <td align="center">{$vo.bktotal}</td>
-                            <td align="center">{$vo.billtotal}</td>
+
                             <td align="center">{$vo.fname}</td>
                             <td align="center">
                                 <if condition="($vo['cstatus'] eq 0)">
@@ -180,12 +178,12 @@
                     </foreach>
                     <else />
                     <tr>
-                        <td colspan="11">暂无信息</td>
+                        <td colspan="9">暂无信息</td>
                     </tr>
                 </notempty>
                 <if condition="($data['list'] neq null)">
                     <tr>
-                        <td colspan="11">
+                        <td colspan="9">
                             {$data.show}
                         </td>
                     </tr>

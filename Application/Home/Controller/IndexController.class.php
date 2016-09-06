@@ -738,6 +738,7 @@ class IndexController extends Controller {
         }
 
         $where = " a.ckuid = $uid or a.reckuid = $uid or a.mid = $uid or a.uid = $uid ";
+
         zgs:
         $on = "a.cid = b.id";
         $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid";
@@ -1641,6 +1642,9 @@ class IndexController extends Controller {
         $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid";
         $order = "a.id desc";
         $data = $this->Tmodel->getCommonList('reback', 'contract', $on, $where, $field, $order, $this->pagesize);
+        foreach($data['list'] as $k => $v){
+            $data['list'][$k]['bno'] = M('bank')->where("id = {$v['bankno']}")->getField('bankno');
+        }
         $this->assign('data', $data);
         if (I('get.p') == '' || I('get.p') == 1) {
             $vari = 1;

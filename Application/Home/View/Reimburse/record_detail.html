@@ -72,6 +72,8 @@
                 <td width="5%" align="center" class="tb_title">项目名称</td>
                 <td width="5%" align="center" class="tb_title">关联销售合同</td>
                 <td width="5%" align="center" class="tb_title">关联采购合同</td>
+                <td width="5%" align="center" class="tb_title">所属公司</td>
+                <td width="5%" align="center" class="tb_title">收款单位</td>
                 <td width="5%" align="center" class="tb_title">摘要</td>
                 <td width="5%" align="center" class="tb_title">时间</td>
                 <td width="8%" align="center" class="tb_title">报销金额</td>
@@ -83,7 +85,9 @@
                         <td align="center">{$pname}</td>
                         <td align="center">{$scon.cno}</td>
                         <td align="center">{$cgcon.cno}</td>
-                        <td align="center">{$vo.remark}</td>
+                        <td align="center">{$record.belong}</td>
+                        <td align="center">{$record.charge}</td>
+                        <td align="center">{$vo.ab}</td>
                         <td align="center">{$vo.etime}</td>
                         <td align="center">{$vo.etotal}</td>
                         <td align="center">{$vo.atotal}</td>
@@ -92,18 +96,18 @@
                 </foreach>
                 <else />
                 <tr>
-                    <td colspan="7">暂无信息</td>
+                    <td colspan="9">暂无信息</td>
                 </tr>
             </notempty>
             <if condition="($data['list'] neq null)">
                 <tr>
-                    <td colspan="7">
+                    <td colspan="9">
                         {$data.show}
                     </td>
                 </tr>
             </if>
             <tr>
-                <td colspan="7"><a class="btn btn-primary" onclick="JavaScript:history.go(-1);" style="float:right;margin-right:100px;text-emphasis:center;">返回上一页</a></td>
+                <td colspan="9"><a class="btn btn-primary" onclick="JavaScript:history.go(-1);" style="float:right;margin-right:100px;text-emphasis:center;">返回上一页</a></td>
             </tr>
         </table>
     </form>

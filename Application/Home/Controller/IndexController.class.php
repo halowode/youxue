@@ -261,7 +261,7 @@ class IndexController extends Controller {
         }
         $exuname = M('user')->where("id = {$cdata['exuid']}")->getField('username');
         $stamp= M('stamp')->where("cid = $cid")->select();
-        $payback = M("reback")->join("a left join bank b on a.bankno = b.id")->where("a.cid = $cid and (a.rstatus = 2 or a.rstatus = 3)")->field('a.*,b.bankno as banknum')->select();
+        $payback = M("reback")->join("a left join bank b on a.bankno = b.id")->where("a.cid = $cid and a.rstatus = 3")->field('a.*,b.bankno as banknum')->select();
         $spaytotal = 0;
         $wpaytotal = 0;
         foreach($payback as $vl){

@@ -145,8 +145,8 @@ class ReimburseController extends Controller
     public function getcontract(){
         if(IS_POST){
             $pid = I('post.pid');
-            $cs[] = M('contract')->where('pid = '.$pid.' and kinds = 0')->field('id,cno,checkuid,gname')->select();
-            $cs[] = M('contract')->where('pid = '.$pid.' and kinds = 1')->field('id,cno,checkuid,gname')->select();
+            $cs['k1'] = M('contract')->where('pid = '.$pid.' and kinds = 0')->field('id,cno,checkuid,gname')->select();
+            $cs['k2'] = M('contract')->where('pid = '.$pid.' and kinds = 1')->field('id,cno,checkuid,gname')->select();
             echo json_encode($cs);
             exit;
         }

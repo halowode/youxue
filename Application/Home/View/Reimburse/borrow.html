@@ -179,11 +179,12 @@
                     $("#con").append("<option value='0'>无销售合同</option>");
                     $("#cgid").children().remove();
                     $("#cgid").append("<option value='0'>无采购合同</option>");
-                    for(var i in msg[0]){
-                        $("#con").append("<option value='"+msg[0][i].id+"'>"+msg[0][i].cno+msg[0][i].gname+"</option>");
+                    for(var i in msg['k1']){
+                        $("#con").append("<option value='"+msg['k1'][i].id+"'>"+msg['k1'][i].cno+msg['k1'][i].gname+"</option>");
                     }
-                    for(var i in msg[1]){
-                        $("#cgid").append("<option value='"+msg[1][i].id+"'>"+msg[1][i].cno+msg[0][i].gname+"</option>");
+
+                    for(var i in msg['k2']){
+                        $("#cgid").append("<option value='"+msg['k2'][i].id+"'>"+msg['k2'][i].cno+msg['k2'][i].gname+"</option>");
                     }
                 }
             });

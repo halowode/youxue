@@ -17,8 +17,8 @@
     -->
     <script>
         function ddd(obj){
-            var a = $(obj).attr('bid');
-            $("#tobid").attr('value',a);
+            var a = $(obj).attr('src');
+            $("#tobids").attr('src',a);
         }
     </script>
 </head>
@@ -26,7 +26,7 @@
 <body style="height:100%;overflow-y:auto;">
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="" method="get">
@@ -47,7 +47,13 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <img width="1000" id="tobids" src="" alt=""/>
+        </div>
+    </div>
+</div>
 <div class="table_con">
     <div class="nav_top1">
         <div class="nav_tcon1" style="width:98%;">
@@ -95,6 +101,18 @@
                         <td align="center">{$vo.cktotal}</td>
                     </tr>
                 </foreach>
+                <if condition="$fpath neq ''">
+                    <tr>
+                        <td colspan="10">
+                            <div class="login_box1  ">
+                                <span class="login_title1">相关图片证明：</span>
+                                <volist name="fpath" id="bill">
+                                    <p style="margin-left: 120px;"><img width="100" src="{$bill.path}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></p>
+                                </volist>
+                            </div>
+                        </td>
+                    </tr>
+                </if>
                 <else />
                 <tr>
                     <td colspan="10">暂无信息</td>

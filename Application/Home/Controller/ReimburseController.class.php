@@ -162,6 +162,8 @@ class ReimburseController extends Controller
         $pname = M('project')->where("id = {$record['pid']}")->getField('pname');
         $data = M('reimbursement')->where("sid = $id")->select();
         $msgdata = M('message')->where("mtype = 'reimburse' and fid = $id")->select();
+        $fpath = M('files')->where("type = 'reimburse' and sid = $id")->field('path')->select()?:'';
+        $this->assign('fpath',$fpath);
         $this->assign('msg',$msgdata);
         $this->assign('cgcon',$cgcon);
         $this->assign('scon',$scon);

@@ -101,13 +101,13 @@
                         <th>所属项目</th>
                         <th>所属销售合同</th>
                         <th>所属采购合同</th>
-                        <th colspan="6">备注</th>
+                        <th colspan="7">备注</th>
                     </tr>
                     <tr class="info">
                         <td><i>{$data.pname}</i></td>
                         <td><i>{$scon.cname}</i></td>
                         <td><i>{$cgcon.cname}</i></td>
-                        <td colspan="6"><i>{$data.remark}</i></td>
+                        <td colspan="7"><i>{$data.remark}</i></td>
                     </tr>
                     <tr class="active">
                         <th>报销摘要</th>
@@ -119,33 +119,37 @@
                         <th>费用性质</th>
                         <th>付款方式</th>
                         <th>付款时间</th>
+                        <th>参考金额</th>
 
                     </tr>
                     <volist name="reimbursement" id="vo" mod="2">
                         <tr class="<eq name="mod" value="1">info<else />warning</eq>">
-                        <td width="12%"><i>{$vo.ab}</i></td>
-                        <td width="8%"><i>{$vo.etime}</i></td>
-                        <td width="8%"><i>{$vo.etotal}</i></td>
+                        <td width="15%"><i>{$vo.ab}</i></td>
+                        <td width="5%"><i>{$vo.etime}</i></td>
+                        <td width="5%"><i>{$vo.etotal}</i></td>
                         <td width="8%">
                             <input type="hidden" name="atotal[]" value="{$vo.atotal}"/>
                             <i>{$vo.atotal}</i>
                         </td>
-                        <td width="11%">
+                        <td width="8%">
                             <i>{$vo.kemu1}</i>
                         </td>
-                        <td width="11%">
+                        <td width="8%">
                             <i>{$vo.kemu2}</i>
                         </td>
-                        <td width="11%">
+                        <td width="10%">
                             <i>{$vo.fee}</i>
                         </td>
-                        <td width="11%">
+                        <td width="10%">
                             <input type="hidden" name="pway[]" value="{$vo.pway}"/>
                             <i>{$vo.payway}</i>
                         </td>
                         <td>
                             <input type="hidden" name="bsid[]" value="{$vo.id}"/>
                             <input class="form-control" type="text" name="ptime[]" placeholder="格式:2016-09-08"/>
+                        </td>
+                        <td width="10%">
+                            <input class="form-control" type="text" name="cktotal[]"/>
                         </td>
                         </tr>
                     </volist>

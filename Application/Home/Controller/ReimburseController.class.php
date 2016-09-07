@@ -907,9 +907,10 @@ class ReimburseController extends Controller
             $ptime = I('post.ptime');
             $pway = I('post.pway');
             $atotal = I('post.atotal');
+            $ck = I('post.cktotal');
             $rs = 1;
             foreach($bsid as $k => $v){
-                $rst = M('reimbursement')->where("id = $v")->save(['ptime'=>$ptime[$k]]);
+                $rst = M('reimbursement')->where("id = $v")->save(['ptime'=>$ptime[$k],'cktotal'=>$ck[$k]]);
                 if($pway[$k] != 0){
                     $res = $Model->execute("update bank set total = total - '{$atotal[$k]}' where id='{$pway[$k]}'");
                     if(!$res) $rs = 0;

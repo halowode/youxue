@@ -58,6 +58,7 @@
                 <td width="5%" align="center" class="tb_title">时间</td>
                 <td width="8%" align="center" class="tb_title">报销金额</td>
                 <td width="5%" align="center" class="tb_title">支付金额</td>
+                <td width="5%" align="center" class="tb_title">参考金额</td>
             </tr>
             <notempty name="data">
                 <foreach name="data" key="key" item="vo">
@@ -70,7 +71,7 @@
                         <td align="center">{$vo.etime}</td>
                         <td align="center">{$vo.etotal}</td>
                         <td align="center">{$vo.atotal}</td>
-
+                        <td align="center">{$vo.cktotal}</td>
                     </tr>
                 </foreach>
                 <else />

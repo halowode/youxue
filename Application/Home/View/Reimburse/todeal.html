@@ -23,6 +23,42 @@
             $("#tobv").attr('value',a);
             $("#topass").attr('value',a);
         }
+        function addpic(){
+            $("#daniel_so").append('<div class="login_box1 form-group" style="width:80%"><span class="login_title1 col-sm-2 control-label">上传图片：</span><input onchange="dd(this)" type="file" /><span class="daniel_icon"></span><span style="color:red"></span><sapn style="float:right;margin-left:300px"><a class="btn btn-danger btn-xs" onclick="delpic(this)">-删除图片</a></span></div>');
+        }
+        function delpic(obj){
+            $(obj).parent().parent().remove();
+        }
+        function dd(obj){
+            //创建FormData对象
+            var data = new FormData();
+            //为FormData对象添加数据
+            $.each($(obj)[0].files, function(i, file) {
+                data.append('icon', file);
+            });
+            $.ajax({
+                url:'/Index/getImg.shtml',
+                type:'POST',
+                data:data,
+                cache: false,
+                contentType: false,    //不可缺
+                processData: false,    //不可缺
+                success:function(data){
+                    if(data){
+                        if(data == 'no'){
+                            alert('上传失败');
+                            return;
+                        }
+                        $(obj).siblings(".daniel_icon").html('<img src="'+data+'" width="80" /><input  type="hidden" name="pic[]" value="'+data+'" />');
+                    }
+                },
+                error:function(){
+                    alert('上传出错,请联系管理员！');
+                    return false;
+                }
+            });
+
+        }
     </script>
 </head>
 
@@ -149,7 +185,7 @@
                             <input class="form-control" type="text" name="ptime[]" placeholder="格式:2016-09-08"/>
                         </td>
                         <td width="10%">
-                            <input class="form-control" type="text" name="cktotal[]"/>
+                            <input class="form-control" type="text" readonly value="{$vo.cktotal}"/>
                         </td>
                         </tr>
                     </volist>
@@ -161,6 +197,16 @@
                         <span><img width="100" src="{$bill['path']}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></span>
                     </div>
                 </volist>
+                <div class="nav_tcon1" style="float:left;width:98%;" >
+                    <div class="logotitle1">
+                        <span style="font-size: 15px">添加付款信息图片</span>
+                    </div>
+                </div>
+                <div class="login_box1 form-group" style="width:80%">
+                    <span class="login_title1 col-sm-2 control-label" >上传图片：</span>
+                    <input onchange="dd(this)" type="file"/><span class="daniel_icon"></span><span style="color:red"></span>
+                    <sapn style="float:right;margin-left:300px"><a class="btn btn-primary btn-xs" onclick="addpic()" id="addpic">+增加图片</a></span>
+                </div>
             </div>
             <input type="hidden" name="id" value="{$id}"/>
             <div class="nav_tcon1" style="margin-left:160px;float:left;width:78%;">

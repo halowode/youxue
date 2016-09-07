@@ -163,6 +163,8 @@ class ReimburseController extends Controller
         $data = M('reimbursement')->where("sid = $id")->select();
         $msgdata = M('message')->where("mtype = 'reimburse' and fid = $id")->select();
         $fpath = M('files')->where("type = 'reimburse' and sid = $id")->field('path')->select()?:'';
+        $paypath = M('files')->where("type='reimburse_pay' and sid = $id")->field('path')->select()?:'';
+        $this->assign('paypath',$paypath);
         $this->assign('fpath',$fpath);
         $this->assign('msg',$msgdata);
         $this->assign('cgcon',$cgcon);
@@ -514,6 +516,7 @@ class ReimburseController extends Controller
                 $eattr = I('post.feetype');
                 $pway = I('post.payway');
                 $remark = I('post.remark');
+                $ck = I('post.cktotal');
                 $res = 1;
                 foreach($bsmid as $k => $v){
                     $dat = [
@@ -521,6 +524,7 @@ class ReimburseController extends Controller
                         'etype2' => $etype2[$k],
                         'eattr'  => $eattr[$k],
                         'pway'  => $pway[$k],
+                        'cktotal'=>$ck[$k],
                     ];
                     $rs = M('reimbursement')->where("id = $v")->save($dat);
                     if(!$rs){
@@ -909,10 +913,10 @@ class ReimburseController extends Controller
             $ptime = I('post.ptime');
             $pway = I('post.pway');
             $atotal = I('post.atotal');
-            $ck = I('post.cktotal');
+            //$ck = I('post.cktotal');
             $rs = 1;
             foreach($bsid as $k => $v){
-                $rst = M('reimbursement')->where("id = $v")->save(['ptime'=>$ptime[$k],'cktotal'=>$ck[$k]]);
+                $rst = M('reimbursement')->where("id = $v")->save(['ptime'=>$ptime[$k]]);
                 if($pway[$k] != 0){
                     $res = $Model->execute("update bank set total = total - '{$atotal[$k]}' where id='{$pway[$k]}'");
                     if(!$res) $rs = 0;
@@ -920,6 +924,13 @@ class ReimburseController extends Controller
                 if(!$rst) $rs = 0;
             }
             $res = M('reimburse_record')->where("id = $id")->save(['bstatus'=>8]);
+            $pics = I("post.pic");
+            if($pics && !empty($pics)){
+                foreach($pics as $vp){
+                    $vparr[] = ['type'=>'reimburse_pay','path'=>$vp,'sid'=>$id,'uid'=>session('uid')];
+                }
+                M('files')->addAll($vparr);
+            }
             if($rs && $res){
                 $this->success("确认通过",U('deal'));
             }else{

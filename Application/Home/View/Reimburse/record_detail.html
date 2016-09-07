@@ -113,6 +113,18 @@
                         </td>
                     </tr>
                 </if>
+                <if condition="$paypath neq ''">
+                    <tr>
+                        <td colspan="10">
+                            <div class="login_box1  ">
+                                <span class="login_title1">付款图片证明：</span>
+                                <volist name="paypath" id="bill">
+                                    <p style="margin-left: 120px;"><img width="100" src="{$bill.path}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></p>
+                                </volist>
+                            </div>
+                        </td>
+                    </tr>
+                </if>
                 <else />
                 <tr>
                     <td colspan="10">暂无信息</td>

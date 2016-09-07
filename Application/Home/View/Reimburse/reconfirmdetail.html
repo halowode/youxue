@@ -101,13 +101,13 @@
                         <th>所属项目</th>
                         <th>所属销售合同</th>
                         <th>所属采购合同</th>
-                        <th colspan="5">备注</th>
+                        <th colspan="6">备注</th>
                     </tr>
                     <tr class="info">
                         <td><i>{$data.pname}</i></td>
                         <td><i>{$scon.cname}</i></td>
                         <td><i>{$cgcon.cname}</i></td>
-                        <td colspan="5"><i>{$data.remark}</i></td>
+                        <td colspan="6"><i>{$data.remark}</i></td>
                     </tr>
                     <tr class="active">
                         <th>报销摘要</th>
@@ -118,6 +118,7 @@
                         <th>二级科目</th>
                         <th>费用性质</th>
                         <th>付款方式</th>
+                        <th>参考金额</th>
 
                     </tr>
                     <volist name="reimbursement" id="vo" mod="2">
@@ -137,6 +138,9 @@
                         </td>
                         <td width="11%">
                             <i>{$vo.payway}</i>
+                        </td>
+                        <td width="11%">
+                            <i>{$vo.cktotal}</i>
                         </td>
                         </tr>
                     </volist>

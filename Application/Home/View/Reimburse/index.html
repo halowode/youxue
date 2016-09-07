@@ -182,10 +182,10 @@
                     $("#cgid").children().remove();
                     $("#cgid").append("<option value='0'>无采购合同</option>");
                     for(var i in msg[0]){
-                        $("#con").append("<option value='"+msg[0][i].id+"'>"+msg[0][i].cno+"</option>");
+                        $("#con").append("<option value='"+msg[0][i].id+"'>"+msg[0][i].cno+msg[0][i].gname+"</option>");
                     }
                     for(var i in msg[1]){
-                        $("#cgid").append("<option value='"+msg[1][i].id+"'>"+msg[1][i].cno+"</option>");
+                        $("#cgid").append("<option value='"+msg[1][i].id+"'>"+msg[1][i].cno+msg[0][i].gname+"</option>");
                     }
                 }
             });

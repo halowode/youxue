@@ -37,7 +37,7 @@
                     <span class="login_title1 col-sm-3 control-label" >选择合同：</span>
                     <select class="use_name form-control input-sm" name="cid" id="d_piao" >
                         <volist name="contract" id="vo">
-                            <option value="{$vo.id}" >{$vo.cno}</option>
+                            <option value="{$vo.id}" >{$vo.cno}-{$vo.gname}</option>
                         </volist>
                     </select>
                 </div>

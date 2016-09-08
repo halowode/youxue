@@ -94,6 +94,12 @@
         <table cellpadding="0" cellspacing="1">
                 <tr>
                     <td align="right" colspan="11">
+                        <label style="margin-left:5px;">合同类型:&nbsp;&nbsp;</label>
+                        <select class="input-sm" name="ct" style="margin-right:5px;width:80px;">
+                            <option value="0" <if condition="$_ct eq ''">selected=selected</if>>-选择-</option>
+                            <option value="1" <if condition="$_ct eq 1">selected=selected</if>>销售合同</option>
+                            <option value="2" <if condition="$_ct eq 2">selected=selected</if>>采购合同</option>
+                        </select>
                         <label style="margin-left:5px;">负责人:&nbsp;&nbsp;</label>
                         <input type="text" class="input-sm" name="fname" style="float:none;" placeholder="请输入关键字" value="{$_fname}" />
                         <label style="margin-left:5px;">合同名称:&nbsp;&nbsp;</label>

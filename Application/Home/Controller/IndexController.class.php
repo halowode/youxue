@@ -148,9 +148,15 @@ class IndexController extends Controller {
             $this->assign('_isfiling',$_isfiling);
             $_belong = I('get.belong');
             $this->assign('_belong',$_belong);
+            $_ct = I('get.ct');
+            $this->assign('_ct',$_ct);
             $arr = [];
             if($_fname){
                 $arr[] = "a.fname like '%{$_fname}%'";
+            }
+            if($_ct){
+                $ty = ($_ct == 1)?0:1;
+                $arr[] = " a.kinds = $ty ";
             }
             if($_pname){
                 $pidarr = M('project')->where("pname like '%{$_pname}%'")->field('id')->select();

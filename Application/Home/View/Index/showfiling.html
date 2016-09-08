@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>归档信息</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/index.css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/Iframe.css" />
+    <link rel="stylesheet" href="__PUBLIC__/utilLib/bootstrap.min.css" type="text/css" media="screen" />
+    <!--
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+    -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!--
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    -->
+    <style>
+        .niandu {
+            width:120px;
+            line-height: 33px;
+        }
+    </style>
+    <script>
+        function addpro(){
+            $('#daniel_pro').append('<div style="margin-left: 130px;margin-top:10px;"> 年度：<input class="niandu stime" name="stime[]"  type="text" placeholder="年度"/>&nbsp;&nbsp;&nbsp;&nbsp; 名称：<input class="niandu pname" name="pname[]"  type="text" placeholder="项目名称" />&nbsp;&nbsp;&nbsp;&nbsp; 分配金额：<input class="niandu ctoptotal" name="ctoptotal[]"  type="text" placeholder="合同分配到项目金额" />&nbsp;&nbsp;&nbsp;&nbsp; 到款金额：<input class="niandu" name="realtotal[]"  type="text" placeholder="实际到款金额" /><a href="javascript:;" onclick="daniel_del(this)"> 删除该项目</a></div>');
+        }
+        function daniel_del(obj){
+            $(obj).parent().remove();
+        }
+
+        function ddd(obj){
+            var a = $(obj).attr('src');
+            $("#tobid").attr('src',a);
+        }
+
+        function ddds(obj){
+            var a = $(obj).attr('bid');
+            $("#tobv").attr('value',a);
+            $("#topass").attr('value',a);
+        }
+
+    </script>
+</head>
+
+<body style="background:#fff;height:100%;overflow-y:auto;">
+<div class="nav_top1">
+    <div class="nav_tcon1" style="width:98%;">
+        <div class="logotitle1">
+            <span>归档信息</span>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{:U('index/checkfiling')}" method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">审核驳回</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="type" value="bac"/>
+                    <input id="tobv" type="hidden" name="billid" value="{$cid}"/>
+                    <textarea class="form-control" name="msg"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">确定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action='{:U('index/checkfiling')}' method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">审核通过</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="type" value="pas"/>
+                <input id="topass" type="hidden" name="billid" value="{$cid}"/>
+                <textarea class="form-control" name="msg"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary">确定</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <img width="1000" id="tobid" src="" alt=""/>
+        </div>
+    </div>
+</div>
+<div class="logo_content1">
+    <div class="logo_ccon1">
+        <span style=""><h5>审核意见</h5></span>
+        <div class="panel panel-default">
+            <div class="panel-body" style="margin-left: 20px">
+                <ol>
+                    <volist name="mesg" id="vo">
+                        <li>{$vo.msg}--{$vo.uname} {:date('Y/m/d H:i',$vo[ctime])}</li>
+                    </volist>
+                </ol>
+            </div>
+        </div>
+        <div class="logo_enter1" style="border:none;float:left;">
+            <!--
+            <div class="login_box1">
+                <span class="login_title1">归属公司：</span>
+                <input class="use_name form-control" value="{$contract.belong}" readonly name='cname'  type="text" placeholder="合同内容名称" /><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
+                <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+            </div>
+            <div class="login_box1">
+                <span class="login_title1" >合同名称：</span>
+                <input class="use_name  form-control" value="{$contract.cname}" readonly name='cname'  type="text" placeholder="合同内容名称" /><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
+            </div>
+            <div class="login_box1">
+                <span class="login_title1" >客户名称：</span>
+                <input class="use_name  form-control" value="{$contract.gname}" readonly id="gname" name='gname'  type="text" placeholder="客户名称（全称）" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+            </div>
+            <div class="login_box1">
+                <span class="login_title1" >项目名称：</span>
+                <input class="use_name  form-control" value="{$contract.pname}" readonly id="gname" name='gname'  type="text" placeholder="客户名称（全称）" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+            </div>
+            <div class="login_box1">
+                <span class="login_title1" >选择初审人员：</span>
+                <input class="use_name  form-control" value="{$contract.checkuname}" readonly id="gname" name='gname'  type="text" placeholder="客户名称（全称）" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+            </div>
+            <div class="login_box1">
+                <span class="login_title1" >合同金额：</span>
+                <input class="use_name  form-control" value="{$contract.total}" readonly  id="total" name='total'  type="text" placeholder="合同分配金额" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+            </div>
+            <if condition="$contract.pic1 neq ''">
+            <div class="login_box1  daniel_hide">
+                <span class="login_title1">相关图片1：</span>
+                <span><img width="100" src="{$contract.pic1}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></span>
+            </div>
+            </if>
+            <if condition="$contract.pic2 neq ''">
+            <div class="login_box1  daniel_hide">
+                <span class="login_title1">相关图片2：</span>
+                <span><img width="100" src="{$contract.pic2}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></span>
+            </div>
+            </if>
+                <if condition="$contract.pic3 neq ''">
+            <div class="login_box1  daniel_hide">
+                <span class="login_title1">相关图片3：</span>
+                <span><img width="100" src="{$contract.pic3}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></span>
+            </div>
+            </if>
+            <div class="login_box1">
+                <span class="login_title1" >合同备注：</span>
+                <textarea class="use_name form-control" name="remark"  cols="35" rows="5"  readonly>{$contract.remark}</textarea>
+            </div>
+            -->
+            <div class="login_box1" style="width:90%">
+                <span class="login_title1">归档时间：</span>
+                <span><input class="form-control" style="width:10%" readonly type="text" value="{$ftime|date="y-m-d",###}"/></span>
+            </div>
+            <volist name="data" id="bill">
+                <div class="login_box1" style="width:90%">
+                    <span class="login_title1">相关图片证明：</span>
+                    <span><img width="100" src="{$bill['path']}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></span>
+                </div>
+            </volist>
+            <input type="hidden" name="cid" value="{$cid}"/>
+
+            <div class="nav_tcon1" style="margin-left:160px;float:left;width:98%;">
+                <a class="btn btn-primary" onclick="JavaScript:history.go(-1);" style="text-emphasis:center;">返回上一页</a>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

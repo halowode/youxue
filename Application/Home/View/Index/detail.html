@@ -34,7 +34,7 @@
                 <td width="10%" class=" info"><b>客户名称：</b><i>{$cdata.gname}</i></td>
                 <td width="8%"  class="  danger"><b>归档状态：</b><i>
                     <if condition="$cdata.isfiling eq 3">
-                        已归档
+                        <a href="{:U("showfiling?cid=$cdata[id]")}">已归档</a>
                         <else />
                         未归档
                     </if>

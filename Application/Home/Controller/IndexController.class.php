@@ -1353,6 +1353,17 @@ class IndexController extends Controller {
 
     }
 
+    public function showfiling(){
+        $id = I('get.cid');
+        $data = M('contract')->join("a left join files b on a.id = b.cid")->where("a.id = $id and b.type = 'filing'")->field("a.id,b.path,b.id as bid,b.uid as buid")->select();
+        $message = M('message')->where("fid = $id and mtype = 'filing'")->select();
+        $ftime = M('contract')->where("id = $id")->getField('filingtime');
+        $this->assign('ftime',$ftime);
+        $this->assign('mesg',$message);
+        $this->assign('data',$data);
+        $this->assign('cid',$id);
+        $this->display();
+    }
     public function filing(){
         if(IS_GET){
             $uid = session('uid');
@@ -1417,7 +1428,8 @@ class IndexController extends Controller {
                 $data['isfiling'] = 3;
                 $data['filingtime'] = time();
                 $rs = M('contract')->where("id = $id")->save($data);
-                $dat['cid'] = $id;
+                $dat['fid'] = $id;
+                $dat['ctime'] = time();
                 $dat['msg'] = I('post.msg');
                 $dat['mtype'] = 'filing';
                 $dat['mattr'] = 2;

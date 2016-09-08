@@ -792,10 +792,11 @@ class ReimburseController extends Controller
     public function getAlist(){
         $auid = I('get.auid');
         $kw = I('get.keyword');
-        $this->alist($auid,$kw);
+        $danno = I('get.danno');
+        $this->alist($auid,$kw,$danno);
     }
 
-    public function alist($auid=0,$kw=''){
+    public function alist($auid=0,$kw='',$danno=''){
         $where = [];
         if($auid){
             $where[] = " a.uid = $auid ";
@@ -810,6 +811,9 @@ class ReimburseController extends Controller
                 $where[] = " a.pid in ($idstr) ";
             }
 
+        }
+        if($danno){
+            $where[] = " a.rbno = '{$danno}'";
         }
         if(!empty($where)){
             $where = implode(' or ',$where);

@@ -21,6 +21,20 @@ class ReimburseController extends Controller
     {
         if(IS_GET){
             $rbid = I('get.rbid',0);
+            $records = '';
+            if($rbid){
+                $records = M('reimburse_record')->where("rbid = $rbid")->find();
+                $_cidinfo='';
+                if($records['cid']){
+                    $_cidinfo = M('contract')->where("id = {$records['cid']}")->find();
+                }
+                $_cgidinfo = '';
+                if($records['cgid']){
+                    $_cgidinfo = M('contract')->where("id = {$records['cgid']}")->find();
+                }
+                $this->assign('cidinfo',$_cidinfo);
+                $this->assign('cgidinfo',$_cgidinfo);
+            }
             $rbtype = I('get.rbtype');
             $pro = M('project')->where("status = '1'")->select();
             $cusers = M('role_user')->join(" a left join user b on a.uid = b.id ")->where("a.rid = 3")->field('a.rid,b.*')->select();
@@ -34,6 +48,7 @@ class ReimburseController extends Controller
             }else{
                 $this->assign('dp','ap');
             }
+            $this->assign('records',$records);
             $this->display();
         }else{
             $cgid = I("post.cgid");

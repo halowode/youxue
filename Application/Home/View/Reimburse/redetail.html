@@ -95,18 +95,21 @@
                         <th>所属销售合同</th>
                         <th>所属采购合同</th>
                         <th>备注</th>
+                        <th>所属公司</th>
                     </tr>
                     <tr class="info">
                         <td><i>{$data.pname}</i></td>
                         <td><i>{$scon.cname}</i></td>
                         <td><i>{$cgcon.cname}</i></td>
                         <td><i>{$data.remark}</i></td>
+                        <td><i>{$data.belong}</i></td>
                     </tr>
                     <tr class="active">
                         <th>报销摘要</th>
                         <th>发生月份</th>
                         <th>发生金额</th>
                         <th>申请金额</th>
+                        <th>收款单位</th>
                     </tr>
                     <volist name="reimbursement" id="vo" mod="2">
                         <tr class="<eq name="mod" value="1">info<else />warning</eq>">
@@ -114,6 +117,7 @@
                         <td><i>{$vo.etime}</i></td>
                         <td><i>{$vo.etotal}</i></td>
                         <td><i>{$vo.atotal}</i></td>
+                        <td><i>{$vo.charge}</i></td>
                         </tr>
                     </volist>
 

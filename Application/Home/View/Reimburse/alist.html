@@ -142,11 +142,11 @@
                                 <if condition="$vo.bstatus eq 0">
                                     <a class="btn btn-primary btn-xs" href="{:U("reimburse_edit?id=$vo[id]&rt=$vo[rbtype]")}">编辑并重新申请</a>
                                 </if>
-                                <a class="btn btn-primary btn-xs" href="{:U("record_detail?id=$vo[id]&rt=$vo[rbtype]")}">详细</a>
                                 <if condition="$vo.bstatus eq 1">
                                     <a aid="{$vo.id}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal" onclick="ddd(this)" >删除</a>
                                 </if>
                             </if>
+                            <a class="btn btn-primary btn-xs" href="{:U("record_detail?id=$vo[id]&rt=$vo[rbtype]")}">详细</a>
                         </td>
                     </tr>
                 </foreach>

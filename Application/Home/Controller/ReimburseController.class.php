@@ -672,7 +672,7 @@ class ReimburseController extends Controller
             if($type == 'pas'){
                 $checklev = I('post.checklev');
                 $recheckuid = I('post.recheckuid');
-                $data['msg'] = I('get.msg','','trim');
+                $data['msg'] = I('post.msg','','trim');
                 $rs = 1;
                 if(!$data['msg']) goto wu;
                 $data['fid'] = $sid;

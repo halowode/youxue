@@ -107,10 +107,10 @@
                     </tr>
                     <tr class="info">
                         <td><i>{$data.pname}</i></td>
-                        <td><i>{$scon.cname}</i></td>
-                        <td><i>{$cgcon.cname}</i></td>
-                        <td><i>{$cgcon.belong}</i></td>
-                        <td><i>{$cgcon.charge}</i></td>
+                        <td><i><a href="{:U("/index/detail?id=$scon[id]")}">{$scon.cname}</a></i></td>
+                        <td><i><a href="{:U("/index/detail?id=$cgcon[id]")}">{$cgcon.cname}</a></i></td>
+                        <td><i>{$data.belong}</i></td>
+                        <td><i>{$data.charge}</i></td>
                         <td colspan="4"><i>{$data.remark}</i></td>
                     </tr>
                     <tr class="active">

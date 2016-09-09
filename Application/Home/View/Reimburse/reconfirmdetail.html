@@ -39,6 +39,13 @@
                     <input type="hidden" name="type" value="bac"/>
                     <input id="tobv" type="hidden" name="id" value="{$id}"/>
                     <textarea class="form-control" name="msg"></textarea>
+
+                    <label class="col-sm-2 control-label">通过方式</label>
+                    <select class="form-control" name="whichto">
+                        <option value="0">驳回至申请人</option>
+                        <option value="1">驳回至出纳确认</option>
+                    </select>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

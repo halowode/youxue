@@ -284,6 +284,8 @@ class ReimburseController extends Controller
             }
             $pics = M('files')->where("type = 'reimburse' and sid = $id")->select();
             $reimbursment = M('reimbursement')->where("sid = $id")->select();
+            $bcmsg = M('message')->where("fid = $id and mtype= 'reimburse' and mattr = 0")->select();
+            $this->assign('bcmsg',$bcmsg);
             $this->assign('reimbursement',$reimbursment);
             $this->assign('pics',$pics);
             $this->assign('scon',$scon);
@@ -717,7 +719,14 @@ class ReimburseController extends Controller
                 $data['mattr'] = 0;
                 $rs = M('message')->add($data);
                 wul:
-                $res =  M('reimburse_record')->where("id = {$data['fid']}")->save(['bstatus'=>'0']);
+                $whichto = I('post.whichto');
+                if($whichto == 1){
+                    $res =  M('reimburse_record')->where("id = {$data['fid']}")->save(['bstatus'=>'3']);
+                }else{
+                    $res =  M('reimburse_record')->where("id = {$data['fid']}")->save(['bstatus'=>'0']);
+                }
+
+
                 if($rs && $res){
                     $this->success("驳回成功",U('reimburse/reconfirm'));
                 }else{

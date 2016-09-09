@@ -95,7 +95,7 @@
     <div class="logo_content1">
         <div class="logo_ccon1">
             <div id="daniel_so" class="logo_enter1" style="border:none;float:left;">
-                <if condition="$bcmsg neq ''">
+                <notempty name="bcmsg">
                 <span style=""><h5>审核意见</h5></span>
                 <div class="panel panel-default">
                     <div class="panel-body" style="margin-left: 20px">
@@ -106,7 +106,7 @@
                         </ol>
                     </div>
                 </div>
-                </if>
+                </notempty>
                 <table id="d_table" class=" table table-bordered" style="margin-left:30px;margin-top:20px">
                     <tr class="danger">
                         <th>所属项目</th>

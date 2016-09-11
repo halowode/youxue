@@ -1486,6 +1486,10 @@ class IndexController extends Controller {
         $fd = I('get.fd','cfile');
         $id = I('get.cid');
         $path = M($table)->where("id = $id")->getField($fd);
+        if(!$path){
+            $this->error('文件不存在或已被删除！');
+            exit;
+        }
         return $this->downfile($path);
     }
 

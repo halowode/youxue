@@ -845,6 +845,7 @@ class ReimburseController extends Controller
             $data['list'][$k]['reconfirmuname'] = $v['reconfirmid']?getUserName($v['reconfirmid']):'';
             $data['list'][$k]['agconfirmuname'] = $v['agconfirmid']?getUserName($v['agconfirmid']):'';
             $data['list'][$k]['lastconfirmuname'] = $v['lastconfirm']?getUserName($v['lastconfirm']):'';
+            $data['list'][$k]['dtotal'] = getDtotal($v['id']);
             if($data['list'][$k]['cid']){
                 $data['list'][$k]['scno'] = M('contract')->where("id = {$v['cid']}")->getField('cno');
             }

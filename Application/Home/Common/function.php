@@ -186,6 +186,18 @@
 
     }
 
+    function getDtotal($id=0){
+        if(!$id) exit('getDtotal function paramter missing!');
+        $str = '';
+        $etotal = M('reimbursement')->where("sid = $id")->field("sum(etotal) as num")->find();
+        $str .= '发生金额:'.$etotal['num'];
+        $atotal = M('reimbursement')->where("sid = $id")->field("sum(atotal) as num")->find();
+        $atotal['num'];
+        $str .= ' 申请金额:'.$atotal['num'];
+        return $str;
+
+    }
+
    
     
 ?>

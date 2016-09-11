@@ -145,7 +145,7 @@
         dir_exisit($upload_path2);
         $upload = new \Think\Upload();// 实例化上传类
         $upload->maxSize   =     3145728 ;// 设置附件上传大小
-        $upload->exts      =     array('xls','doc','rar','docx','jpg','png','gif','xlsx');// 设置附件上传类型
+        $upload->exts      =     array('xls','doc','rar','docx','jpg','png','gif','xlsx','pdf');// 设置附件上传类型
         $upload->autoSub   =     false; //关闭子目录
         $upload->rootPath  =     $upload_path2; // 设置附件上传根目录
         // 上传单个文件

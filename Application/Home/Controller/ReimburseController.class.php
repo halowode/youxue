@@ -284,7 +284,7 @@ class ReimburseController extends Controller
             }
             $pics = M('files')->where("type = 'reimburse' and sid = $id")->select();
             $reimbursment = M('reimbursement')->where("sid = $id")->select();
-            $bcmsg = M('message')->where("fid = $id and mtype= 'reimburse' and mattr = 0")->select();
+            $bcmsg = M('message')->where("fid = $id and mtype= 'reimburse'")->select();
             $this->assign('bcmsg',$bcmsg);
             $this->assign('reimbursement',$reimbursment);
             $this->assign('pics',$pics);
@@ -650,6 +650,8 @@ class ReimburseController extends Controller
                 }
                 $reimbursment[$k]['fee'] = M('feetype')->where("id = {$v['eattr']}")->getField('feetpname');
             }
+            $bcmsg = M('message')->where("fid = $id and mtype= 'reimburse'")->select();
+            $this->assign('bcmsg',$bcmsg);
             $this->assign('reimbursement',$reimbursment);
             $this->assign('pics',$pics);
             $this->assign('scon',$scon);

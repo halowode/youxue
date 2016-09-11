@@ -89,6 +89,16 @@
     <div class="logo_content1">
         <div class="logo_ccon1">
             <div id="daniel_so" class="logo_enter1" style="border:none;float:left;">
+                <notempty name="bcmsg">
+                    <span style=""><h5>审核意见</h5></span>
+                    <div class="alert alert-info" role="alert" style="margin-left:30px;">
+                            <ol style="margin-left: 20px">
+                                <volist name="bcmsg" id="vo">
+                                    <li>{$vo.msg}--{$vo.uname} {:date('Y/m/d H:i',$vo[ctime])}</li>
+                                </volist>
+                            </ol>
+                    </div>
+                </notempty>
                 <table id="d_table" class=" table table-bordered" style="margin-left:30px;margin-top:20px">
                     <tr class="danger">
                         <th>所属项目</th>

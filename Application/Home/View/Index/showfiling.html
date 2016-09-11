@@ -165,6 +165,10 @@
                 <span class="login_title1">归档时间：</span>
                 <span><input class="form-control" style="width:10%" readonly type="text" value="{$ftime|date="y-m-d",###}"/></span>
             </div>
+            <div class="login_box1">
+                <span class="login_title1" >附件下载：</span>
+                <a class="use_name form-control" href="{:U('downct',['cid'=>$cid,'table'=>'','fd'=>'filingpdf'])}">附件下载</a><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+            </div>
             <volist name="data" id="bill">
                 <div class="login_box1" style="width:90%">
                     <span class="login_title1">相关图片证明：</span>

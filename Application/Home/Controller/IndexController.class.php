@@ -1385,6 +1385,10 @@ class IndexController extends Controller {
                 $this->error("请上传图片信息！");
                 exit;
             }
+            $path = '';
+            if($_FILES['filingpdf']['name'] != ''){
+                $path = upfiles('filingpdf');
+            }
             M('files')->where("cid = $cid and type = 'filing'")->delete();
             foreach($pic as $val){
                 $data[] = ['path'=>$val,'type'=>'filing','cid'=>$cid,'uid'=>$uid];
@@ -1392,6 +1396,7 @@ class IndexController extends Controller {
             $rs = M('files')->addAll($data);
             $dat['filingtime'] = time();
             $dat['isfiling'] = 2;
+            $dat['filingpdf'] = $path;
             $res = M('contract')->where("id = $cid")->save($dat);
             if($rs && $res){
                 $this->success("申请成功！",U('index/search'));
@@ -1477,8 +1482,10 @@ class IndexController extends Controller {
     }
 
     public function downct(){
+        $table = I('get.table','contract');
+        $fd = I('get.fd','cfile');
         $id = I('get.cid');
-        $path = M('contract')->where("id = $id")->getField('cfile');
+        $path = M($table)->where("id = $id")->getField($fd);
         return $this->downfile($path);
     }
 

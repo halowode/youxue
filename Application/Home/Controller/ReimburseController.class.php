@@ -740,8 +740,26 @@ class ReimburseController extends Controller
 
     public function agconfirm(){
         if(IS_GET){
+            $uname = I('get.uname');
+            $danno = I('get.danno');
+            $where = [];
+            if($uname){
+                $res = M('user')->where("username like '%{$uname}%'")->field('id')->select();
+                if($res){
+                    $strid = '';
+                    foreach($res as $v){
+                        $strid .= $v['id'].',';
+                    }
+                    $ids = trim($strid,',');
+                    $where[] = "a.uid in ($ids)";
+                }
+            }
+            if($danno){
+                $where[] = "a.rbno = '{$danno}'";
+            }
             $uid = session('uid');
-            $where = "a.bstatus = 5";
+            $where[] = "a.bstatus = 5";
+            $where = implode(' and ',$where);
             $on = "a.pid = b.id";
             $field = " a.* , b.pname";
             $order = "a.id desc";

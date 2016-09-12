@@ -1381,19 +1381,24 @@ class IndexController extends Controller {
             $pic = I('post.pic');
             $cid = I('post.cid');
             $uid = session('uid');
-            if(!$pic){
-                $this->error("请上传图片信息！");
-                exit;
-            }
+
             $path = '';
             if($_FILES['filingpdf']['name'] != ''){
                 $path = upfiles('filingpdf');
             }
-            M('files')->where("cid = $cid and type = 'filing'")->delete();
-            foreach($pic as $val){
-                $data[] = ['path'=>$val,'type'=>'filing','cid'=>$cid,'uid'=>$uid];
+            if(!$path && !$pic){
+                $this->error("上传数据为空！");
+                exit;
             }
-            $rs = M('files')->addAll($data);
+            M('files')->where("cid = $cid and type = 'filing'")->delete();
+            $rs = 1;
+            if($pic){
+                foreach($pic as $val){
+                    $data[] = ['path'=>$val,'type'=>'filing','cid'=>$cid,'uid'=>$uid];
+                }
+                $rs = M('files')->addAll($data);
+            }
+
             $dat['filingtime'] = time();
             $dat['isfiling'] = 2;
             $dat['filingpdf'] = $path;

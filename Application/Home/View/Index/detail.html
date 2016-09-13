@@ -42,6 +42,17 @@
 
             </tr>
             <tr>
+                <td width="10%" class="warning"><b>是否为框架合同：</b>
+                    <if condition="$cdata.isframe eq 1">
+                        是
+                        <else />
+                        不是
+                    </if>
+                </td>
+                <td width="10%" class="warning"><b>所属项目：</b>{$cdata['pname']}</td>
+                <td width="10%" colspan="4" class="info"><b>合同备注：</b>{$cdata['remark']}</td>
+            </tr>
+            <tr>
                 <td width="10%"  class=" info"><b>负责人：</b><i>{$cdata.fname}</i></td>
                 <td width="10%" colspan="2"  class=" danger"><b>合同名称：</b><i>{$cdata.cname}</i></td>
                 <td width="10%"  class="warning "><b>初次审核人：</b><i>{$cdata.username}</i></td>

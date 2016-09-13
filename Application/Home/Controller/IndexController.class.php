@@ -277,6 +277,7 @@ class IndexController extends Controller {
                 $spaytotal += $vl['btotal'];
             }
         }
+        $cdata['pname'] = M('project')->join("a left join contract b on a.id = b.pid")->where("b.pid = {$cdata['pid']}")->getField('pname');
         $this->assign('spaytotal',$spaytotal);
         $this->assign('wpaytotal',$wpaytotal);
         $this->assign('payback',$payback);

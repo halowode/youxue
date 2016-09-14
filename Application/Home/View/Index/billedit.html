@@ -47,7 +47,9 @@
 
                 <div class="login_box1 form-group" style="width:80%">
                     <span class="login_title1 col-sm-2 control-label" >意见：</span>
-                    <textarea class="form-control"  style="width:60%"><foreach name="bmsg" item="vo"><?php echo trim($vo['msg']).'__'.$vo['uname']."\r\n";?>
+                    <textarea readonly class="form-control"  style="width:60%">
+                        <foreach name="bmsg" item="vo">
+                            <?php echo trim($vo['msg']).'__'.$vo['uname'].date('Y-m-d H:i',$vo['ctime'])."\r\n";?>
                         </foreach>
                     </textarea>
                 </div>

@@ -77,8 +77,8 @@
                     <td width="10%" class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>所属客户：</b><i>{$vo.gname}</i></td>
                     <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>发票内容：</b><i>{$vo.cbcontent}</i></td>
                     <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>发票金额：</b><i> {:number_format($vo['btotal'],2)}</i></td>
-
-
+                    <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>发票号：</b><i> {$vo.bnum}</i></td>
+                    <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>发票领取人：</b><i> {$vo.recname}</i></td>
                 </tr>
                 <tr>
                     <td width="10%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>开票日期：</b><i>{$vo.cbtime}</i></td>

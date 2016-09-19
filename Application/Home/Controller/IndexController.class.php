@@ -758,7 +758,7 @@ class IndexController extends Controller {
 
         zgs:
         $on = "a.cid = b.id";
-        $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid";
+        $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid,b.uid";
         $order = "a.id desc";
         $data = $this->Tmodel->getCommonList('stamp', 'contract', $on, $where, $field, $order, $this->pagesize);
         foreach($data['list'] as $ky => $vl){
@@ -791,12 +791,14 @@ class IndexController extends Controller {
         if(IS_GET){
             $cid = I('get.cid');
             $id = I('get.id');
+            $fr= I('get.fr');
             $bdata = M('stamp')->where("id = $id")->find();
             $bmsg = M('message')->where("fid = $id and mtype = 'stamp'")->select();
             $this->assign('bdata',$bdata);
             $this->assign('bmsg',$bmsg);
             $this->assign('cid',$cid);
             $this->assign('id',$id);
+            $this->assign('fr',$fr);
             $this->display();
         }else{
             if($_FILES["xls"]["name"] != ""){

@@ -84,8 +84,9 @@
                             </if>
                         </td>
                         <td align="center">
-                            <if condition="$vo.status eq 0">
-                                <a class="btn btn-primary btn-xs" href="{:U("stampedit?id=$vo[id]&cid=$vo[cid]")}">查看并编辑</a>
+                            <a class="btn btn-info btn-xs" href="{:U("stampedit?id=$vo[id]&cid=$vo[cid]&fr=see")}">查看</a>
+                            <if condition="($vo.status eq 0) AND ($Think.session.uid eq $vo['uid'])">
+                                <a class="btn btn-primary btn-xs" href="{:U("stampedit?id=$vo[id]&cid=$vo[cid]")}">编辑</a>
                             </if>
                             <if condition="$vo.status eq 1">
                                 <a class="btn btn-danger btn-xs" href="{:U("stampdel?id=$vo[id]&cid=$vo[cid]")}">删除</a>

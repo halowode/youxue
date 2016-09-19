@@ -6,12 +6,19 @@
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/index.css" />
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <style>
         .niandu {
             width:120px;
             line-height: 33px;
         }
     </style>
+    <script>
+        function ddd(obj){
+            var a = $(obj).attr('src');
+            $("#tobid").attr('src',a);
+        }
+    </script>
 </head>
 
 <body style="background:#fff;height:100%;overflow-y:auto;">
@@ -19,6 +26,13 @@
     <div class="nav_tcon1" style="width:98%;">
         <div class="logotitle1">
             <span>合同详情</span>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <img width="1000" id="tobid" src="" alt=""/>
         </div>
     </div>
 </div>
@@ -108,6 +122,15 @@
                     </if>
                     </i></td>
                 </tr>
+                <if condition="$vo['btype'] eq '专票'">
+                    <td width="5%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>税号：</b><i>{$vo.bno}</i></td>
+                    <td width="5%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>地址：</b><i>{$vo.baddress}</i></td>
+                    <td width="5%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>电话：</b><i>{$vo.btel}</i></td>
+                    <td width="5%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>开户行：</b><i>{$vo.billbank}</i></td>
+                    <td width="5%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>账号：</b><i>{$vo.bankno}</i></td>
+                    <td width="5%"  class="<eq name="mod" value="1">{$color[1]}<else />{$color[2]}</eq>"><b>图片：</b><i><img src="{$vo.provepic}" width="60px" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></i></td>
+
+                </if>
 
             </volist>
             <tr>

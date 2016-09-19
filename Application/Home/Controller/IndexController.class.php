@@ -265,6 +265,16 @@ class IndexController extends Controller {
                 $nj += $v['btotal'];
             }
         }
+        foreach($bill as $ky => $vl){
+            $bill[$ky]['reckuname'] = '';
+            if($vl['reckuid']){
+                $bill[$ky]['reckuname'] = M('user')->where("id = {$vl['reckuid']}")->getField('username');
+            }
+            $bill[$ky]['ckuname'] = '';
+            if(1){
+                $bill[$ky]['ckuname'] = M('user')->where("id = {$cdata['checkuid']}")->getField('username');
+            }
+        }
         $exuname = M('user')->where("id = {$cdata['exuid']}")->getField('username');
         $stamp= M('stamp')->where("cid = $cid")->select();
         $payback = M("reback")->join("a left join bank b on a.bankno = b.id")->where("a.cid = $cid and (a.rstatus = 2 or a.rstatus = 3)")->field('a.*,b.bankno as banknum')->select();
@@ -1097,6 +1107,8 @@ class IndexController extends Controller {
         if($checklev == 1){
             $recusers = M('user')->join("a left join role_user b on a.id = b.uid")->where("b.rid = 4")->field("a.*")->select();
         }
+        $msg = M('message')->where("mtype = 'bill' and fid = $id")->select();
+        $this->assign('msg',$msg);
         $this->assign('contract',$contract);
         $this->assign('bill',$bill);
         $this->assign('checklev',$checklev);

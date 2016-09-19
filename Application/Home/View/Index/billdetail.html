@@ -160,6 +160,15 @@
                     <textarea class="use_name form-control" name="remark"  cols="35" rows="5"  readonly>{$contract.remark}</textarea>
                 </div>
                 -->
+                <notempty name="msg">
+                <div class="login_box1 form-group" style="width:80%">
+                    <span class="login_title1 col-sm-2 control-label" >意见：</span>
+                    <textarea readonly class="form-control"  style="width:60%"><foreach name="msg" item="vo">
+                            <?php echo trim($vo['msg']).'__'.$vo['uname'].date('Y-m-d H:i',$vo['ctime'])."\r\n";?>
+                        </foreach>
+                    </textarea>
+                </div>
+                </notempty>
                 <div class="nav_tcon1" style="float:left;width:98%;" >
                     <div class="logotitle1">
                         <span style="font-size: 15px">发票信息</span>

@@ -95,10 +95,10 @@
                         <span style="color:red">被驳回</span>
                     </if>
                     <if condition="$vo.bstatus eq 1">
-                        <span style="color:yellowgreen">初审中</span>
+                        <span style="color:yellowgreen">{$vo.ckuname}初审中</span>
                     </if>
                     <if condition="$vo.bstatus eq 2">
-                        <span style="color:yellow">复审中</span>
+                        <span style="color:yellow">{$vo.reckuname}复审中</span>
                     </if>
                     <if condition="$vo.bstatus eq 3">
                         <span style="color:darkgoldenrod">开票中</span>

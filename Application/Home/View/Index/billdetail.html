@@ -229,12 +229,14 @@
                 <input type="hidden" name="cid" value="{$cid}"/>
 
                 <div class="nav_tcon1" style="margin-left:160px;float:left;width:98%;">
-                    <a class=" btn btn-success" bid="{$bill.id}" data-toggle="modal" data-target="#myModal3" onclick="ddds(this)">
-                        审核通过
-                    </a>
-                    <a class="btn btn-danger" bid="{$bill.id}" data-toggle="modal" data-target="#myModal2" onclick="ddds(this)">
-                        驳回申请
-                    </a>
+                    <if condition="$fr neq 'see'">
+                        <a class=" btn btn-success" bid="{$bill.id}" data-toggle="modal" data-target="#myModal3" onclick="ddds(this)">
+                            审核通过
+                        </a>
+                        <a class="btn btn-danger" bid="{$bill.id}" data-toggle="modal" data-target="#myModal2" onclick="ddds(this)">
+                            驳回申请
+                        </a>
+                    </if>
                     <a class="btn btn-primary" onclick="JavaScript:history.go(-1);" style="text-emphasis:center;">返回上一页</a>
                 </div>
 

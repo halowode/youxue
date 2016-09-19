@@ -1098,6 +1098,7 @@ class IndexController extends Controller {
     function billdetail(){
         $id = I('get.id');
         $cid = I("get.cid");
+        $fr = I('get.fr');
         $checklev = I('get.checklev');
         $contract = M('contract')->where("id = $cid")->find();
         $contract['pname'] = M('project')->where("id = {$contract['pid']}")->getField('pname');
@@ -1114,6 +1115,7 @@ class IndexController extends Controller {
         $this->assign('checklev',$checklev);
         $this->assign('recusers',$recusers);
         $this->assign('cid',$cid);
+        $this->assign('fr',$fr);
         $this->display();
 
     }

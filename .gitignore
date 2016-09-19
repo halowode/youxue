@@ -19,3 +19,4 @@ config.php
 Application/Runtime/
 Runtime/
 .idea/
+Uploads/

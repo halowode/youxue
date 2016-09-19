@@ -118,7 +118,7 @@
                         <span style="color:darkgoldenrod">开票中</span>
                     </if>
                     <if condition="$vo.bstatus eq 4">
-                        <span style="color:dodgerblue">已开票</span>
+                        <span style="color:dodgerblue">已开票{$cdata['ctime']|date="y-m-d",###}</span>
                     </if>
                     </i></td>
                 </tr>
@@ -136,7 +136,15 @@
             <tr>
                 <td class="active " width='15%'><b>已出票金额总和：</b><i>{:number_format($oj,2)}</i></td>
                 <td class="active " width='15%'><b>未出票金额总和：</b><i>{:number_format($nj,2)}</i></td>
-                <td class="active " colspan="3" width="70%" ><b>应开票金额总和：</b><i>{:number_format($nj+$oj,2)}</i></td>
+                <td class="active " colspan="3" width="70%" ><b>应开票金额总和：</b><i>
+                    <?php
+                        if(($cdata['isframe'] == 0) and (($nj+$oj) >= $cdata['total'])){
+                            echo "<span style='color:red'>".number_format($nj+$oj,2)."</span>";
+                        }else{
+                            echo number_format($nj+$oj,2);
+                        }
+                    ?>
+                </i></td>
             </tr>
         </table>
     <table class=" table table-bordered" style="margin-left:30px;margin-top:-20px">

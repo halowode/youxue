@@ -277,6 +277,16 @@ class IndexController extends Controller {
         }
         $exuname = M('user')->where("id = {$cdata['exuid']}")->getField('username');
         $stamp= M('stamp')->where("cid = $cid")->select();
+        foreach($stamp as $ky => $vl){
+            $stamp[$ky]['reckuname'] = '';
+            if($vl['reckuid']){
+                $stamp[$ky]['reckuname'] = M('user')->where("id = {$vl['reckuid']}")->getField('username');
+            }
+            $stamp[$ky]['ckuname'] = '';
+            if(1){
+                $stamp[$ky]['ckuname'] = M('user')->where("id = {$cdata['checkuid']}")->getField('username');
+            }
+        }
         $payback = M("reback")->join("a left join bank b on a.bankno = b.id")->where("a.cid = $cid and (a.rstatus = 2 or a.rstatus = 3)")->field('a.*,b.bankno as banknum')->select();
         $spaytotal = 0;
         $wpaytotal = 0;

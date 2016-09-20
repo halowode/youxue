@@ -161,20 +161,25 @@
                     <span style="color:red">被驳回</span>
                 </if>
                 <if condition="$vo.status eq 1">
-                    <span style="color:yellowgreen">初审中</span>
+                    <span style="color:yellowgreen">{$vo.ckuname}初审中</span>
                 </if>
                 <if condition="$vo.status eq 2">
-                    <span style="color:yellow">复审中</span>
+                    <span style="color:yellow">{$vo.reckuname}复审中</span>
                 </if>
                 <if condition="$vo.status eq 3">
                     <span style="color:darkgoldenrod">盖章中</span>
                 </if>
                 <if condition="$vo.status eq 4">
-                    <span style="color:dodgerblue">已盖章{$vo['stime']}</span>
+                    <span style="color:dodgerblue">已盖章{$vo.stime}</span>
                 </if>
             </i></td>
-
         </tr>
+        <if condition="$vo.status eq 4">
+            <tr>
+                <td width="5%"  class="<?php echo $color[mt_rand(0,3)]; ?>"><i><a href="{:U("downfile?id=$vo[id]")}">下载盖章附件</a></i></td>
+                <td width="5%"  class="<?php echo $color[mt_rand(0,3)]; ?>"><b>盖章图片：</b><i><img src="{$vo.stamppic}" width="50px" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></i></td>
+            </tr>
+        </if>
 
     </volist>
 

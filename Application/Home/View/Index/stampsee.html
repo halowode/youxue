@@ -171,17 +171,21 @@
                     <span class="login_title1" >盖章时间：</span>
                     <input class="use_name form-control laydate-icon" onclick="calendar.show({ id: this })"  id="sptime" name='stime'  type="text" placeholder="" /><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
                 </div>
+                <!--
                 <div class="login_box1">
                     <span class="login_title1" >开具备注：</span>
                     <textarea class="use_name form-control" name="msg"  cols="35" rows="5" ></textarea>
                 </div>
+                -->
                 <div class="login_box1" style="margin-left: 100px;">
                     <input type="hidden" name="bid" value="{$bill.id}"/>
                     <input type="hidden" name="cid" value="{$contract.id}"/>
                     <input type="submit" name="submit" class=" btn btn-success" value="保存" />
+                    <!--
                     <a class="btn btn-danger" bid="{$bill.id}" data-toggle="modal" data-target="#myModal2" >
                         驳回
                     </a>
+                    -->
                     <a class="btn btn-primary" onclick="JavaScript:history.go(-1);" style="text-emphasis:center;">返回上一页</a>
                 </div>
             </form>

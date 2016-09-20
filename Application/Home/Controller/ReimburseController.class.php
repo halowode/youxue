@@ -844,15 +844,17 @@ class ReimburseController extends Controller
         if($danno){
             $where[] = " a.rbno = '{$danno}'";
         }
-        if(!empty($where)){
-            $where = implode(' or ',$where);
-            goto zgs;
-        }
         $uid = session('uid');
+        if(!empty($where)){
+            $where = implode(' and ',$where);
+            $where .= " and ( a.checkuid = {$uid} or a.recheckuid = {$uid} or a.confirmid = {$uid} or a.reconfirmid = {$uid} or a.agconfirmid = {$uid} or a.lastconfirm = {$uid} or a.uid = {$uid} )";
+            goto zgs;
+        }else{
+            $where = '';
+        }
         if(in_array(1,session('rid'))) goto zgs;
-        $where = " a.checkuid = {$uid} or a.recheckuid = {$uid} or a.confirmid = {$uid} or a.reconfirmid = {$uid} or a.agconfirmid = {$uid} or a.lastconfirm = {$uid} or a.uid = {$uid} ";
+            $where = " a.checkuid = {$uid} or a.recheckuid = {$uid} or a.confirmid = {$uid} or a.reconfirmid = {$uid} or a.agconfirmid = {$uid} or a.lastconfirm = {$uid} or a.uid = {$uid}";
         zgs:
-
         $on = "a.pid = b.id";
         $field = " a.* , b.pname";
         $order = "a.id desc";

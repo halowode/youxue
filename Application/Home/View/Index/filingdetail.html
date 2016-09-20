@@ -11,6 +11,7 @@
     -->
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/laydate/laydate.js"></script>
     <!--
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     -->
@@ -35,8 +36,10 @@
 
         function ddds(obj){
             var a = $(obj).attr('bid');
+            var b = $("#sptime").val();
             $("#tobv").attr('value',a);
             $("#topass").attr('value',a);
+            $("#ftime").attr('value',b);
         }
 
     </script>
@@ -82,6 +85,7 @@
             <div class="modal-body">
                 <input type="hidden" name="type" value="pas"/>
                 <input id="topass" type="hidden" name="billid" value="{$cid}"/>
+                <input id="ftime" type="hidden" name="fstime"/>
                 <textarea class="form-control" name="msg"></textarea>
             </div>
             <div class="modal-footer">
@@ -162,7 +166,10 @@
                 </div>
             </volist>
             <input type="hidden" name="cid" value="{$cid}"/>
-
+            <div class="login_box1">
+                <span class="login_title1" >归档时间：</span>
+                <input class="use_name form-control laydate-icon" onclick="calendar.show({ id: this })"  id="sptime" name='stime'  type="text" placeholder="" /><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
+            </div>
             <div class="nav_tcon1" style="margin-left:160px;float:left;width:98%;">
                 <a class=" btn btn-success" bid="{$cid}" data-toggle="modal" data-target="#myModal3" onclick="ddds(this)">
                     扫描件与合同原件核对一致，原件已取得，并已归档
@@ -175,5 +182,20 @@
 
     </div>
 </div>
+    <script>
+        var sptime = {
+            elem: '#sptime',
+            format: 'YYYY-MM-DD',
+            min: '2012-06-16 23:59:59',//laydate.now(), //设定最小日期为当前日期
+            max: '2099-06-16 23:59:59', //最大日期
+            istime: false,
+            istoday: false,
+            choose: function(datas){
+                end.min = datas; //开始日选好后，重置结束日的最小日期
+                end.start = datas //将结束日的初始值设定为开始日
+            }
+        };
+        laydate(sptime);
+    </script>
 </body>
 </html>

@@ -1465,7 +1465,11 @@ class IndexController extends Controller {
             if($type == 'pas'){
                 $id = I('post.billid');
                 $data['isfiling'] = 3;
-                $data['filingtime'] = time();
+                $fstime = I('post.fstime');
+                if($fstime){
+                    $fstime = strtotime($fstime);
+                }
+                $data['filingtime'] = $fstime?:time();
                 $rs = M('contract')->where("id = $id")->save($data);
                 $dat['fid'] = $id;
                 $dat['ctime'] = time();

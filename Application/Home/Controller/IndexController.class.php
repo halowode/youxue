@@ -664,6 +664,8 @@ class IndexController extends Controller {
         if($checklev == 1){
             $recusers = M('user')->join("a left join role_user b on a.id = b.uid")->where("b.rid = 4")->field("a.*")->select();
         }
+        $msg = M('message')->where("mtype = 'stamp' and fid = $id")->select();
+        $this->assign('msg',$msg);
         $this->assign('recusers',$recusers);
         $this->assign('contract',$contract);
         $this->assign('bill',$bill);

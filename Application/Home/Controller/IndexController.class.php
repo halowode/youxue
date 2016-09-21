@@ -1834,4 +1834,70 @@ class IndexController extends Controller {
         echo $nodeurl;
     }
 
+    /**
+     * 下载
+     */
+    public function downxls(){
+        set_time_limit(0);
+        @ini_set('memory_limit', '500M');
+        $filename = '导出数据';
+        header("Content-type:application/octet-stream");
+        header("Accept-Ranges:bytes");
+        header("Content-type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=".$filename.".xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        //$titles = array('订阅id', '订单号',  '用户ID','手机号','商品ID','支付金额（元）', '支付状态','支付方式','支付手机号码','创建时间','支付时间','是否过期','过期时间','是否退订','退订时间','购买状态','地址简码','昵称','学校简码','年级简码','班级简码','包名');
+        $titles = [
+            '合同编号',
+            '创建合同人',
+            '归属公司',
+            '合同类别',
+            '是否框架合同',
+            '合同名称',
+            '客户名称',
+            '项目名称',
+            '初审人员',
+            '合同金额',
+            '备注',
+            '归档状态',
+            '已出票金额总和',
+            '应开票金额总和',
+            '推广期间',
+            '推广位置',
+            '结算条款',
+            '盖章状态',
+            '已确认回款总额',
+            '全部回款金额'
+        ];
+        foreach ($titles as $k => $v) {
+            $titles[$k]=iconv("UTF-8", "GB2312",$v);
+        }
+        $titles= implode("\t", $titles);
+        echo "$titles\n";
+        $ct = M('contract')->count();
+        for($i=0;$i<$ct;$i+=1000){
+            $data = M('subscribe')->join("a left join mcp_package b on a.pid=b.pid")->where($where)->field("a.* , b.title")->limit($i,1000)->select();
+            foreach($data as $index => $value){
+                $data[$index]['pay_status'] = $value['pay_status']?'已支付':'未支付';
+                $data[$index]['ctime'] = date('Y-m-d H:i:s',$value['ctime']);
+                $data[$index]['uptime'] = date('Y-m-d H:i:s',$value['uptime']);
+                $data[$index]['is_expire'] = $value['is_expire']?'是':'否';
+                $data[$index]['expire_time'] = date('Y-m-d H:i:s',$value['expire_time']);
+                $data[$index]['is_unsubscribe'] = $value['is_unsubscribe']?'是':'否';
+                $data[$index]['unsubscribe_time'] = date('Y-m-d H:i:s',$value['unsubscribe_time']);
+                $data[$index]['buy_status'] = $value['buy_status']?'是':'否';
+                $data[$index]['pay_way'] = $value['pay_way'] == 1?'话费':'其他';
+            }
+            foreach($data as $key=>$val){
+                foreach ($val as $ck => $cv) {
+                    $data[$key][$ck]=iconv("UTF-8", "GB2312", $cv);
+                }
+                $data[$key]=implode("\t", $data[$key]);
+
+            }
+            echo implode("\n",$data);
+        }
+    }
+
 }

@@ -1943,6 +1943,15 @@ class IndexController extends Controller {
      * 下载开票信息
      */
     public function downbill(){
+        set_time_limit(0);
+        @ini_set('memory_limit', '500M');
+        $filename = '导出数据';
+        header("Content-type:application/octet-stream");
+        header("Accept-Ranges:bytes");
+        header("Content-type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=".$filename.".xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
         $titles = [
             '发票类型',
             '客户名称',
@@ -1953,8 +1962,43 @@ class IndexController extends Controller {
             '增值税',
             '领取人',
             '发票状态',
-            '所各合同编号',
+            '所属合同编号',
         ];
+        foreach ($titles as $k => $v) {
+            $titles[$k]=iconv("UTF-8", "GB2312",$v);
+        }
+        $titles= implode("\t", $titles);
+        echo "$titles\n";
+        $ct = M('bill')->count();
+        for($i=0;$i<$ct;$i+=100){
+            $data = M('bill')->limit($i,100)->select();
+            $str = '';
+            foreach($data as $k => $v){
+                $arr = [];
+                $arr[] = $v['btype'];
+                $arr[] = $v['gname'];
+                $arr[] = $v['cbcontent'];
+                $arr[] = $v['btotal'];
+                $arr[] = $v['cbtime'];
+                $arr[] = $v['bnum'];
+                $arr[] = $v['vat'];
+                $arr[] = $v['recname'];
+                if($v['bstatus'] == 0){
+                    $arr[] = '被驳回';
+                }elseif($v['bstatus'] == 1){
+                    $arr[] = '初审中';
+                }elseif($v['bstatus'] == 2){
+                    $arr[] = '复审中';
+                }elseif($v['bstatus'] == 3){
+                    $arr[] = '出票中';
+                }else{
+                    $arr[] = '已开票';
+                }
+                $arr[] = M('contract')->where("id = {$v['cid']}")->getField('cno');
+                $str .= implode("\t", $arr)."\n";
+            }
+            echo iconv("UTF-8", "GB2312",$str);
+        }
     }
 
 }

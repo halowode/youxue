@@ -1838,6 +1838,7 @@ class IndexController extends Controller {
      * 下载
      */
     public function downxls(){
+        //exit("asdfasdf");
         set_time_limit(0);
         @ini_set('memory_limit', '500M');
         $filename = '导出数据';
@@ -1863,40 +1864,78 @@ class IndexController extends Controller {
             '归档状态',
             '已出票金额总和',
             '应开票金额总和',
+            '盖章状态',
             '推广期间',
             '推广位置',
             '结算条款',
-            '盖章状态',
             '已确认回款总额',
             '全部回款金额'
         ];
         foreach ($titles as $k => $v) {
-            $titles[$k]=iconv("UTF-8", "GB2312",$v);
+           // $titles[$k]=iconv("UTF-8", "GB2312",$v);
         }
         $titles= implode("\t", $titles);
         echo "$titles\n";
         $ct = M('contract')->count();
-        for($i=0;$i<$ct;$i+=1000){
-            $data = M('subscribe')->join("a left join mcp_package b on a.pid=b.pid")->where($where)->field("a.* , b.title")->limit($i,1000)->select();
-            foreach($data as $index => $value){
-                $data[$index]['pay_status'] = $value['pay_status']?'已支付':'未支付';
-                $data[$index]['ctime'] = date('Y-m-d H:i:s',$value['ctime']);
-                $data[$index]['uptime'] = date('Y-m-d H:i:s',$value['uptime']);
-                $data[$index]['is_expire'] = $value['is_expire']?'是':'否';
-                $data[$index]['expire_time'] = date('Y-m-d H:i:s',$value['expire_time']);
-                $data[$index]['is_unsubscribe'] = $value['is_unsubscribe']?'是':'否';
-                $data[$index]['unsubscribe_time'] = date('Y-m-d H:i:s',$value['unsubscribe_time']);
-                $data[$index]['buy_status'] = $value['buy_status']?'是':'否';
-                $data[$index]['pay_way'] = $value['pay_way'] == 1?'话费':'其他';
-            }
-            foreach($data as $key=>$val){
-                foreach ($val as $ck => $cv) {
-                    $data[$key][$ck]=iconv("UTF-8", "GB2312", $cv);
+        for($i=0;$i<$ct;$i+=100){
+            $data = M('contract')->limit($i,100)->select();
+            $str = '';
+            foreach($data as $index => $value) {
+                $arr = [];
+                $bill = M('bill')->where("cid = {$value['id']}")->select();
+                $j = 0;
+                $nj = 0;
+                foreach($bill as $v){
+                    if($v['bstatus'] == 4){
+                        $j += $v['btotal'];
+                    }else{
+                        $nj += $v['btotal'];
+                    }
                 }
-                $data[$key]=implode("\t", $data[$key]);
-
+                $arr[] = $value['cno'];
+                $arr[] = $value['fname'];
+                $arr[] = $value['belong'];
+                $arr[] = $value['kinds']==0?'销售合同':'采购合同';
+                $arr[] = $value['isframe']==0?'非':'是';
+                $arr[] = $value['cname'];
+                $arr[] = $value['gname'];
+                $arr[] = M('project')->where("id = {$value['pid']}")->getField('pname');
+                $arr[] = M('user')->where("id = {$value['checkuid']}")->getField('username');
+                $arr[] = $value['total'];
+                $arr[] = $value['remark'];
+                $arr[] = $value['isfiling']==3?'已归档':'未归档';
+                $arr[] = $j;
+                $arr[] = $i+$nj;
+                //$arr[] = $value['isstamp']==0?'未盖章':'已盖章';
+                if($value['isstamp'] == 0){
+                    zg:
+                    $arr[] = '未盖章';
+                    $arr[] = '';
+                    $arr[] = '';
+                    $arr[] = '';
+                }else{
+                    $sdt = M('stamp')->where("cid = {$value['id']} and status = 4")->find();
+                    if(!$sdt) goto zg;
+                    $arr[] = '已盖章';
+                    $arr[] = $sdt['adperiod'];
+                    $arr[] = $sdt['adposition'];
+                    $arr[] = $sdt['settleitem'];
+                }
+                $payback = M("reback")->join("a left join bank b on a.bankno = b.id")->where("a.cid = {$value['id']} and (a.rstatus = 2 or a.rstatus = 3)")->field('a.*,b.bankno as banknum')->select();
+                $spaytotal = 0;
+                $wpaytotal = 0;
+                foreach($payback as $vl){
+                    if($rstatus == 2){
+                        $wpaytotal += $vl['btotal'];
+                    }else{
+                        $spaytotal += $vl['btotal'];
+                    }
+                }
+                $arr[] = $wpaytotal;
+                $arr[] = $spaytotal+$wpaytotal;
+                $str .= implode("\t", $arr)."\n";
             }
-            echo implode("\n",$data);
+            echo $str;
         }
     }
 

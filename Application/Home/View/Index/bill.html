@@ -22,6 +22,34 @@
             <div class="logo_enter1" style="border:none;float:left;">
                 <div class="nav_tcon1" style="float:left;width:98%;" >
                     <div class="logotitle1">
+                        <span style="font-size: 15px">合同基本信息</span>
+                    </div>
+                </div>
+                <div>
+                    <table class=" table" style="margin-left: 60px;width:90%">
+                        <tr>
+                            <td class="active">合同编号:<i>{$cdata.cno}</i></td>
+                            <td class="active">归属公司:<i>{$cdata.belong}</i></td>
+                            <td class="active">合同金额:<i>{$cdata.total}</i></td>
+                            <td class="active">客户名称:<i>{$cdata.gname}</i></td>
+                        </tr>
+                        <tr>
+                            <td class="active">所属项目:<i>{$pname}</i></td>
+                            <td class="active">是否为框架合同:<i>
+                                <if condition="$cdata['isframe'] eq 1">
+                                    是
+                                    <else/>
+                                    否
+                                </if>
+                            </i></td>
+                            <td class="active">合同名称:<i>{$cdata.cname}</i></td>
+                            <td class="active">负责人:<i>{$cdata.fname}</i></td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div class="nav_tcon1" style="float:left;width:98%;" >
+                    <div class="logotitle1">
                         <span style="font-size: 15px">发票信息</span>
                     </div>
                 </div>

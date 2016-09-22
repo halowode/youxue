@@ -317,9 +317,12 @@ class IndexController extends Controller {
     public function bill(){
         if(IS_GET){
             $cid = I('get.id');
-            $gname = M('contract')->where("id = {$cid}")->getField('gname');
+            $gname = M('contract')->where("id = {$cid}")->find();
+            $pname = M('project')->where("id = {$gname['pid']}")->getField('pname');
             $this->assign('cid',$cid);
-            $this->assign('gname',$gname);
+            $this->assign('gname',$gname['gname']);
+            $this->assign('pname',$pname);
+            $this->assign('cdata',$gname);
             $this->display();
         }else{
             $data = I('post.');

@@ -1835,7 +1835,7 @@ class IndexController extends Controller {
     }
 
     /**
-     * 下载
+     * 下载合同
      */
     public function downxls(){
         //exit("asdfasdf");
@@ -1872,7 +1872,7 @@ class IndexController extends Controller {
             '全部回款金额'
         ];
         foreach ($titles as $k => $v) {
-           // $titles[$k]=iconv("UTF-8", "GB2312",$v);
+            $titles[$k]=iconv("UTF-8", "GB2312",$v);
         }
         $titles= implode("\t", $titles);
         echo "$titles\n";
@@ -1935,8 +1935,26 @@ class IndexController extends Controller {
                 $arr[] = $spaytotal+$wpaytotal;
                 $str .= implode("\t", $arr)."\n";
             }
-            echo $str;
+            echo iconv("UTF-8", "GB2312",$str);
         }
+    }
+
+    /**
+     * 下载开票信息
+     */
+    public function downbill(){
+        $titles = [
+            '发票类型',
+            '客户名称',
+            '开票内容',
+            '开票金额',
+            '开票日期',
+            '发票号',
+            '增值税',
+            '领取人',
+            '发票状态',
+            '所各合同编号',
+        ];
     }
 
 }

@@ -2001,4 +2001,63 @@ class IndexController extends Controller {
         }
     }
 
+    /**
+     * 下载回款信息
+     */
+    public function downreback(){
+        set_time_limit(0);
+        @ini_set('memory_limit', '500M');
+        $filename = '导出数据';
+        header("Content-type:application/octet-stream");
+        header("Accept-Ranges:bytes");
+        header("Content-type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=".$filename.".xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $titles = [
+            '收款公司',
+            '付款公司',
+            '回款金额',
+            '款项性质',
+            '回款时间',
+            '收款账号',
+            '回款状态',
+            '所属合同编号',
+        ];
+        foreach ($titles as $k => $v) {
+            $titles[$k]=iconv("UTF-8", "GB2312",$v);
+        }
+        $titles= implode("\t", $titles);
+        echo "$titles\n";
+        $ct = M('reback')->count();
+        for($i=0;$i<$ct;$i+=100){
+            $data = M('reback')->limit($i,100)->select();
+            $str = '';
+            foreach($data as $k => $v){
+                $arr = [];
+                $arr[] = $v['payee'];
+                $arr[] = $v['paycomp'];
+                $arr[] = $v['btotal'];
+                $arr[] = $v['btype'];
+                $arr[] = $v['btime'];
+                $arr[] = M('bank')->where("id = {$v['bankno']}")->getField('bankno');
+                if($v['rstatus'] == 0){
+                    $arr[] = '被驳回';
+                    $arr[] = '';
+                }elseif($v['rstatus'] == 1){
+                    $arr[] = '未认领';
+                    $arr[] = '';
+                }elseif($v['rstatus'] == 2){
+                    $arr[] = '审核中';
+                    $arr[] = '';
+                }else{
+                    $arr[] = '已关联';
+                    $arr[] = M('contract')->where("id = {$v['cid']}")->getField('cno');
+                }
+                $str .= implode("\t", $arr)."\n";
+            }
+            echo iconv("UTF-8", "GB2312",$str);
+        }
+    }
+
 }

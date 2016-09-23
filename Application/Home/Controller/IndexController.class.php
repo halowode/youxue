@@ -2063,4 +2063,75 @@ class IndexController extends Controller {
         }
     }
 
+    /**
+     * 下载报销信息
+     */
+    public function downreimburse(){
+        set_time_limit(0);
+        @ini_set('memory_limit', '500M');
+        $filename = '导出数据';
+        header("Content-type:application/octet-stream");
+        header("Accept-Ranges:bytes");
+        header("Content-type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=".$filename.".xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $titles = [
+            '单号',
+            '子单号',
+            '申请人',
+            '所属项目',
+            '所属销售合同',
+            '所属采购合同',
+            '归属公司',
+            '收款公司',
+            '报销摘要',
+            '发生月份',
+            '报销金额',
+            '付款金额',
+            '付款时间',
+            '备注',
+        ];
+        foreach ($titles as $k => $v) {
+            $titles[$k]=iconv("UTF-8", "GB2312",$v);
+        }
+        $titles= implode("\t", $titles);
+        echo "$titles\n";
+        $ct = M('reimburse')->count();
+        for($i=0;$i<$ct;$i+=50){
+            $data = M('reimburse')->limit($i,50)->select();
+            foreach($data as $k => $v){
+                $sigres = M('reimburse_record')->where("rbid = {$v['id']}")->select();
+                if($sigres){
+                    foreach($sigres as $vl){
+                        $reimbursement = M('reimbursement')->where("sid = {$vl['id']}")->select();
+                        if($reimbursement){
+                            $str = '';
+                            foreach($reimbursement as $vt){
+                                $arr = [];
+                                $arr[] = $vt['rbno'];
+                                $arr[] = $vt['sid'];
+                                $arr[] = M('user')->where("id = {$vl['uid']}")->getField('username');
+                                $arr[] = M('project')->where("id = {$vl['pid']}")->getField('pname');
+                                $arr[] = M('contract')->where("id = {$vl['cid']}")->getField('cno');
+                                $arr[] = M('contract')->where("id = {$vl['cgid']}")->getField("cno");
+                                $arr[] = $vl['belong'];
+                                $arr[] = $vl['charge'];
+                                $arr[] = $vt['ab'];
+                                $arr[] = $vt['etime'];
+                                $arr[] = $vt['atotal'];
+                                $arr[] = $vt['etotal'];
+                                $arr[] = $vt['ptime'];
+                                $arr[] = $vl['remark'];
+                                $str .= implode("\t", $arr)."\n";
+                            }
+                            echo iconv("UTF-8", "GB2312",$str);
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
 }

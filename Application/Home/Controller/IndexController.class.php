@@ -2119,8 +2119,8 @@ class IndexController extends Controller {
                                 $arr[] = $vt['sid'];
                                 $arr[] = M('user')->where("id = {$vl['uid']}")->getField('username');
                                 $arr[] = M('project')->where("id = {$vl['pid']}")->getField('pname');
-                                $arr[] = M('contract')->where("id = {$vl['cid']}")->getField('cno');
-                                $arr[] = M('contract')->where("id = {$vl['cgid']}")->getField("cno");
+                                $arr[] = $vl['cid']?M('contract')->where("id = {$vl['cid']}")->getField('cno'):'';
+                                $arr[] = $vl['cgid']?M('contract')->where("id = {$vl['cgid']}")->getField("cno"):'';
                                 $arr[] = $vl['belong'];
                                 $arr[] = $vl['charge'];
                                 $arr[] = $vt['ab'];

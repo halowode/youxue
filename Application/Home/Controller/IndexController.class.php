@@ -2093,7 +2093,7 @@ class IndexController extends Controller {
             '备注',
         ];
         foreach ($titles as $k => $v) {
-            $titles[$k]=iconv("UTF-8", "GB2312",$v);
+            //$titles[$k]=iconv("UTF-8", "GB2312",$v);
         }
         $titles= implode("\t", $titles);
         echo "$titles\n";

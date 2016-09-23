@@ -2032,6 +2032,7 @@ class IndexController extends Controller {
             '收款账号',
             '回款状态',
             '所属合同编号',
+	    'cid',
         ];
         foreach ($titles as $k => $v) {
             $titles[$k]=iconv("UTF-8", "GB2312",$v);
@@ -2041,8 +2042,9 @@ class IndexController extends Controller {
         $ct = M('reback')->count();
         for($i=0;$i<$ct;$i+=100){
             $data = M('reback')->limit($i,100)->select();
-            $str = '';
             foreach($data as $k => $v){
+		if($v['id'] == 56){
+		}
                 $arr = [];
                 $arr[] = $v['payee'];
                 $arr[] = $v['paycomp'];
@@ -2063,11 +2065,11 @@ class IndexController extends Controller {
                     $arr[] = '已关联';
                     $arr[] = M('contract')->where("id = {$v['cid']}")->getField('cno');
                 }
-                $str .= implode("\t", $arr)."\n";
+		$arr[] = $v['id'];
+		ob_flush();
+		flush();
+                echo iconv('UTF-8','GB2312',implode("\t", $arr)."\n");
             }
-            ob_flush();
-            flush();
-            echo iconv("UTF-8", "GB2312",$str);
         }
     }
 

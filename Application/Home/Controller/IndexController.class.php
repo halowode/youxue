@@ -1884,7 +1884,6 @@ class IndexController extends Controller {
         $ct = M('contract')->count();
         for($i=0;$i<$ct;$i+=100){
             $data = M('contract')->limit($i,100)->select();
-            $str = '';
             foreach($data as $index => $value) {
                 $arr = [];
                 $bill = M('bill')->where("cid = {$value['id']}")->select();
@@ -1938,11 +1937,11 @@ class IndexController extends Controller {
                 }
                 $arr[] = $wpaytotal;
                 $arr[] = $spaytotal+$wpaytotal;
-                $str .= implode("\t", $arr)."\n";
+                ob_flush();
+                flush();
+                echo iconv('UTF-8','GB2312',implode("\t", $arr)."\n");
             }
-            ob_flush();
-            flush();
-            echo iconv("UTF-8", "GB2312",$str);
+
         }
     }
 
@@ -1979,7 +1978,6 @@ class IndexController extends Controller {
         $ct = M('bill')->count();
         for($i=0;$i<$ct;$i+=100){
             $data = M('bill')->limit($i,100)->select();
-            $str = '';
             foreach($data as $k => $v){
                 $arr = [];
                 $arr[] = $v['btype'];
@@ -2002,11 +2000,11 @@ class IndexController extends Controller {
                     $arr[] = '已开票';
                 }
                 $arr[] = M('contract')->where("id = {$v['cid']}")->getField('cno');
-                $str .= implode("\t", $arr)."\n";
+                ob_flush();
+                flush();
+                echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");
             }
-            ob_flush();
-            flush();
-            echo iconv("UTF-8", "GB2312",$str);
+
         }
     }
 
@@ -2032,7 +2030,6 @@ class IndexController extends Controller {
             '收款账号',
             '回款状态',
             '所属合同编号',
-	    'cid',
         ];
         foreach ($titles as $k => $v) {
             $titles[$k]=iconv("UTF-8", "GB2312",$v);
@@ -2043,8 +2040,6 @@ class IndexController extends Controller {
         for($i=0;$i<$ct;$i+=100){
             $data = M('reback')->limit($i,100)->select();
             foreach($data as $k => $v){
-		if($v['id'] == 56){
-		}
                 $arr = [];
                 $arr[] = $v['payee'];
                 $arr[] = $v['paycomp'];
@@ -2065,9 +2060,8 @@ class IndexController extends Controller {
                     $arr[] = '已关联';
                     $arr[] = M('contract')->where("id = {$v['cid']}")->getField('cno');
                 }
-		$arr[] = $v['id'];
-		ob_flush();
-		flush();
+		        ob_flush();
+		        flush();
                 echo iconv('UTF-8','GB2312',implode("\t", $arr)."\n");
             }
         }
@@ -2116,7 +2110,6 @@ class IndexController extends Controller {
                     foreach($sigres as $vl){
                         $reimbursement = M('reimbursement')->where("sid = {$vl['id']}")->select();
                         if($reimbursement){
-                            $str = '';
                             foreach($reimbursement as $vt){
                                 $arr = [];
                                 $arr[] = $vt['rbno'];
@@ -2133,11 +2126,11 @@ class IndexController extends Controller {
                                 $arr[] = $vt['etotal'];
                                 $arr[] = $vt['ptime'];
                                 $arr[] = $vl['remark'];
-                                $str .= implode("\t", $arr)."\n";
+                                ob_flush();
+                                flush();
+                                echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");
                             }
-			                ob_flush();
-        		            flush();
-                            echo iconv("UTF-8", "GB2312",$str);
+
                         }
                     }
                 }

@@ -2068,7 +2068,7 @@ class IndexController extends Controller {
      */
     public function downreimburse(){
         set_time_limit(0);
-        @ini_set('memory_limit', '500M');
+        @ini_set('memory_limit', '600M');
         $filename = '导出数据';
         header("Content-type:application/octet-stream");
         header("Accept-Ranges:bytes");

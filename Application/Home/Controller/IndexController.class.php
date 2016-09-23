@@ -1938,6 +1938,8 @@ class IndexController extends Controller {
                 $arr[] = $spaytotal+$wpaytotal;
                 $str .= implode("\t", $arr)."\n";
             }
+            ob_flush();
+            flush();
             echo iconv("UTF-8", "GB2312",$str);
         }
     }
@@ -2000,6 +2002,8 @@ class IndexController extends Controller {
                 $arr[] = M('contract')->where("id = {$v['cid']}")->getField('cno');
                 $str .= implode("\t", $arr)."\n";
             }
+            ob_flush();
+            flush();
             echo iconv("UTF-8", "GB2312",$str);
         }
     }
@@ -2059,6 +2063,8 @@ class IndexController extends Controller {
                 }
                 $str .= implode("\t", $arr)."\n";
             }
+            ob_flush();
+            flush();
             echo iconv("UTF-8", "GB2312",$str);
         }
     }
@@ -2125,8 +2131,8 @@ class IndexController extends Controller {
                                 $arr[] = $vl['remark'];
                                 $str .= implode("\t", $arr)."\n";
                             }
-			    ob_flush();
-        		    flush();
+			                ob_flush();
+        		            flush();
                             echo iconv("UTF-8", "GB2312",$str);
                         }
                     }

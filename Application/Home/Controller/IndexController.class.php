@@ -275,7 +275,9 @@ class IndexController extends Controller {
                 $bill[$ky]['ckuname'] = M('user')->where("id = {$cdata['checkuid']}")->getField('username');
             }
         }
-        $exuname = M('user')->where("id = {$cdata['exuid']}")->getField('username');
+        if($cdata['exuid']){
+            $exuname = M('user')->where("id = {$cdata['exuid']}")->getField('username');
+        }
         $stamp= M('stamp')->where("cid = $cid")->select();
         foreach($stamp as $ky => $vl){
             $stamp[$ky]['reckuname'] = '';

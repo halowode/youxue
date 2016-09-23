@@ -2069,7 +2069,7 @@ class IndexController extends Controller {
     public function downreimburse(){
         set_time_limit(0);
         @ini_set('memory_limit', '600M');
-        $filename = '导出数据';
+        $filename = 'reimburse';
         header("Content-type:application/octet-stream");
         header("Accept-Ranges:bytes");
         header("Content-type:application/vnd.ms-excel");

@@ -67,8 +67,8 @@ class ReimburseController extends Controller
                     }
                     $atotals = array_sum(I("post.atotal"));
                     if(($ctotal-$apt) < $atotals){
-                        //$this->error("申请金额大于合同剩余可申请金额！");
-                        //exit;
+                        $this->error("申请金额大于合同剩余可申请金额！");
+                        exit;
                     }
                 }
 

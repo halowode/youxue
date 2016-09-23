@@ -2125,6 +2125,8 @@ class IndexController extends Controller {
                                 $arr[] = $vl['remark'];
                                 $str .= implode("\t", $arr)."\n";
                             }
+			    ob_flush();
+        		    flush();
                             echo iconv("UTF-8", "GB2312",$str);
                         }
                     }

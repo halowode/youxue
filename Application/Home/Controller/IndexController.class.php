@@ -2174,9 +2174,10 @@ class IndexController extends Controller {
                     $arr[] = '已关联';
                     $arr[] = M('contract')->where("id = {$v['cid']}")->getField('cno');
                 }
-		        ob_flush();
-		        flush();
+
                 echo iconv('UTF-8','GB2312',implode("\t", $arr)."\n");
+                ob_flush();
+                flush();
             }
         }
     }

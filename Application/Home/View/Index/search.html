@@ -141,7 +141,6 @@
                     <td width="3%" align="center" class="tb_title">合同金额</td>
 
                     <td width="5%" align="center" class="tb_title">负责人</td>
-                    <td width="6%" align="center" class="tb_title">合同状态</td>
                     <td width="26%" align="center" class="tb_title">操作</td>
 
                 </tr>
@@ -156,13 +155,7 @@
                             <td align="center">{$vo.total}</td>
 
                             <td align="center">{$vo.fname}</td>
-                            <td align="center">
-                                <if condition="($vo['cstatus'] eq 0)">
-                                        未完结
-                                    <else/>
-                                        已完结
-                                </if>
-                            </td>
+
                             <td align="center">
 
                                 <if condition="$vo.isactive eq 0">
@@ -185,12 +178,12 @@
                     </foreach>
                     <else />
                     <tr>
-                        <td colspan="9">暂无信息</td>
+                        <td colspan="8">暂无信息</td>
                     </tr>
                 </notempty>
                 <if condition="($data['list'] neq null)">
                     <tr>
-                        <td colspan="9">
+                        <td colspan="8">
                             {$data.show}
                         </td>
                     </tr>

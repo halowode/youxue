@@ -1592,7 +1592,7 @@ class IndexController extends Controller {
     }
 
     /**
-     * 回款关联
+     * 回款关联1.0
      */
     public function glian(){
         if(IS_GET){
@@ -1633,6 +1633,116 @@ class IndexController extends Controller {
         }
 
 
+    }
+
+    /**
+     * 关联2.0
+     */
+    public function guanlian(){
+        if(IS_GET){
+            $rbid = I('get.id');
+            $this->assign('rbid',$rbid);
+            $uid = session('uid');
+            $where = '';
+            $_fname = I('get.fname');
+            $this->assign('_fname',$_fname);
+            $_pname = I('get.pname');
+            $this->assign('_pname',$_pname);
+            $_cname = I('get.cname');
+            $this->assign('_cname',$_cname);
+            $_gname = I('get.gname');
+            $this->assign('_gname',$_gname);
+            $_isstamp = I('get.isstamp');
+            $this->assign('_isstamp',$_isstamp);
+            $_isfiling = I('get.isfiling');
+            $this->assign('_isfiling',$_isfiling);
+            $_belong = I('get.belong');
+            $this->assign('_belong',$_belong);
+            $_ct = I('get.ct');
+            $this->assign('_ct',$_ct);
+            $arr = [];
+            if($_fname){
+                $arr[] = "a.fname like '%{$_fname}%'";
+            }
+            if($_ct){
+                $ty = ($_ct == 1)?0:1;
+                $arr[] = " a.kinds = $ty ";
+            }
+            if($_pname){
+                $pidarr = M('project')->where("pname like '%{$_pname}%'")->field('id')->select();
+                $fstr = '';
+                if($pidarr){
+                    $fstr = getSingleFieldStr($pidarr);
+                }
+                if($fstr){
+                    $arr[] = " a.pid in ($fstr) ";
+                }
+            }
+            if($_gname){
+                $arr[] = "a.gname like '%{$_gname}%'";
+            }
+            if($_cname){
+                $arr[] = "a.cname like '%{$_cname}%'";
+            }
+            if($_isfiling){
+                if($_isfiling == 1){
+                    $arr[] = " a.isfiling = 3 ";
+                }else{
+                    $arr[] = " a.isfiling != 3 ";
+                }
+            }
+
+            if($_isstamp){
+                if($_isstamp == 1){
+                    $arr[] = "a.isstamp = 1";
+                }else{
+                    $arr[] = "a.isstamp != 1";
+                }
+            }
+            if($_belong){
+                $arr[] = "a.belong = '{$_belong}'";
+            }
+            if(!empty($arr)){
+                $where = implode(' and ',$arr);
+            }
+
+            $isexc = 0; //是否有编辑权限
+            if(!in_array(1,session('rid'))){
+                $where = $where?$where.' and a.uid = '.$uid:'a.uid = '.$uid;
+            }else{
+                $isexc = 1;
+            }
+            //$data = $this->Tmodel->getAllByPage('contract',$where,1);
+            $data = $this->Tmodel->getJoinByPage('contract','project',$where, $this->pagesize);
+            foreach($data['list'] as $ink => $v){
+                $data['list'][$ink]['stampis'] = 0;
+                $rs = M('stamp')->where("cid = {$v['id']}")->getField('id');
+                if($rs) $data['list'][$ink]['stampis'] = 1;
+            }
+            //判断除基本用户外是否有编辑权限
+            $x = M('role_user')->join("a left join role_node b on a.rid = b.rid")->where("a.uid = {$uid} and a.rid != 2")->field("b.nid")->select();
+            if(in_array(54,$x)){
+                $isexc = 1;
+            }
+            $this->assign('isexc',$isexc);
+            $this->assign('data' , $data);
+            if(I('get.p') == '' || I('get.p') == 1){$vari = 1;}else{$vari = $pagesize * (I('get.p') - 1) + 1;}
+            $requesturl = $_SERVER['REQUEST_URI'];
+            $this->assign('dqurl',base64url_encode($requesturl));// 当前URL
+            $this->assign('vari',$vari);// 序号累加变量
+            $this->display();
+        }else{
+            $rid = I('post.rbid');
+            $cid = I('post.cid');
+            $uid = session('uid');
+            $res = M('reback')->where("id = {$rid}")->save(['guid'=>$uid,'cid'=>$cid,'rstatus'=>2]);
+            M('contract')->where("id = $cid")->save(['isactive'=>1]);
+            if($res){
+                $this->success("关联成功！",U('index/glian'));
+            }else{
+                $this->error("关联失败！",U('index/glian'));
+            }
+        }
     }
 
     /**
@@ -1890,15 +2000,6 @@ class IndexController extends Controller {
             foreach($data as $index => $value) {
                 $arr = [];
                 $bill = M('bill')->where("cid = {$value['id']}")->select();
-                $j = 0;
-                $nj = 0;
-                foreach($bill as $v){
-                    if($v['bstatus'] == 4){
-                        $j += $v['btotal'];
-                    }else{
-                        $nj += $v['btotal'];
-                    }
-                }
                 $arr[] = $value['cno'];
                 $arr[] = $value['fname'];
                 $arr[] = $value['belong'];
@@ -1911,8 +2012,17 @@ class IndexController extends Controller {
                 $arr[] = $value['total'];
                 $arr[] = $value['remark'];
                 $arr[] = $value['isfiling']==3?'已归档':'未归档';
-                $arr[] = $j;
-                $arr[] = $i+$nj;
+                $_j = 0;
+                $_nj = 0;
+                foreach($bill as $v){
+                    if($v['bstatus'] == 4){
+                        $_j += $v['btotal'];
+                    }else{
+                        $_nj += $v['btotal'];
+                    }
+                }
+                $arr[] = $_j;
+                $arr[] = $_i+$_nj;
                 //$arr[] = $value['isstamp']==0?'未盖章':'已盖章';
                 if($value['isstamp'] == 0){
                     zg:
@@ -1938,8 +2048,8 @@ class IndexController extends Controller {
                         $spaytotal += $vl['btotal'];
                     }
                 }
-                $arr[] = $wpaytotal;
-                $arr[] = $spaytotal+$wpaytotal;
+                $arr[] = $spaytotal;
+                $arr[] = ($spaytotal + $wpaytotal);
                 ob_flush();
                 flush();
                 echo iconv('UTF-8','GB2312',implode("\t", $arr)."\n");

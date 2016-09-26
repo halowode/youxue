@@ -1708,7 +1708,7 @@ class IndexController extends Controller {
 
             $isexc = 0; //是否有编辑权限
             if(!in_array(1,session('rid'))){
-                $where = $where?$where.' and a.uid = '.$uid:'a.uid = '.$uid;
+                $where = $where?$where.' or a.uid = '.$uid:'a.uid = '.$uid;
             }else{
                 $isexc = 1;
             }

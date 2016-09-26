@@ -2145,14 +2145,20 @@ class IndexController extends Controller {
             '回款状态',
             '所属合同编号',
         ];
-        foreach ($titles as $k => $v) {
-            $titles[$k]=iconv("UTF-8", "GB2312",$v);
+        foreach ($titles as $k => $ve) {
+            $titles[$k]=iconv("UTF-8", "GB2312",$ve);
         }
         $titles= implode("\t", $titles);
         echo "$titles\n";
         $ct = M('reback')->count();
-        for($i=0;$i<$ct;$i+=100){
-            $data = M('reback')->limit($i,100)->select();
+        for($i=0;$i<$ct;$i+=50){
+		$ids = M('reback')->field('id')->limit($i,50)->select();
+		$str = '';
+		foreach($ids as $vi){
+			$str .= $vi['id'].',';
+		}
+		$str = trim($str,',');
+            $data = M('reback')->where("id in (22,23,30,26)")->select();
             foreach($data as $k => $v){
                 $arr = [];
                 $arr[] = $v['payee'];
@@ -2174,11 +2180,12 @@ class IndexController extends Controller {
                     $arr[] = '已关联';
                     $arr[] = M('contract')->where("id = {$v['cid']}")->getField('cno');
                 }
-
-                echo iconv('UTF-8','GB2312',implode("\t", $arr)."\n");
+		$optstr = implode("\t", $arr)."\n";
+                echo iconv('UTF-8','GB2312',$optstr);
                 ob_flush();
                 flush();
             }
+		exit;
         }
     }
 

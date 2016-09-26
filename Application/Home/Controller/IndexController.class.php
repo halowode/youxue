@@ -2185,7 +2185,7 @@ class IndexController extends Controller {
                 ob_flush();
                 flush();
             }
-		exit;
+		
         }
     }
 

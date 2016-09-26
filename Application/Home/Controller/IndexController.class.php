@@ -2016,7 +2016,7 @@ class IndexController extends Controller {
                 $_nj = 0;
                 $bill = M('bill')->where("cid = {$value['id']}")->select();
                 foreach($bill as $vw){
-                    if($vw['bstatus'] == 4){
+                    if($vw['bstatus'] === 4){
                         $_j += $vw['btotal'];
                     }else{
                         $_nj += $vw['btotal'];

@@ -809,6 +809,8 @@ class IndexController extends Controller {
             $cid = I('get.cid');
             $id = I('get.id');
             $fr= I('get.fr');
+            $contract = M('contract')->where("id = $cid")->find();
+            $contract['pname'] = M('project')->where("id = {$contract['pid']}")->getField('pname');
             $bdata = M('stamp')->where("id = $id")->find();
             $bmsg = M('message')->where("fid = $id and mtype = 'stamp'")->select();
             $this->assign('bdata',$bdata);
@@ -816,6 +818,7 @@ class IndexController extends Controller {
             $this->assign('cid',$cid);
             $this->assign('id',$id);
             $this->assign('fr',$fr);
+            $this->assign('contract',$contract);
             $this->display();
         }else{
             if($_FILES["xls"]["name"] != ""){

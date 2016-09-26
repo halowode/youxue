@@ -155,6 +155,34 @@
                 <textarea class="use_name form-control" name="remark"  cols="35" rows="5"  readonly>{$contract.remark}</textarea>
             </div>
             -->
+            <div class="nav_tcon1" style="float:left;width:98%;" >
+                <div class="logotitle1">
+                    <span style="font-size: 15px">合同基本信息</span>
+                </div>
+            </div>
+            <div>
+                <table class=" table" style="margin-left: 60px;width:90%">
+                    <tr>
+                        <td class="active">合同编号:<i>{$contract.cno}</i></td>
+                        <td class="active">归属公司:<i>{$contract.belong}</i></td>
+                        <td class="active">合同金额:<i>{$contract.total}</i></td>
+                        <td class="active">客户名称:<i>{$contract.gname}</i></td>
+                    </tr>
+                    <tr>
+                        <td class="active">所属项目:<i>{$contract.pname}</i></td>
+                        <td class="active">是否为框架合同:<i>
+                            <if condition="$contract['isframe'] eq 1">
+                                是
+                                <else/>
+                                否
+                            </if>
+                        </i></td>
+                        <td class="active">合同名称:<i>{$contract.cname}</i></td>
+                        <td class="active">负责人:<i>{$contract.fname}</i></td>
+                    </tr>
+                </table>
+
+            </div>
             <notempty name="msg">
                 <div class="login_box1 form-group" style="width:80%">
                     <span class="login_title1 col-sm-2 control-label" >意见：</span>
@@ -174,6 +202,10 @@
             <div class="login_box1">
                 <span class="login_title1" >结算条款：</span>
                 <input class="use_name form-control" value="{$bill.settleitem}" readonly id="gname" name='gname'  type="text" placeholder="客户名称（全称）" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+            </div>
+            <div class="login_box1">
+                <span class="login_title1" >合同份数：</span>
+                <input class="use_name form-control" value="{$bill.conum}" readonly id="gname" name='gname'  type="text"  /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
             </div>
             <div class="login_box1">
                 <span class="login_title1" >附件下载：</span>

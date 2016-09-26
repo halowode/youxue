@@ -2023,7 +2023,7 @@ class IndexController extends Controller {
                     }
                 }
                 $arr[] = $_j;
-                $arr[] = $_i+$_nj;
+                $arr[] = $_j+$_nj;
                 //$arr[] = $value['isstamp']==0?'未盖章':'已盖章';
                 if($value['isstamp'] == 0){
                     zg:

@@ -1999,7 +1999,7 @@ class IndexController extends Controller {
             $data = M('contract')->limit($i,100)->select();
             foreach($data as $index => $value) {
                 $arr = [];
-                $bill = M('bill')->where("cid = {$value['id']}")->select();
+
                 $arr[] = $value['cno'];
                 $arr[] = $value['fname'];
                 $arr[] = $value['belong'];
@@ -2014,11 +2014,12 @@ class IndexController extends Controller {
                 $arr[] = $value['isfiling']==3?'已归档':'未归档';
                 $_j = 0;
                 $_nj = 0;
-                foreach($bill as $v){
+                $bill = M('bill')->where("cid = {$value['id']}")->select();
+                foreach($bill as $vw){
                     if($v['bstatus'] == 4){
-                        $_j += $v['btotal'];
+                        $_j += $vw['btotal'];
                     }else{
-                        $_nj += $v['btotal'];
+                        $_nj += $vw['btotal'];
                     }
                 }
                 $arr[] = $_j;

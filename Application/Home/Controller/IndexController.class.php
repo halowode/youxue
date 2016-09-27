@@ -104,6 +104,13 @@ class IndexController extends Controller {
             }
         }else{
             $data = I("post.");
+            $cid = I("post.cid");
+            $newcno = trim($data['cno']);
+            $srcno = M('contract')->where("id != {$cid} and cno = '{$newcno}'")->find();
+            if($srcno){
+                $this->error('已存在该合同编号！',U('index/search'));
+                exit;
+            }
             $path = '';
             if($_FILES['cpfile']['name'] != ''){
                 $path = upfiles('cpfile');
@@ -115,7 +122,6 @@ class IndexController extends Controller {
             if($data['isframe'] == 1){
                 $data['total'] = 0;
             }
-            $cid = I("post.cid");
             unset($data['cid']);
             $res = M('contract')->where("id = $cid")->save($data);
             if($res){

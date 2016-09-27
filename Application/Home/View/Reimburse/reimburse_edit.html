@@ -68,7 +68,7 @@
         <div class="logo_ccon1">
             <div class="logo_enter1" style="border:none;float:left;">
                 <div class="login_box1 form-group">
-                    <span class="login_title1 col-sm-2 control-label">所属项目</span>
+                    <span class="login_title1 col-sm-2 control-label">审核信息</span>
                     <textarea class="form-control" style="margin-left: 100px;width:60%"><volist name="errmsg" id="vo"><?php echo $vo['msg'],'--'.$vo['uname'],"\r\n";?></volist>
                     </textarea>
                 </div>
@@ -117,9 +117,18 @@
                     </select>
                     <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
                 </div>
-                <div class="login_box1 form-group" style="width:80%">
-                    <span class="login_title1 col-sm-2 control-label" >备注</span>
-                    <textarea class="use_name form-control"  name='remark'  type="text" placeholder="备注信息">{$data.remark}</textarea>
+                <div class="login_box1 form-group">
+                    <span class="login_title1 col-sm-2 control-label">归属公司</span>
+                    <select  class="use_name form-control input-xsm" name="belong"   style="width:200px">
+                        <option value="华睿互动" <if condition="$data.belong eq '华睿互动'">selected='selected'</if>>华睿互动</option>
+                        <option value="极速传媒" <if condition="$data.belong eq '极速传媒'">selected='selected'</if>>极速传媒</option>
+                        <option value="优学教育" <if condition="$data.belong eq '优学教育'">selected='selected'</if>>优学教育</option>
+                    </select>
+                    <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1 form-group">
+                    <span class="login_title1 col-sm-2 control-label" >收款公司</span>
+                    <input class="use_name form-control"  name='charge'  type="text" value="{$data.charge}"><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
                 </div>
                 <table id="d_table" class=" table table-bordered" style="margin-left:30px;margin-top:-20px">
                     <tr class="active">
@@ -129,6 +138,7 @@
                             <th>发生金额</th>
                         </if>
                         <th>申请金额</th>
+                        <th><a class="btn btn-info" onclick="addhang(this)">增加一行</a></th>
                     </tr>
                     <volist name="reimdata" id="vo">
                     <tr class="info">
@@ -138,6 +148,7 @@
                         <td><input class="form-control" name="etotal[]" value="{$vo.etotal}" type="text"/></td>
                         </if>
                         <td><input class="form-control" name="atotal[]" value="{$vo.atotal}" type="text"/></td>
+                        <td><a class="btn btn-danger" onclick="delpic(this)">删除此行</a></td>
                     </tr>
                     </volist>
                 </table>

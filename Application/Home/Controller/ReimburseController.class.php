@@ -1022,6 +1022,8 @@ class ReimburseController extends Controller
             $data["cid"]        = I('post.cid');
             $data["cgid"]       = I('post.cgid');
             $data["remark"]     = I('post.remark');
+            $data['belong']     = I('post.belong');
+            $data['charge']     = I('post.charge');
             $data['bstatus']    = 1;
             $id = I('post.id');
             $rbid = I('post.rbid');

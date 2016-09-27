@@ -1409,6 +1409,20 @@ class IndexController extends Controller {
         $this->assign('cid',$id);
         $this->display();
     }
+    public function filingbac(){
+        $cid = I('get.cid');
+        if($cid){
+            $rs = M('contract')->where("id = $cid")->save(['isfiling'=>0]);
+            if($rs){
+                $this->success("驳回成功！",U('index/search'));
+                exit;
+            }
+            goto zd;
+        }else{
+            zd:
+            $this->error("操作错误！",U('index/search'));
+        }
+    }
     public function filing(){
         if(IS_GET){
             $uid = session('uid');

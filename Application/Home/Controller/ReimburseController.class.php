@@ -169,6 +169,7 @@ class ReimburseController extends Controller
 
     public function record_detail(){
         $id = I('get.id');
+        $rbno = I('get.rbno');
         $record = M("reimburse_record")->where("id = $id")->find();
         $cgcon = '';
         if($record['cgid']) $cgcon = M('contract')->where("id = {$record['cgid']}")->find();
@@ -187,6 +188,7 @@ class ReimburseController extends Controller
         $this->assign('data',$data);
         $this->assign('record',$record);
         $this->assign('pname',$pname);
+        $this->assign('rbno',$rbno);
         $this->display();
     }
 

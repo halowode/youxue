@@ -463,7 +463,9 @@ class IndexController extends Controller {
             $cid = I('get.id');
             if($cid){
                 $res = M('contract')->where("id = {$cid}")->find();
+                $res['pname'] = M('project')->where("id = {$res['pid']}")->getField('pname');
                 $this->assign('data',$res);
+                $this->assign('contract',$res);
                 $this->assign('cid',$cid);
                 $this->display();
             }
@@ -2185,7 +2187,7 @@ class IndexController extends Controller {
                 ob_flush();
                 flush();
             }
-		
+
         }
     }
 

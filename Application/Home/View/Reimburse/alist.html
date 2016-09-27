@@ -146,7 +146,7 @@
                                     <a aid="{$vo.id}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal" onclick="ddd(this)" >删除</a>
                                 </if>
                             </if>
-                            <a class="btn btn-primary btn-xs" href="{:U("record_detail?id=$vo[id]&rt=$vo[rbtype]")}">详细</a>
+                            <a class="btn btn-primary btn-xs" href="{:U("record_detail?id=$vo[id]&rt=$vo[rbtype]&rbno=$vo[rbno]")}">详细</a>
                         </td>
                     </tr>
                 </foreach>

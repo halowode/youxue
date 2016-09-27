@@ -128,10 +128,7 @@
                         <span class="login_title1 col-sm-2 control-label" >收款公司</span>
                         <input class="use_name form-control"  name='charge' readonly value="{$records.charge}" type="text" placeholder="收款方信息">
                     </div>
-                    <div class="login_box1 form-group" style="width:80%">
-                        <span class="login_title1 col-sm-2 control-label" >备注</span>
-                        <textarea class="use_name form-control"  name='remark' readonly  type="text" placeholder="备注信息">{$records.remark}</textarea>
-                    </div>
+
                 <else/>
                     <div class="login_box1 form-group">
                         <span class="login_title1 col-sm-2 control-label">所属项目</span>
@@ -182,11 +179,7 @@
                     </div>
                     <div class="login_box1 form-group">
                         <span class="login_title1 col-sm-2 control-label" >收款公司</span>
-                        <input class="use_name form-control"  name='charge'  type="text" placeholder="收款方信息">
-                    </div>
-                    <div class="login_box1 form-group" style="width:80%">
-                        <span class="login_title1 col-sm-2 control-label" >备注</span>
-                        <textarea class="use_name form-control"  name='remark'  type="text" placeholder="备注信息"></textarea>
+                        <input class="use_name form-control" id="charge"  name='charge'  type="text" placeholder="收款方信息">
                     </div>
                 </notempty>
                 <table id="d_table" class=" table table-bordered" style="margin-left:30px;margin-top:-20px">
@@ -225,6 +218,10 @@
         }
         if($("#checkid").val() == ''){
             alert('审核人不可不选！');
+            return false;
+        }
+        if($("#charge").val() == ''){
+            alert('收款公司不可为空！');
             return false;
         }
 

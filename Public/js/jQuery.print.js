@@ -91,7 +91,7 @@
         }
         // Default options
         var defaults = {
-            globalStyles: false,
+            globalStyles: true,
             mediaPrint: false,
             stylesheet: null,
             noPrintSelector: ".no-print",

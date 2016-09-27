@@ -169,6 +169,7 @@
                     </textarea>
                 </div>
                 </notempty>
+                <div id="dayin">
                 <div class="nav_tcon1" style="float:left;width:98%;" >
                     <div class="logotitle1">
                         <span style="font-size: 15px">合同基本信息</span>
@@ -254,6 +255,7 @@
                     <span><img width="100" src="{$bill.provepic}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></span>
                 </div>
                 </if>
+                </div>
                 <input type="hidden" name="cid" value="{$cid}"/>
 
                 <div class="nav_tcon1" style="margin-left:160px;float:left;width:98%;">
@@ -265,11 +267,44 @@
                             驳回申请
                         </a>
                     </if>
+                    <input class="btn btn-info" type="button" onclick="jQuery.print('#dayin')" value="打印"/>
                     <a class="btn btn-primary" onclick="JavaScript:history.go(-1);" style="text-emphasis:center;">返回上一页</a>
                 </div>
 
             </div>
         </div>
     </div>
+<script src="http://libs.useso.com/js/jquery/1.9.1/jquery.min.js"></script>
+<script src="__PUBLIC__/js/jQuery.print.js"></script>
+<script type='text/javascript'>
+    //<![CDATA[
+    $(function() {
+        $("#ele2").find('.print-link').on('click', function() {
+            //Print ele2 with default options
+            $.print("#ele2");
+        });
+        $("#ele4").find('button').on('click', function() {
+            //Print ele4 with custom options
+            $("#ele4").print({
+                //Use Global styles
+                globalStyles : false,
+                //Add link with attrbute media=print
+                mediaPrint : false,
+                //Custom stylesheet
+                stylesheet : "http://fonts.useso.com/css?family=Inconsolata",
+                //Print in a hidden iframe
+                iframe : false,
+                //Don't print this
+                noPrintSelector : ".avoid-this",
+                //Add this at top
+                prepend : "Hello World!!!<br/>",
+                //Add this on bottom
+                append : "<br/>Buh Bye!"
+            });
+        });
+        // Fork https://github.com/sathvikp/jQuery.print for the full list of options
+    });
+    //]]>
+</script>
 </body>
 </html>

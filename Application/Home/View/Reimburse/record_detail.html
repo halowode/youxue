@@ -75,6 +75,7 @@
                 </div>
             </div>
         </notempty>
+        <div id="dayin">
         <span style=""><h5>申请单号：{$rbno}</h5></span>
         <table cellpadding="0" cellspacing="1">
             <tr>
@@ -140,11 +141,49 @@
                     </td>
                 </tr>
             </if>
+
             <tr>
-                <td colspan="10"><a class="btn btn-primary" onclick="JavaScript:history.go(-1);" style="float:right;margin-right:100px;text-emphasis:center;">返回上一页</a></td>
+
+                <td colspan="10">
+                    <a class="btn btn-primary" onclick="JavaScript:history.go(-1);" style="float:right;margin-right:100px;text-emphasis:center;">返回上一页</a>
+                    <input class="btn btn-info" style="float:right;margin-right:10px;text-emphasis:center;" type="button" onclick="jQuery.print('#dayin')" value="打印"/>
+                </td>
             </tr>
         </table>
+        </div>
     </form>
 </div>
+<script src="http://libs.useso.com/js/jquery/1.9.1/jquery.min.js"></script>
+<script src="__PUBLIC__/js/jQuery.print.js"></script>
+<script type='text/javascript'>
+    //<![CDATA[
+    $(function() {
+        $("#ele2").find('.print-link').on('click', function() {
+            //Print ele2 with default options
+            $.print("#ele2");
+        });
+        $("#ele4").find('button').on('click', function() {
+            //Print ele4 with custom options
+            $("#ele4").print({
+                //Use Global styles
+                globalStyles : false,
+                //Add link with attrbute media=print
+                mediaPrint : false,
+                //Custom stylesheet
+                stylesheet : "http://fonts.useso.com/css?family=Inconsolata",
+                //Print in a hidden iframe
+                iframe : false,
+                //Don't print this
+                noPrintSelector : ".avoid-this",
+                //Add this at top
+                prepend : "Hello World!!!<br/>",
+                //Add this on bottom
+                append : "<br/>Buh Bye!"
+            });
+        });
+        // Fork https://github.com/sathvikp/jQuery.print for the full list of options
+    });
+    //]]>
+</script>
 </body>
 </html>

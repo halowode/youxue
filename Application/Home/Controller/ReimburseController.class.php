@@ -876,7 +876,7 @@ class ReimburseController extends Controller
         $data = $this->Tmodel->getCommonList('reimburse_record', 'project', $on, $where, $field, $order, $this->pagesize);
         foreach($data['list'] as $k => $v){
             $data['list'][$k]['uname'] = getUserName($v['uid']);
-            $data['list'][$k]['checkuname'] = $v['checkuid']?getUserName($v['checkuid']);
+            $data['list'][$k]['checkuname'] = $v['checkuid']?getUserName($v['checkuid']):'';
             $data['list'][$k]['recheckuname'] = $v['recheckuid']?getUserName($v['recheckuid']):'';
             $data['list'][$k]['confirmuname'] = $v['confirmid']?getUserName($v['confirmid']):'';
             $data['list'][$k]['reconfirmuname'] = $v['reconfirmid']?getUserName($v['reconfirmid']):'';

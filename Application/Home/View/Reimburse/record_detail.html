@@ -129,6 +129,17 @@
                         </td>
                     </tr>
                 </if>
+                <tr>
+                    <td colspan="10">
+                        <div style="margin-top:40px">
+                        <span style="float:right;">
+                            负责人：_____________初审人：____________复审人：______________日期：_______________
+                        </span>
+                        </div>
+                    </td>
+
+                </tr>
+
                 <else />
                 <tr>
                     <td colspan="10">暂无信息</td>
@@ -142,14 +153,15 @@
                 </tr>
             </if>
 
-            <tr>
 
-                <td colspan="10">
-                    <a class="btn btn-primary" onclick="JavaScript:history.go(-1);" style="float:right;margin-right:100px;text-emphasis:center;">返回上一页</a>
-                    <input class="btn btn-info" style="float:right;margin-right:10px;text-emphasis:center;" type="button" onclick="jQuery.print('#dayin')" value="打印"/>
-                </td>
-            </tr>
         </table>
+        </div>
+        <div style="margin-top:40px">
+
+            <span style="float:right;">
+                <a class="btn btn-primary" onclick="JavaScript:history.go(-1);" style="float:right;margin-right:100px;text-emphasis:center;">返回上一页</a>
+                <input class="btn btn-info" style="float:right;margin-right:10px;text-emphasis:center;" type="button" onclick="jQuery.print('#dayin')" value="打印"/>
+            </span>
         </div>
     </form>
 </div>

@@ -119,14 +119,14 @@
                     </div>
                     <div class="login_box1 form-group">
                         <span class="login_title1 col-sm-2 control-label">归属公司</span>
-                        <select  class="use_name form-control input-xsm" name="belong"   style="width:200px">
+                        <select  class="use_name form-control input-xsm" name="belong" id="belongs"   style="width:200px">
                             <option value="{$records['belong']}">{$records['belong']}</option>
                         </select>
                         <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
                     </div>
                     <div class="login_box1 form-group">
                         <span class="login_title1 col-sm-2 control-label" >收款公司</span>
-                        <input class="use_name form-control"  name='charge' readonly value="{$records.charge}" type="text" placeholder="收款方信息">
+                        <input class="use_name form-control" id="charges" name='charge' readonly value="{$records.charge}" type="text" placeholder="收款方信息">
                     </div>
 
                 <else/>
@@ -169,7 +169,7 @@
                     </div>
                     <div class="login_box1 form-group">
                         <span class="login_title1 col-sm-2 control-label">归属公司</span>
-                        <select  class="use_name form-control input-xsm" name="belong"   style="width:200px">
+                        <select  class="use_name form-control input-xsm" name="belong" id="belongs"  style="width:200px">
                             <option value="华睿互动">华睿互动</option>
                             <option value="极速传媒">极速传媒</option>
                             <option value="优学教育">优学教育</option>
@@ -178,7 +178,7 @@
                     </div>
                     <div class="login_box1 form-group">
                         <span class="login_title1 col-sm-2 control-label" >收款公司</span>
-                        <input class="use_name form-control"  name='charge'  type="text" placeholder="收款方信息"><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                        <input class="use_name form-control" id="charges" name='charge'  type="text" placeholder="收款方信息"><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
                     </div>
                 </notempty>
                 <table id="d_table" class=" table table-bordered" style="margin-left:30px;margin-top:-20px">
@@ -213,12 +213,20 @@
 </form>
 <script>
     $("#daniel_form").submit(function () {
-        if($("#pro").val() == ''){
-            alert('发生项目不可为空！');
+        if($("#proj").val() == ''){
+            alert('所属项目不可为空！');
             return false;
         }
         if($("#checkid").val() == ''){
             alert('审核人不可不选！');
+            return false;
+        }
+        if($("#belongs").val() == ''){
+            alert('归属公司不可不选！');
+            return false;
+        }
+        if($("#charges").val() == ''){
+            alert('收款公司不可不选！');
             return false;
         }
 

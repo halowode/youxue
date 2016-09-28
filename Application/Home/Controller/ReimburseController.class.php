@@ -822,15 +822,27 @@ class ReimburseController extends Controller
 
     public function getAlist(){
         $auid = I('get.auid');
+        $luname = I('get.luname');
         $kw = I('get.keyword');
         $danno = I('get.danno');
-        $this->alist($auid,$kw,$danno);
+        $this->alist($auid,$kw,$danno,$luname);
     }
 
-    public function alist($auid=0,$kw='',$danno=''){
+    public function alist($auid=0,$kw='',$danno='',$luname=''){
         $where = [];
         if($auid){
             $where[] = " a.uid = $auid ";
+        }
+        if($luname){
+            $resuids = M('user')->where("username like '%{$luname}%'")->field('id')->select();
+            if($resuids){
+                $str = '';
+                foreach($resuids as $vids){
+                    $str .= $vids['id'].',';
+                }
+                $str = trim($str,',');
+                $where[] = " a.uid in ($str)";
+            }
         }
         if($kw){
             $pids = M('project')->where("pname like '%{$kw}%'")->field('id')->select();

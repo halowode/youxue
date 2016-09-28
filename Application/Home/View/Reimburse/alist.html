@@ -58,12 +58,15 @@
             <tr>
                 <td align="right" colspan="11">
                     <label style="margin-left:5px;">申请人:&nbsp;&nbsp;</label>
+                    <!--
                     <select class="input-sm" name="auid" style="margin-right:5px;width:80px;">
                         <option value="">-选择-</option>
                         <volist name="users" id="vo">
                             <option value="{$vo.id}">{$vo.username}</option>
                         </volist>
                     </select>
+                    -->
+                    <input type="text" class="input-sm" name="luname"  style="float:none;" placeholder="请输入关键字" value="{$keyword}" />
                     <label style="margin-left:5px;">项目名称:&nbsp;&nbsp;</label>
                     <input type="text" class="input-sm" name="keyword" id="keyword" style="float:none;" placeholder="请输入关键字" value="{$keyword}" />
                     <label style="margin-left:5px;">单号搜索:&nbsp;&nbsp;</label>

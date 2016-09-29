@@ -92,7 +92,7 @@
                     </div>
                 </notempty>
                 <div id="dayin">
-                    <div style="text-align: center;width:80%"><h3>盖章申请单</h3></div>
+                    <div style="text-align: center;width:80%;margin-top:50px;margin-bottom:40px"><h2>盖章申请单</h2></div>
                 <div class="nav_tcon1" style="float:left;width:98%;" >
                     <div class="logotitle1">
                         <span style="font-size: 15px">合同基本信息</span>
@@ -101,12 +101,12 @@
                 <div>
                     <table class=" table" style="margin-left: 60px;width:90%">
                         <tr>
-                            <td class="active">合同编号:<i>{$contract.cno}</i></td>
-                            <td class="active">归属公司:<i>{$contract.belong}</i></td>
+                            <td class="active">合同编号:<i> {$contract.cno}</i></td>
+                            <td class="active">归属公司:<i> {$contract.belong}</i></td>
 
                         </tr>
                         <tr>
-                            <td class="active">所属项目:<i>{$contract.pname}</i></td>
+                            <td class="active">所属项目:<i> {$contract.pname}</i></td>
                             <td class="active">是否为框架合同:<i>
                                 <if condition="$contract['isframe'] eq 1">
                                     是
@@ -117,12 +117,15 @@
 
                         </tr>
                         <tr>
-                            <td class="active">合同金额:<i>{$contract.total}</i></td>
-                            <td class="active">对方名称:<i>{$contract.gname}</i></td>
+                            <td class="active">合同金额:<i> {$contract.total}</i></td>
+                            <td class="active">对方名称:<i> {$contract.gname}</i></td>
                         </tr>
                         <tr>
-                            <td class="active">合同名称:<i>{$contract.cname}</i></td>
-                            <td class="active">负责人:<i>{$contract.fname}</i></td>
+                            <td class="active">合同名称:<i> {$contract.cname}</i></td>
+                            <td class="active">负责人:<i> {$contract.fname}</i></td>
+                        </tr>
+                        <tr>
+                            <td class="active" colspan="2">合同份数: {$bdata.conum}</td>
                         </tr>
                     </table>
 
@@ -134,19 +137,20 @@
                         <span style="font-size: 15px">盖章信息</span>
                     </div>
                 </div>
-                <div class="login_box1">
-                    <span class="login_title1" >&nbsp;推广期间：</span>
-                    <textarea class="use_name form-control" id="adperiod" name="adperiod">{$bdata.adperiod}</textarea><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
-                </div>
-                <div class="login_box1">
-                    <span class="login_title1" >推广位置：</span>
-                    <textarea class="use_name form-control" id="adposition" name='adposition'>{$bdata.adposition}</textarea><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
-                </div>
-                <div class="login_box1">
-                    <span class="login_title1" >结算条款：</span>
-                    <textarea class="use_name form-control" id="settleitem" name='settleitem'>{$bdata.settleitem}</textarea><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
-                </div>
+
                 <if condition="$fr neq 'see'">
+                    <div class="login_box1">
+                        <span class="login_title1" >&nbsp;推广期间：</span>
+                        <textarea class="use_name form-control" id="adperiod" name="adperiod">{$bdata.adperiod}</textarea><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
+                    </div>
+                    <div class="login_box1">
+                        <span class="login_title1" >推广位置：</span>
+                        <textarea class="use_name form-control" id="adposition" name='adposition'>{$bdata.adposition}</textarea><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
+                    </div>
+                    <div class="login_box1">
+                        <span class="login_title1" >结算条款：</span>
+                        <textarea class="use_name form-control" id="settleitem" name='settleitem'>{$bdata.settleitem}</textarea><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
+                    </div>
                     <div class="login_box1 form-group" style="width:80%">
                         <span class="login_title1 col-sm-2 control-label">上传相关附件</span>
                         <input name="xls" type="file"/><span class="daniel_icon" style="margin-left: 160px"></span><span style="color:red"></span>
@@ -161,6 +165,18 @@
                     </span>
                     </div>
                     <else/>
+                    <div class="login_box1">
+                        <span class="login_title1" >&nbsp;推广期间：</span>
+                        <textarea class="use_name form-control" readonly id="adperiod" name="adperiod">{$bdata.adperiod}</textarea><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
+                    </div>
+                    <div class="login_box1">
+                        <span class="login_title1" >推广位置：</span>
+                        <textarea class="use_name form-control" readonly id="adposition" name='adposition'>{$bdata.adposition}</textarea><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
+                    </div>
+                    <div class="login_box1">
+                        <span class="login_title1" >结算条款：</span>
+                        <textarea class="use_name form-control" readonly id="settleitem" name='settleitem'>{$bdata.settleitem}</textarea><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
+                    </div>
                     <div class="login_box1">
                         <span class="login_title1" >附件下载：</span>
                         <a class="use_name form-control" href="{:U("downfile?id=$bdata[id]")}">附件下载</a><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>

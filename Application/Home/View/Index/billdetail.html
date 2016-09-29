@@ -179,12 +179,12 @@
                 <div>
                     <table class=" table" style="margin-left: 60px;width:90%">
                         <tr>
-                            <td class="active">合同编号:<i>{$contract.cno}</i></td>
-                            <td class="active">归属公司:<i>{$contract.belong}</i></td>
+                            <td class="active">合同编号:<i> {$contract.cno}</i></td>
+                            <td class="active">归属公司:<i> {$contract.belong}</i></td>
 
                         </tr>
                         <tr>
-                            <td class="active">所属项目:<i>{$contract.pname}</i></td>
+                            <td class="active">所属项目:<i> {$contract.pname}</i></td>
                             <td class="active">是否为框架合同:<i>
                                 <if condition="$contract['isframe'] eq 1">
                                     是
@@ -195,15 +195,15 @@
 
                         </tr>
                         <tr>
-                            <td class="active">合同金额:<i>{$contract.total}</i></td>
-                            <td class="active">客户名称:<i>{$contract.gname}</i></td>
+                            <td class="active">合同金额:<i> {$contract.total}</i></td>
+                            <td class="active">客户名称:<i> {$contract.gname}</i></td>
                         </tr>
                         <tr>
-                            <td class="active">合同名称:<i>{$contract.cname}</i></td>
-                            <td class="active">负责人:<i>{$contract.fname}</i></td>
+                            <td class="active">合同名称:<i> {$contract.cname}</i></td>
+                            <td class="active">负责人:<i> {$contract.fname}</i></td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="active">已出票金额：{:number_format($bstotal,2)}</td>
+                            <td colspan="2" class="active">已出票金额: {:number_format($bstotal,2)}</td>
                         </tr>
                     </table>
 

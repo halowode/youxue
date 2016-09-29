@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>创建合同</title>
+    <title>发票申请单</title>
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/index.css" />
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/Iframe.css" />
     <link rel="stylesheet" href="__PUBLIC__/utilLib/bootstrap.min.css" type="text/css" media="screen" />
@@ -46,7 +46,7 @@
 <div class="nav_top1">
     <div class="nav_tcon1" style="width:98%;">
         <div class="logotitle1">
-            <span>创建合同</span>
+            <span>发票申请单</span>
         </div>
     </div>
 </div>
@@ -170,6 +170,7 @@
                 </div>
                 </notempty>
                 <div id="dayin">
+                <div style="text-align: center;width:80%"><h3>发票申请单</h3></div>
                 <div class="nav_tcon1" style="float:left;width:98%;" >
                     <div class="logotitle1">
                         <span style="font-size: 15px">合同基本信息</span>
@@ -201,6 +202,9 @@
                             <td class="active">合同名称:<i>{$contract.cname}</i></td>
                             <td class="active">负责人:<i>{$contract.fname}</i></td>
                         </tr>
+                        <tr>
+                            <td colspan="2" class="active">已出票金额：{:number_format($bstotal,2)}</td>
+                        </tr>
                     </table>
 
                 </div>
@@ -210,7 +214,7 @@
                     </div>
                 </div>
                 <div class="login_box1">
-                    <span class="login_title1">发票类型：</span>
+                    <span class="login_title1">&nbsp;发票类型：</span>
                     <input class="use_name form-control" value="{$bill.btype}" readonly id="cbcomp"  name='cbcomp'  type="text" placeholder="开票公司" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
                 </div>
                 <div class="login_box1">
@@ -229,13 +233,26 @@
                     <span class="login_title1" >开票金额：</span>
                     <input class="use_name form-control" id="btotal" value="{$bill.btotal}" readonly  name='btotal'  type="text" placeholder="开票金额，填写数字" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
                 </div>
+                    <div class="nav_tcon1" style="float:left;width:98%;" >
+                        <div class="logotitle1">
+                            <span style="font-size: 15px">联络方式</span>
+                        </div>
+                    </div>
+                    <div class="login_box1 daniel_hide">
+                        <span class="login_title1" >&nbsp;联系人：</span>
+                        <input class="use_name form-control"  value="{$bill.linkname}" readonly name='bno'  type="text" placeholder="" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                    </div>
+                    <div class="login_box1 daniel_hide">
+                        <span class="login_title1" >联系电话：</span>
+                        <input class="use_name form-control" value="{$bill.linktel}" readonly name='bno'  type="text" placeholder="" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                    </div>
                 <div class="nav_tcon1" style="float:left;width:98%;" >
                     <div class="logotitle1">
-                        <span style="font-size: 15px">客户信息</span>
+                        <span style="font-size: 15px">专业发票信息</span>
                     </div>
                 </div>
                 <div class="login_box1 daniel_hide">
-                    <span class="login_title1" >税号：</span>
+                    <span class="login_title1" >&nbsp;税号：</span>
                     <input class="use_name form-control" id="bno" value="{$bill.bno}" readonly name='bno'  type="text" placeholder="" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
                 </div>
                 <div class="login_box1 daniel_hide">

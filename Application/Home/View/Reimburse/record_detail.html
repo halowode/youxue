@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>详细</title>
+    <title>报销申请单</title>
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/index.css" />
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/Iframe.css" />
     <!--
@@ -76,14 +76,25 @@
             </div>
         </notempty>
         <div id="dayin">
-        <span style=""><h5>申请单号：{$rbno}</h5></span>
+            <div style="text-align: center;width:80%"><h3>报销申请单</h3></div>
+        <span style=""><h5>申请单号：{$rbno} &nbsp;&nbsp;申请人：{$uname}</h5></span>
         <table cellpadding="0" cellspacing="1">
             <tr>
                 <td width="5%" align="center" class="tb_title">项目名称</td>
                 <td width="5%" align="center" class="tb_title">关联销售合同</td>
                 <td width="5%" align="center" class="tb_title">关联采购合同</td>
                 <td width="5%" align="center" class="tb_title">所属公司</td>
-                <td width="5%" align="center" class="tb_title">收款单位</td>
+                <td width="5%" align="center" class="tb_title">收款方</td>
+            </tr>
+            <tr>
+                <td align="center">{$pname}</td>
+                <td align="center">{$scon.cno}</td>
+                <td align="center">{$cgcon.cno}</td>
+                <td align="center">{$record.belong}</td>
+                <td align="center">{$record.charge}</td>
+            </tr>
+            <tr>
+
                 <td width="5%" align="center" class="tb_title">摘要</td>
                 <td width="5%" align="center" class="tb_title">时间</td>
                 <td width="8%" align="center" class="tb_title">报销金额</td>
@@ -93,11 +104,6 @@
             <notempty name="data">
                 <foreach name="data" key="key" item="vo">
                     <tr>
-                        <td align="center">{$pname}</td>
-                        <td align="center">{$scon.cno}</td>
-                        <td align="center">{$cgcon.cno}</td>
-                        <td align="center">{$record.belong}</td>
-                        <td align="center">{$record.charge}</td>
                         <td align="center">{$vo.ab}</td>
                         <td align="center">{$vo.etime}</td>
                         <td align="center">{$vo.etotal}</td>

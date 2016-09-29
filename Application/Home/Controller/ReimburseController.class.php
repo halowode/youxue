@@ -171,6 +171,7 @@ class ReimburseController extends Controller
         $id = I('get.id');
         $rbno = I('get.rbno');
         $record = M("reimburse_record")->where("id = $id")->find();
+        $uname = M('user')->where("id = {$record['uid']}")->getField('username');
         $cgcon = '';
         if($record['cgid']) $cgcon = M('contract')->where("id = {$record['cgid']}")->find();
         $scon = '';
@@ -180,6 +181,7 @@ class ReimburseController extends Controller
         $msgdata = M('message')->where("mtype = 'reimburse' and fid = $id")->select();
         $fpath = M('files')->where("type = 'reimburse' and sid = $id")->field('path')->select()?:'';
         $paypath = M('files')->where("type='reimburse_pay' and sid = $id")->field('path')->select()?:'';
+        $this->assign('uname',$uname);
         $this->assign('paypath',$paypath);
         $this->assign('fpath',$fpath);
         $this->assign('msg',$msgdata);

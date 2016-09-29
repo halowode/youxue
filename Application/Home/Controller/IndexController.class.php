@@ -305,7 +305,32 @@ class IndexController extends Controller {
                 $spaytotal += $vl['btotal'];
             }
         }
+        //与报销关联
+        $rat = 0;
+        $ret = 0;
+        if($cdata['kinds'] == 1){
+            $records = M('reimburse_record')->where("cgid = $cid and bstatus = 8")->select();
+        }else{
+            $records = M('reimburse_record')->where("cid = $cid and bstatus = 8")->select();
+        }
+        if($records){
+            $vrcstr = '';
+            foreach($records as $vrc){
+                $vrcstr .= $vrc['id'].',';
+            }
+            $vrcstr = trim($vrcstr,',');
+            $rsment = M('reimbursement')->where("sid in ($vrcstr)")->select();
+            if($rsment){
+
+                foreach($rsment as $vrst){
+                    $rat += $vrst['atotal'];
+                    $ret += $vrst['etotal'];
+                }
+            }
+        }
         $cdata['pname'] = M('project')->join("a left join contract b on a.id = b.pid")->where("b.pid = {$cdata['pid']}")->getField('pname');
+        $this->assign('rat',$rat);
+        $this->assign('ret',$ret);
         $this->assign('spaytotal',$spaytotal);
         $this->assign('wpaytotal',$wpaytotal);
         $this->assign('payback',$payback);
@@ -1139,6 +1164,14 @@ class IndexController extends Controller {
             $recusers = M('user')->join("a left join role_user b on a.id = b.uid")->where("b.rid = 4")->field("a.*")->select();
         }
         $msg = M('message')->where("mtype = 'bill' and fid = $id")->select();
+        $bstotal = 0;
+        $bs = M('bill')->where("cid = {$cid} and bstatus = 4")->select();
+        if($bs){
+            foreach($bs as $vbs){
+                $bstotal += $vbs['btotal'];
+            }
+        }
+        $this->assign('bstotal',$bstotal);
         $this->assign('msg',$msg);
         $this->assign('contract',$contract);
         $this->assign('bill',$bill);

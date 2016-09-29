@@ -211,11 +211,21 @@
 
         </volist>
         <tr>
-            <td width="12%" class=" active"><b>已确认回款总额：</b><i>{$spaytotal}</i></td>
-            <td width="12%"  class="active "><b>未确认回款总额：</b><i>{$wpaytotal}</i></td>
+            <td width="12%" class=" active"><b>已确认回款总额：</b><i>{:number_format($spaytotal,2)}</i></td>
+            <td width="12%"  class="active "><b>未确认回款总额：</b><i>{:number_format($wpaytotal,2)}</i></td>
             <td colspan="3" width="50%" class=" active"><b>全部回款金额：</b><i>{:number_format($spaytotal + $wpaytotal,2)}</i></td>
         </tr>
 
+
+    </table>
+    <table class=" table table-bordered" style="margin-left:30px;margin-top:-20px">
+        <tr>
+            <td colspan="5" class="success" style="font-size:16px"><b>报销信息</b></td>
+        </tr>
+        <tr>
+            <td width="12%" class=" active"><b>已确认报销总额：</b><i>{:number_format($rat,2)}</i></td>
+            <td width="12%"  class="active "><b>已确认支付总额：</b><i>{:number_format($ret,2)}</i></td>
+        </tr>
     </table>
     <table class=" table table-bordered" style="margin-left:30px;margin-top:-20px">
         <tr>

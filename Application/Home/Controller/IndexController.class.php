@@ -331,7 +331,7 @@ class IndexController extends Controller {
 
         }
         $cdata['pname'] = M('project')->join("a left join contract b on a.id = b.pid")->where("b.pid = {$cdata['pid']}")->getField('pname');
-        $this->assign('records',$records);
+        $this->assign('recordsd',$records);
         $this->assign('rat',$rat);
         $this->assign('ret',$ret);
         $this->assign('spaytotal',$spaytotal);

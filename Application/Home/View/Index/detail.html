@@ -214,13 +214,6 @@
             <td width="12%" class=" active"><b>已确认回款总额：</b><i>{:number_format($wpaytotal,2)}</i></td>
             <td width="12%"  class="active "><b>未确认回款总额：</b><i>{:number_format($spaytotal,2)}</i></td>
             <td width="50%" class=" active"><b>全部回款金额：</b><i>{:number_format($spaytotal + $wpaytotal,2)}</i></td>
-            <notempty name="records">
-                <volist name="records" id="vlr">
-                    <td>
-                        <a class="btn btn-primary btn-xs" href="{:U("reimburse/record_detail?id=$vlr[id]&rt=$vlr[rbtype]&rbno=$vlr[rbno]")}">详细</a>
-                    </td>
-                </volist>
-            </notempty>
         </tr>
 
 
@@ -232,6 +225,13 @@
         <tr>
             <td width="12%" class=" active"><b>已确认报销总额：</b><i>{:number_format($rat,2)}</i></td>
             <td width="12%"  class="active "><b>已确认支付总额：</b><i>{:number_format($ret,2)}</i></td>
+            <notempty name="recordsd">
+                <volist name="recordsd" id="vlr" key="k">
+                    <td>
+                        <a class="btn btn-primary btn-xs" href="{:U("reimburse/record_detail?id=$vlr[id]&rt=$vlr[rbtype]&rbno=$vlr[rbno]")}">第{$k}申请详情</a>
+                    </td>
+                </volist>
+            </notempty>
         </tr>
     </table>
     <table class=" table table-bordered" style="margin-left:30px;margin-top:-20px">

@@ -308,6 +308,7 @@ class IndexController extends Controller {
         //与报销关联
         $rat = 0;
         $ret = 0;
+        $records = '';
         if($cdata['kinds'] == 1){
             $records = M('reimburse_record')->where("cgid = $cid and bstatus = 8")->select();
         }else{
@@ -327,8 +328,10 @@ class IndexController extends Controller {
                     $ret += $vrst['etotal'];
                 }
             }
+
         }
         $cdata['pname'] = M('project')->join("a left join contract b on a.id = b.pid")->where("b.pid = {$cdata['pid']}")->getField('pname');
+        $this->assign('records',$records);
         $this->assign('rat',$rat);
         $this->assign('ret',$ret);
         $this->assign('spaytotal',$spaytotal);

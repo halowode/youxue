@@ -299,10 +299,10 @@ class IndexController extends Controller {
         $spaytotal = 0;
         $wpaytotal = 0;
         foreach($payback as $vl){
-            if($rstatus == 3){
-                $wpaytotal += $vl['btotal'];
+            if($vl['rstatus'] == 3){
+                $wpaytotal += $vl['btotal'];  //已确认
             }else{
-                $spaytotal += $vl['btotal'];
+                $spaytotal += $vl['btotal'];   //未确认
             }
         }
         //与报销关联

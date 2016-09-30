@@ -194,6 +194,33 @@ class ReimburseController extends Controller
         $this->display();
     }
 
+    public function reimbursep(){
+        $id = I('get.id');
+        $rbno = I('get.rbno');
+        $record = M("reimburse_record")->where("id = $id")->find();
+        $uname = M('user')->where("id = {$record['uid']}")->getField('username');
+        $cgcon = '';
+        if($record['cgid']) $cgcon = M('contract')->where("id = {$record['cgid']}")->find();
+        $scon = '';
+        if($record['cid']) $scon = M('contract')->where("id = {$record['cid']}")->find();
+        $pname = M('project')->where("id = {$record['pid']}")->getField('pname');
+        $data = M('reimbursement')->where("sid = $id")->select();
+        $msgdata = M('message')->where("mtype = 'reimburse' and fid = $id")->select();
+        $fpath = M('files')->where("type = 'reimburse' and sid = $id")->field('path')->select()?:'';
+        $paypath = M('files')->where("type='reimburse_pay' and sid = $id")->field('path')->select()?:'';
+        $this->assign('uname',$uname);
+        $this->assign('paypath',$paypath);
+        $this->assign('fpath',$fpath);
+        $this->assign('msg',$msgdata);
+        $this->assign('cgcon',$cgcon);
+        $this->assign('scon',$scon);
+        $this->assign('data',$data);
+        $this->assign('record',$record);
+        $this->assign('pname',$pname);
+        $this->assign('rbno',$rbno);
+        $this->display();
+    }
+
     public function record_del(){
         $id = I("get.id");
         if($id){

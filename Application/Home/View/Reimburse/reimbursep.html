@@ -2,9 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>申请详情</title>
+    <title>报销申请单</title>
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/index.css" />
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/Iframe.css" />
+    <style>
+        table {
+            border:1px solid #cccccc;
+        }
+        td {
+            border:1px solid #cccccc;
+            font-size: 12px;
+        }
+        .th {
+            text-align: center;
+            border:1px solid #cccccc;
+            font-size: 14px;
+        }
+    </style>
     <!--
     <link rel="stylesheet" href="__PUBLIC__/utilLib/bootstrap.min.css" type="text/css" media="screen" />
     <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
@@ -76,90 +90,94 @@
             </div>
         </notempty>
         <div id="dayin">
-        <span style=""><h5>申请单号：{$rbno} &nbsp;&nbsp;申请人：{$uname}</h5></span>
-        <table cellpadding="0" cellspacing="1">
-            <tr>
-                <td width="15%" align="center" class="tb_title">项目名称</td>
-                <td width="5%" align="center" class="tb_title">关联销售合同</td>
-                <td width="5%" align="center" class="tb_title">关联采购合同</td>
-                <td width="5%" align="center" class="tb_title">所属公司</td>
-                <td width="5%" align="center" class="tb_title">收款方</td>
-            </tr>
-            <tr>
-                <td align="center">{$pname}</td>
-                <td align="center">{$scon.cno}</td>
-                <td align="center">{$cgcon.cno}</td>
-                <td align="center">{$record.belong}</td>
-                <td align="center">{$record.charge}</td>
-            </tr>
-            <tr>
+            <div style="text-align: center;width:98%;margin-top: 60px;margin-bottom: 50px"><h2>报销申请单</h2></div>
 
-                <td width="5%" align="center" class="tb_title">摘要</td>
-                <td width="5%" align="center" class="tb_title">时间</td>
-                <td width="8%" align="center" class="tb_title">报销金额</td>
-                <td width="5%" align="center" class="tb_title">支付金额</td>
-                <td width="5%" align="center" class="tb_title">参考金额</td>
-            </tr>
-            <notempty name="data">
-                <foreach name="data" key="key" item="vo">
+            <span style=""><h5>申请单号：{$rbno} &nbsp;&nbsp;申请人：{$uname}</h5></span>
+            <table>
+                <tr>
+                    <th width="12%" class="tb_title th">项目名称</th>
+                    <th width="8%"  class="tb_title th">关联销售合同</th>
+                    <th width="8%"  class="tb_title th">关联采购合同</th>
+                    <th width="5%"  class="tb_title th">所属公司</th>
+                    <th width="8%"  class="tb_title th">收款方</th>
+                </tr>
+                <tr>
+                    <td align="center">{$pname}</td>
+                    <td align="center">{$scon.cno}</td>
+                    <td align="center">{$cgcon.cno}</td>
+                    <td align="center">{$record.belong}</td>
+                    <td align="center">{$record.charge}</td>
+                </tr>
+                <tr>
+
+                    <th width="12%" colspan="2" class="tb_title th">摘要</th>
+                    <th width="5%"  class="tb_title th">时间</th>
+                    <th width="8%"  class="tb_title th">报销金额</th>
+                    <th width="5%"  class="tb_title th">支付金额</th>
+                </tr>
+                <notempty name="data">
+                    <foreach name="data" key="key" item="vo">
+                        <tr>
+                            <td colspan="2" align="center">{$vo.ab}</td>
+                            <td align="center">{$vo.etime}</td>
+                            <td align="center">{$vo.etotal}</td>
+                            <td align="center">{$vo.atotal}</td>
+                        </tr>
+                    </foreach>
+                    <if condition="$fpath neq ''">
+                        <tr>
+                            <td colspan="10">
+                                <div class="login_box1  ">
+                                    <span class="login_title1">相关图片证明：</span>
+                                    <volist name="fpath" id="bill">
+                                        <p style="margin-left: 120px;"><img width="100" src="{$bill.path}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></p>
+                                    </volist>
+                                </div>
+                            </td>
+                        </tr>
+                    </if>
+                    <if condition="$paypath neq ''">
+                        <tr>
+                            <td colspan="10">
+                                <div class="login_box1  ">
+                                    <span class="login_title1">付款图片证明：</span>
+                                    <volist name="paypath" id="bill">
+                                        <p style="margin-left: 120px;"><img width="100" src="{$bill.path}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></p>
+                                    </volist>
+                                </div>
+                            </td>
+                        </tr>
+                    </if>
+                    <else />
                     <tr>
-                        <td align="center">{$vo.ab}</td>
-                        <td align="center">{$vo.etime}</td>
-                        <td align="center">{$vo.etotal}</td>
-                        <td align="center">{$vo.atotal}</td>
-                        <td align="center">{$vo.cktotal}</td>
+                        <td colspan="10">暂无信息</td>
                     </tr>
-                </foreach>
-                <if condition="$fpath neq ''">
+                </notempty>
+                <if condition="($data['list'] neq null)">
                     <tr>
                         <td colspan="10">
-                            <div class="login_box1  ">
-                                <span class="login_title1">相关图片证明：</span>
-                                <volist name="fpath" id="bill">
-                                    <p style="margin-left: 120px;"><img width="100" src="{$bill.path}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></p>
-                                </volist>
-                            </div>
+                            {$data.show}
                         </td>
                     </tr>
                 </if>
-                <if condition="$paypath neq ''">
-                    <tr>
-                        <td colspan="10">
-                            <div class="login_box1  ">
-                                <span class="login_title1">付款图片证明：</span>
-                                <volist name="paypath" id="bill">
-                                    <p style="margin-left: 120px;"><img width="100" src="{$bill.path}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></p>
-                                </volist>
-                            </div>
-                        </td>
-                    </tr>
-                </if>
-
-                <else />
-                <tr>
-                    <td colspan="10">暂无信息</td>
-                </tr>
-            </notempty>
-            <if condition="($data['list'] neq null)">
-                <tr>
-                    <td colspan="10">
-                        {$data.show}
-                    </td>
-                </tr>
-            </if>
 
 
-        </table>
+            </table>
+            <div style="margin-top:40px">
+                        <span style="float:right;">
+                            负责人：_____________初审人：____________复审人：______________日期：_______________
+                        </span>
+            </div>
         </div>
-        <div style="margin-top:40px">
+        <div style="margin-top:100px">
 
             <span style="float:right;">
                 <a class="btn btn-primary" onclick="JavaScript:history.go(-1);" style="float:right;margin-right:100px;text-emphasis:center;">返回上一页</a>
+                <input class="btn btn-info" style="float:right;margin-right:10px;text-emphasis:center;" type="button" onclick="jQuery.print('#dayin')" value="打印"/>
             </span>
         </div>
     </form>
 </div>
-<script src="http://libs.useso.com/js/jquery/1.9.1/jquery.min.js"></script>
 <script src="__PUBLIC__/js/jQuery.print.js"></script>
 <script type='text/javascript'>
     //<![CDATA[

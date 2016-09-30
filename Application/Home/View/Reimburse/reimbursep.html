@@ -7,16 +7,17 @@
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/Iframe.css" />
     <style>
         table {
-            border:1px solid #cccccc;
+            border:2px solid #cccccc;
         }
         td {
-            border:1px solid #cccccc;
+            border:2px solid #cccccc;
             font-size: 12px;
         }
         .th {
             text-align: center;
-            border:1px solid #cccccc;
+            border:2px solid #cccccc;
             font-size: 14px;
+            background-color: #00625A;
         }
     </style>
     <!--
@@ -92,25 +93,23 @@
         <div id="dayin">
             <div style="text-align: center;width:98%;margin-top: 60px;margin-bottom: 50px"><h2>报销申请单</h2></div>
 
-            <span style=""><h5>申请单号：{$rbno} &nbsp;&nbsp;申请人：{$uname}</h5></span>
+            <span style=""><h5>所属公司：{$record.belong} 申请单号：{$rbno} &nbsp;&nbsp;申请人：{$uname} 打印日期：{$sstime}</h5></span>
             <table>
                 <tr>
                     <th width="12%" class="tb_title th">项目名称</th>
                     <th width="8%"  class="tb_title th">关联销售合同</th>
                     <th width="8%"  class="tb_title th">关联采购合同</th>
-                    <th width="5%"  class="tb_title th">所属公司</th>
                     <th width="8%"  class="tb_title th">收款方</th>
                 </tr>
                 <tr>
                     <td align="center">{$pname}</td>
                     <td align="center">{$scon.cno}</td>
                     <td align="center">{$cgcon.cno}</td>
-                    <td align="center">{$record.belong}</td>
                     <td align="center">{$record.charge}</td>
                 </tr>
                 <tr>
 
-                    <th width="12%" colspan="2" class="tb_title th">摘要</th>
+                    <th width="12%" class="tb_title th">摘要</th>
                     <th width="5%"  class="tb_title th">时间</th>
                     <th width="8%"  class="tb_title th">报销金额</th>
                     <th width="5%"  class="tb_title th">支付金额</th>
@@ -118,7 +117,7 @@
                 <notempty name="data">
                     <foreach name="data" key="key" item="vo">
                         <tr>
-                            <td colspan="2" align="center">{$vo.ab}</td>
+                            <td align="center">{$vo.ab}</td>
                             <td align="center">{$vo.etime}</td>
                             <td align="center">{$vo.etotal}</td>
                             <td align="center">{$vo.atotal}</td>
@@ -126,7 +125,7 @@
                     </foreach>
                     <if condition="$fpath neq ''">
                         <tr>
-                            <td colspan="10">
+                            <td colspan="4">
                                 <div class="login_box1  ">
                                     <span class="login_title1">相关图片证明：</span>
                                     <volist name="fpath" id="bill">
@@ -138,7 +137,7 @@
                     </if>
                     <if condition="$paypath neq ''">
                         <tr>
-                            <td colspan="10">
+                            <td colspan="4">
                                 <div class="login_box1  ">
                                     <span class="login_title1">付款图片证明：</span>
                                     <volist name="paypath" id="bill">
@@ -148,14 +147,18 @@
                             </td>
                         </tr>
                     </if>
+                    <tr>
+                        <th class="tb_title th">附单据张数</th>
+                        <td colspan="3"></td>
+                    </tr>
                     <else />
                     <tr>
-                        <td colspan="10">暂无信息</td>
+                        <td colspan="4">暂无信息</td>
                     </tr>
                 </notempty>
                 <if condition="($data['list'] neq null)">
                     <tr>
-                        <td colspan="10">
+                        <td colspan="4">
                             {$data.show}
                         </td>
                     </tr>

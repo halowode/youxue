@@ -218,6 +218,7 @@ class ReimburseController extends Controller
         $this->assign('record',$record);
         $this->assign('pname',$pname);
         $this->assign('rbno',$rbno);
+        $this->assign('sstime',date('Y-m-d'));
         $this->display();
     }
 

@@ -397,7 +397,7 @@ class IndexController extends Controller {
         $where = " a.ckuid = $uid or a.reckuid = $uid or a.mid = $uid or b.uid = $uid ";
         dend:
         if($gname){
-            if(!$where){
+            if($where){
                 $where .= " and a.gname like '%{$gname}%' ";
             }else{
                 $where = " a.gname like '%{$gname}%' ";

@@ -2068,7 +2068,7 @@ class IndexController extends Controller {
                 $arr[] = M('project')->where("id = {$value['pid']}")->getField('pname');
                 $arr[] = M('user')->where("id = {$value['checkuid']}")->getField('username');
                 $arr[] = $value['total'];
-                $arr[] = $value['remark'];
+                $arr[] = trim($value['remark']);
                 $arr[] = $value['isfiling']==3?'已归档':'未归档';
                 $_j = 0;
                 $_nj = 0;

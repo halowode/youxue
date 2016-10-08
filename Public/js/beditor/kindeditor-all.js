@@ -3198,7 +3198,7 @@ _extend(KCmd, {
 			html += 'align="' + _escape(align) + '" ';
 		}
 		html += 'alt="' + _escape(title) + '" ';
-		html += '/>';
+		html += ' class="detailimg" />';
 		return this.inserthtml(html);
 	},
 	createlink : function(url, type) {
@@ -7263,6 +7263,7 @@ KindEditor.plugin('image', function(K) {
 						img.attr('title', title);
 						img.attr('align', align);
 						img.attr('alt', title);
+						img.attr('class','detailimg');
 					} else {
 						self.exec('insertimage', url, title, width, height, border, align);
 					}

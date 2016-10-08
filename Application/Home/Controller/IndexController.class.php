@@ -41,6 +41,8 @@ class IndexController extends Controller {
         $this->display();
     }
     public function showindex(){
+        $res = M('intro')->where("id = 1")->find();
+        $this->assign('mmsg',$res['intromsg']);
         $this->display();
     }
 
@@ -2335,4 +2337,22 @@ class IndexController extends Controller {
         }
     }
 
+    /**
+     * 使用说明
+     */
+    public function intro(){
+        if(IS_GET){
+            $intro = M('intro')->where("id = 1")->find();
+            $this->assign('msg',$intro['intromsg']);
+            $this->display();
+        }else{
+            //dump(I('post.intro'));
+
+            $intro = I('post.intro');
+            M('intro')->where("id = 1")->save(['intromsg'=>$intro]);
+            //echo M('intro')->getlastsql();
+            //exit;
+            $this->success('编辑成功');
+        }
+    }
 }

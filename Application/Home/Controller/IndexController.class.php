@@ -389,12 +389,21 @@ class IndexController extends Controller {
      */
     public function listbill(){
         $uid = session('uid');
+        $gname = I('get.gname');
         if(in_array(1,session('rid'))){
             $where = '';
             goto dend;
         }
         $where = " a.ckuid = $uid or a.reckuid = $uid or a.mid = $uid or b.uid = $uid ";
         dend:
+        if($gname){
+            if(!$where){
+                $where .= " and a.gname like '%{$gname}%' ";
+            }else{
+                $where = " a.gname like '%{$gname}%' ";
+            }
+
+        }
         $on = "a.cid = b.id";
         $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid";
         $order = "a.id desc";
@@ -1654,13 +1663,19 @@ class IndexController extends Controller {
      */
     public function glian(){
         if(IS_GET){
+            $paycomp = I('get.paycomp');
+
             $uid = session('uid');
             if(in_array(1,session('rid'))){
                 $contract = M('contract')->where('cstatus = 0')->select();
             }else{
                 $contract = M('contract')->where('cstatus = 0 and checkuid='.$uid)->select();
             }
-            $where = "a.cid is null";
+            if($paycomp){
+                $where = "a.cid is null and paycomp like '%{$paycomp}%'";
+            }else{
+                $where = "a.cid is null";
+            }
             $on = "a.bankno = b.id";
             $field = " a.* , b.bankno as bno,b.total";
             $order = "a.id desc";
@@ -1675,6 +1690,7 @@ class IndexController extends Controller {
             $this->assign('dqurl', base64url_encode($requesturl));// 当前URL
             $this->assign('vari', $vari);// 序号累加变量
             $this->assign('contract',$contract);
+            $this->assign('paycomp',$paycomp);
             $this->display();
         }else{
             $rid = I('post.rid');

@@ -1893,12 +1893,20 @@ class IndexController extends Controller {
 
     public function glist(){
         $uid = session('uid');
+        $paycomp = I('get.paycomp');
         if(in_array(1,session('rid'))){
             $where = '';
             goto dend;
         }
         $where = " a.uid = $uid or a.ckuid = $uid or a.guid = $uid ";
         dend:
+        if($paycomp){
+            if($where){
+                $where .= " and a.paycomp like '%{$paycomp}%'";
+            }else{
+                $where = "a.paycomp like '%{$paycomp}%'";
+            }
+        }
         $on = "a.cid = b.id";
         $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid";
         $order = "a.id desc";

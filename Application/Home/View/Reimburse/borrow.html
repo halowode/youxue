@@ -125,7 +125,7 @@
                         <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
                     </div>
                     <div class="login_box1 form-group">
-                        <span class="login_title1 col-sm-2 control-label" >收款公司</span>
+                        <span class="login_title1 col-sm-2 control-label" >收款方</span>
                         <input class="use_name form-control"  name='charge' readonly value="{$records.charge}" type="text" placeholder="收款方信息">
                     </div>
 
@@ -177,7 +177,7 @@
                         <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
                     </div>
                     <div class="login_box1 form-group">
-                        <span class="login_title1 col-sm-2 control-label" >收款公司</span>
+                        <span class="login_title1 col-sm-2 control-label" >收款方</span>
                         <input class="use_name form-control" id="charges"  name='charge'  type="text" placeholder="收款方信息">
                     </div>
                 </notempty>
@@ -224,7 +224,7 @@
             return false;
         }
         if($("#charges").val() == ''){
-            alert('收款公司不可不选！');
+            alert('收款公司不可为空！');
             return false;
         }
 

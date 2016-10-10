@@ -237,10 +237,15 @@ class ReimburseController extends Controller
 
     public function check(){
         $uid = session('uid');
+        $shid = I('get.shid');
+        $this->assign('shid',$shid);
         if(in_array(1,session('rid'))){
             $where = "a.bstatus = 1";
         }else{
             $where = "a.checkuid = $uid and a.bstatus = 1";
+        }
+        if($shid){
+            $where .= " and a.id = $shid ";
         }
         $on = "a.pid = b.id";
         $field = " a.* , b.pname";

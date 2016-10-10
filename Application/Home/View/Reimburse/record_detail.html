@@ -87,8 +87,8 @@
             </tr>
             <tr>
                 <td align="center">{$pname}</td>
-                <td align="center">{$scon.cno}</td>
-                <td align="center">{$cgcon.cno}</td>
+                <td align="center"><a href="{:U("index/detail?id=$record[cid]")}">{$scon.cno}</a></td>
+                <td align="center"><a href="{:U("index/detail?id=$record[cgid]")}">{$cgcon.cno}</a></td>
                 <td align="center">{$record.belong}</td>
                 <td align="center">{$record.charge}</td>
             </tr>

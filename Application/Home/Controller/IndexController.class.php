@@ -898,10 +898,18 @@ class IndexController extends Controller {
      */
     public function project(){
         if(IS_GET){
+            $res = M('user')->join("a left join role_user b on a.id = b.uid")->where("b.rid = 10")->field("a.id,a.username")->select();
+            $this->assign('mguser',$res);
             $this->display();
         }else{
             $data = I('post.');
+            $mgs = I('post.mg');
+            if(!$mgs){
+                $this->error("必须选择项目管理者！");
+                exit;
+            }
             unset($data['submit']);
+            unset($data['mg']);
             $project = M('project');
             $res = $project->where("pname = '{$data['pname']}'")->find();
             if($res){
@@ -912,8 +920,18 @@ class IndexController extends Controller {
             $data['status'] = 1;
             $data['uid'] = session('uid');
             $res = $project->add($data);
+            $rst = false;
             if($res){
-                $this->success("添加成功");
+                $arr = [];
+                foreach($mgs as $v){
+                    $arr[] = ['uid'=>$v,'proid'=>$res];
+                }
+                $rst = M('promg')->addAll($arr);
+                if($rst){
+                    $this->success("添加成功",U('index/proedit'));
+                }else{
+                    $this->error("管理者添加失败，请联系管理员");
+                }
             }else{
                 $this->error("项目添加失败，请稍后重试");
             }
@@ -994,19 +1012,39 @@ class IndexController extends Controller {
             if($type == 'edit'){
                 $id = I('get.id');
                 $data = M('project')->where("id = $id")->find();
+                $spro = M('promg')->where("proid = $id")->select();
+                $arr = [];
+                foreach($spro as $sv){
+                    $arr[] = $sv['uid'];
+                }
+                $res = M('user')->join("a left join role_user b on a.id = b.uid")->where("b.rid = 10")->field("a.id,a.username")->select();
+                $this->assign('mguser',$res);
+                $this->assign('suids',$arr);
                 $this->assign('data',$data);
                 $this->assign('id',$id);
                 $this->display('editpro');
             }
         }else{
             $id = I('post.id');
+            $mgs = I('post.mg');
+            if(!$mgs){
+                $this->error("管理者不可为空");
+                exit;
+            }
             $data['pname'] = I('post.pname','','trim');
             $data['shortname'] = I('post.shortname');
             $data['descb'] = I('post.shortname');
             $data['status'] = '1';
             $rs = M('project')->where("id = $id")->save($data);
-            if($rs){
-                $this->success('修改成功！');
+            M('promg')->where("proid = $id")->delete();
+
+            $arr = [];
+            foreach($mgs as $v){
+                $arr[] = ['uid'=>$v,'proid'=>$id];
+            }
+            $rst = M('promg')->addAll($arr);
+            if($rst){
+                $this->success('修改成功！',U('index/proedit'));
             }else{
                 $this->error('没有做任何修改！');
             }
@@ -2311,7 +2349,7 @@ class IndexController extends Controller {
         for($i=0;$i<$ct;$i+=50){
             $data = M('reimburse')->limit($i,50)->select();
             foreach($data as $k => $v){
-                $sigres = M('reimburse_record')->where("rbid = {$v['id']}")->select();
+                $sigres = M('reimburse_record')->where("rbid = {$v['id']} and pid != 0")->select();
                 if($sigres){
                     foreach($sigres as $vl){
                         $reimbursement = M('reimbursement')->where("sid = {$vl['id']}")->select();

@@ -4,7 +4,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>修改项目</title>
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/index.css" />
-    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/utilLib/bootstrap.min.css" type="text/css" media="screen" />
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
 </head>
 
 <body style="background:#fff;height:100%;overflow-y:auto;">
@@ -31,6 +34,14 @@
                 <div class="login_box1">
                     <span class="login_title1" >项目描述：</span>
                     <input class="use_name" value="{$data.descb}" id="total" name='descb'  type="text" placeholder="项目的有关描述" /><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
+                </div>
+                <div class="login_box1" style="width:60%">
+                    <span class="login_title1">项目管理者:</span>
+                    <select multiple class="form-control" name="mg[]" style="margin-left: 160px;width:260px">
+                        <volist name="mguser" id="vo">
+                            <option value="{$vo.id}" <in name="vo.id" value="$suids">selected=selected</in> >{$vo.username}</option>
+                        </volist>
+                    </select>
                 </div>
                 <input type="hidden" name="id" value="{$id}"/>
                 <input type="submit" name="submit" class="login_submit" value="修改" />

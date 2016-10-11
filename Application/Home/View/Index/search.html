@@ -161,9 +161,11 @@
                                 <if condition="$vo.isactive eq 0">
                                     <a href="{:U("ctedit?id=$vo[id]")}">编辑</a>
                                     <else/>
+                                    <!--
                                     <if condition="$isexc eq 1">
                                         <a href="{:U("ctedit?id=$vo[id]")}">编辑</a>
                                     </if>
+                                    -->
                                 </if>
                                 <a href="{:U("bill?id=$vo[id]")}">申请发票</a>
                                 <if condition="$vo.stampis eq 0">

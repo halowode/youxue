@@ -1274,7 +1274,7 @@ class IndexController extends Controller {
             $data['cbtime'] = I('post.cbtime');
             $data['vat'] = I('post.vat');
             $data['recname'] = I('post.recname');
-            $data['bnum'] = I('post.');
+            $data['bnum'] = I('post.bnum');
             $data['bstatus'] = 4;
             $data['mid'] = session('uid');
             $s = M('bill')->where("id = $bid")->save($data);
@@ -2401,5 +2401,12 @@ class IndexController extends Controller {
             //exit;
             $this->success('编辑成功');
         }
+    }
+
+    /**
+     * 合同按项目归属（管理者角色）等多条件查询
+     */
+    public function ctsearch(){
+        $this->display();
     }
 }

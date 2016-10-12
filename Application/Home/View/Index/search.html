@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>订阅管理</title>
+    <title>查询管理</title>
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/Iframe.css" />
     <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
@@ -159,7 +159,7 @@
                             <td align="center">
 
                                 <if condition="$vo.isactive eq 0">
-                                    
+
                                     <a href="{:U("ctedit?id=$vo[id]")}">编辑</a>
                                     <else/>
                                     <if condition="$isexc eq 1">

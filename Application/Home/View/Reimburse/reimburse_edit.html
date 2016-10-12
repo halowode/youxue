@@ -102,7 +102,7 @@
                     <select id="con" class="use_name form-control input-xsm" name="cid"   style="width:200px">
                         <option value="0" <eq name="data['cid']" value="0">selected=selected</eq>>无销售合同</option>
                         <volist name="slc" id="vs">
-                            <option value="{$vs.id}" <eq name="data['cid']" value="$vs.id">selected=selected</eq>>{$vs.cno}</option>
+                            <option value="{$vs.id}" <eq name="data['cid']" value="$vs.id">selected=selected</eq>>{$vs.cno}  {$vs.gname}</option>
                         </volist>
                     </select>
                     <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
@@ -112,7 +112,7 @@
                     <select id="cgid" class="use_name form-control input-xsm" name="cgid"   style="width:200px">
                         <option value="0" <eq name="data['cgid']" value="0">selected=selected</eq>>无采购合同</option>
                         <volist name="cgc" id="vc">
-                            <option value="{$vc.id}" <eq name="data['cgid']" value="$vc.id">selected=selected</eq>>{$vc.cno}</option>
+                            <option value="{$vc.id}" <eq name="data['cgid']" value="$vc.id">selected=selected</eq>>{$vc.cno} {$vc.gname}</option>
                         </volist>
                     </select>
                     <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>

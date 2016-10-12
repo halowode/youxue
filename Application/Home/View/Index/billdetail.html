@@ -277,18 +277,19 @@
                     <input class="use_name form-control" id="bankno" value="{$bill.bankno}" readonly name='bankno'  type="text" placeholder="开户行账号" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
 
                 </div>
-                <if condition="$bill.provepic neq ''">
-                <div class="login_box1  daniel_hide">
-                    <span class="login_title1">相关图片证明：</span>
-                    <span><img width="100" src="{$bill.provepic}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></span>
-                </div>
-                </if>
+
                     <div style="margin-top:40px">
                         <span style="float:right;">
                             负责人：_____________初审人：____________复审人：______________日期：_______________
                         </span>
                     </div>
                 </div>
+                <if condition="$bill.provepic neq ''">
+                    <div class="login_box1  daniel_hide">
+                        <span class="login_title1">相关图片证明：</span>
+                        <span><img width="100" src="{$bill.provepic}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></span>
+                    </div>
+                </if>
                 <input type="hidden" name="cid" value="{$cid}"/>
 
                 <div class="nav_tcon1" style="margin-left:160px;float:left;width:98%;">

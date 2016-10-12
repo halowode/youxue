@@ -1585,6 +1585,7 @@ class IndexController extends Controller {
                     $fstime = strtotime($fstime);
                 }
                 $data['filingtime'] = $fstime?:time();
+                $data['isactive'] = 1;
                 $rs = M('contract')->where("id = $id")->save($data);
                 $dat['fid'] = $id;
                 $dat['ctime'] = time();

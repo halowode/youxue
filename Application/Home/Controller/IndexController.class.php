@@ -2134,7 +2134,7 @@ class IndexController extends Controller {
                 $arr[] = M('user')->where("id = {$value['checkuid']}")->getField('username');
                 $arr[] = $value['total'];
                 $arr[] = trim($value['remark']);
-                $arr[] = $value['isfiling']==3?'已归档':'未归档';
+                $arr[] = $value['isfiling']==3?'已归档'.date('Y-m-d H:i:s'):'未归档';
                 $_j = 0;
                 $_nj = 0;
                 $bill = M('bill')->where("cid = {$value['id']}")->select();

@@ -403,7 +403,9 @@ class IndexController extends Controller {
     public function listbill(){
         $uid = session('uid');
         $gname = I('get.gname');
+        $isexc = 0;
         if(in_array(1,session('rid'))){
+            $isexc = 1;
             $where = '';
             goto dend;
         }
@@ -441,6 +443,7 @@ class IndexController extends Controller {
         $this->assign('dqurl', base64url_encode($requesturl));// 当前URL
         $this->assign('vari', $vari);// 序号累加变量
         $this->assign('checklev',1);
+        $this->assign('isexc',$isexc);
         $this->display();
     }
 

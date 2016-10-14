@@ -105,6 +105,9 @@
                             <if condition="$vo.bstatus eq 1">
                                     <a class="btn btn-danger btn-xs" href="{:U("delbill?id=$vo[id]")}">删除开票申请</a>
                             </if>
+                            <if condition="($vo.bstatus neq 1) and ($isexc eq 1)">
+                                <a class="btn btn-danger btn-xs" href="{:U("delbill?id=$vo[id]")}">删除开票</a>
+                            </if>
                         </td>
                     </tr>
                 </foreach>

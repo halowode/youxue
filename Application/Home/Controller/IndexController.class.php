@@ -136,6 +136,17 @@ class IndexController extends Controller {
     }
 
     /**
+     * 删除合同及发票，回款
+     */
+    public function delct(){
+        $cid = I("get.id");
+        M('bill')->where("cid = $cid")->delete();
+        M('reback')->where("cid = $cid")->delete();
+        M('contract')->where("id = $cid")->delete();
+        $this->success("删除成功！");
+    }
+
+    /**
      * 合同查询管理
      */
     public function search(){

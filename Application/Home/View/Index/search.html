@@ -167,6 +167,9 @@
                                     </if>
 
                                 </if>
+                                <if condition="$isexc eq 1">
+                                    <a href="{:U("delct?id=$vo[id]")}">删除合同发票回款</a>
+                                </if>
                                 <a href="{:U("bill?id=$vo[id]")}">申请发票</a>
                                 <if condition="$vo.stampis eq 0">
                                     <a href="{:U("stamp?id=$vo[id]")}">申请盖章</a>
@@ -174,7 +177,9 @@
                                 <if condition="($vo.isfiling eq 0) or ($vo.isfiling eq 1)">
                                     <a href="{:U("filing?id=$vo[id]")}">申请归档</a>
                                 </if>
+                                <!--
                                 <a href="{:U("listex?id=$vo[id]")}">执行列表</a>
+                                -->
                             </td>
                         </tr>
                     </foreach>

@@ -2157,7 +2157,7 @@ class IndexController extends Controller {
                 }else{
                     $sdt = M('stamp')->where("cid = {$value['id']} and status = 4")->find();
                     if(!$sdt) goto zg;
-                    $arr[] = '已盖章'.date('Y-m-d H:i:s',$sdt['stime']);
+                    $arr[] = '已盖章'.$sdt['stime'];
                     $arr[] = $sdt['adperiod'];
                     $arr[] = $sdt['adposition'];
                     $arr[] = $sdt['settleitem'];

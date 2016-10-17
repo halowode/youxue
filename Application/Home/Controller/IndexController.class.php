@@ -2419,8 +2419,10 @@ class IndexController extends Controller {
 
     /**
      * 合同按项目归属（管理者角色）等多条件查询
+     * 俗称已开票未回款额查询
      */
     public function ctsearch(){
+
         $this->display();
     }
 }

@@ -8,7 +8,12 @@
     <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
     <script type="text/javascript" src="__PUBLIC__/js/laydate/laydate.js"></script>
     <script type="text/javascript" src="__PUBLIC__/js/main.js"></script>
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+        function ddd(obj){
+            var a = $(obj).attr('aid');
+            $("#tobid").attr('value',a);
+        }
         $(function(){
 
             $("#mgcity").change(function(){
@@ -88,6 +93,26 @@
 </head>
 
 <body style="height:100%;overflow-y:auto;">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{:U('delct')}" method="get">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">删除合同及其发票和回款</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="tobid" type="hidden" name="id" value=""/>
+                    <textarea class="form-control" name="msg">本次操作将删除该合同及其所有发票和回款的记录，删除后不可恢复！</textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">确定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <span class="cp_title" >查询管理</span>
     <a class="btn btn-primary" style="float: right;margin-right:20px;margin-top:30px" href="{:U("index/downxls")}">下载合同</a>
 <div class="table_con">
@@ -160,22 +185,22 @@
 
                                 <if condition="$vo.isactive eq 0">
 
-                                    <a href="{:U("ctedit?id=$vo[id]")}">编辑</a>
+                                    <a class="btn btn-warning btn-xs" href="{:U("ctedit?id=$vo[id]")}">编辑</a>
                                     <else/>
                                     <if condition="$isexc eq 1">
-                                        <a href="{:U("ctedit?id=$vo[id]")}">编辑</a>
+                                        <a class="btn btn-warning btn-xs" href="{:U("ctedit?id=$vo[id]")}">编辑</a>
                                     </if>
 
                                 </if>
                                 <if condition="$isexc eq 1">
-                                    <a href="{:U("delct?id=$vo[id]")}">删除合同发票回款</a>
+                                    <a aid="{$vo.id}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal" onclick="ddd(this)" >删除合同发票回款</a>
                                 </if>
-                                <a href="{:U("bill?id=$vo[id]")}">申请发票</a>
+                                <a class="btn btn-info btn-xs" href="{:U("bill?id=$vo[id]")}">申请发票</a>
                                 <if condition="$vo.stampis eq 0">
-                                    <a href="{:U("stamp?id=$vo[id]")}">申请盖章</a>
+                                    <a class="btn btn-primary btn-xs" href="{:U("stamp?id=$vo[id]")}">申请盖章</a>
                                 </if>
                                 <if condition="($vo.isfiling eq 0) or ($vo.isfiling eq 1)">
-                                    <a href="{:U("filing?id=$vo[id]")}">申请归档</a>
+                                    <a class="btn btn-warning btn-xs" href="{:U("filing?id=$vo[id]")}">申请归档</a>
                                 </if>
                                 <!--
                                 <a href="{:U("listex?id=$vo[id]")}">执行列表</a>

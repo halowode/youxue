@@ -2726,9 +2726,9 @@ class IndexController extends Controller {
             $arr[] = $v['total'];
             $arr[] = $v['fname'];
             $arr[] = $v['blname'];
-            $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']}");
+            $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']} and bstatus = 4");
             $arr[] = $restl[0]['total']?:0;
-            $restls = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']}");
+            $restls = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']} and rstatus = 3");
             $arr[] = $restls[0]['rtotal']?:0;
             ob_flush();
             flush();

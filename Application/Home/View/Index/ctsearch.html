@@ -95,31 +95,12 @@
         <table cellpadding="0" cellspacing="1">
             <tr>
                 <td align="right" colspan="11">
-                    <label style="margin-left:5px;">合同类型:&nbsp;&nbsp;</label>
-                    <select class="input-sm" name="ct" style="margin-right:5px;width:80px;">
-                        <option value="0" <if condition="$_ct eq ''">selected=selected</if>>-选择-</option>
-                        <option value="1" <if condition="$_ct eq 1">selected=selected</if>>销售合同</option>
-                        <option value="2" <if condition="$_ct eq 2">selected=selected</if>>采购合同</option>
-                    </select>
-                    <label style="margin-left:5px;">负责人:&nbsp;&nbsp;</label>
-                    <input type="text" class="input-sm" name="fname" style="float:none;" placeholder="请输入关键字" value="{$_fname}" />
-                    <label style="margin-left:5px;">合同名称:&nbsp;&nbsp;</label>
-                    <input type="text" class="input-sm" name="cname" style="float:none;" placeholder="请输入关键字" value="{$_cname}" />
+                    
+                    <label style="margin-left:5px;">归属人:&nbsp;&nbsp;</label>
+                    <input type="text" class="input-sm" name="blname" style="float:none;" placeholder="请输入关键字" value="{$_fname}" />
                     <label style="margin-left:5px;">客户名称:&nbsp;&nbsp;</label>
                     <input type="text" class="input-sm" name="gname"  style="float:none;" placeholder="请输入关键字" value="{$_gname}" />
 
-                    <label style="margin-left:5px;">归档:&nbsp;&nbsp;</label>
-                    <select class="input-sm" name="isfiling" style="margin-right:5px;width:80px;">
-                        <option value="0" <if condition="$_isfiling eq ''">selected=selected</if>>-选择-</option>
-                        <option value="1" <if condition="$_isfiling eq 1">selected=selected</if>>已归档</option>
-                        <option value="2" <if condition="$_isfiling eq 2">selected=selected</if>>未归档</option>
-                    </select>
-                    <label style="margin-left:5px;">盖章:&nbsp;&nbsp;</label>
-                    <select class="input-sm" name="isstamp" style="margin-right:5px;width:80px;">
-                        <option value="0" <if condition="$_isstamp eq ''">selected=selected</if>>-选择-</option>
-                        <option value="1" <if condition="$_isstamp eq 1">selected=selected</if>>已盖章</option>
-                        <option value="2" <if condition="$_isstamp eq 2">selected=selected</if>>未盖章</option>
-                    </select>
                     <label style="margin-left:5px;">归属:&nbsp;&nbsp;</label>
                     <select class="input-sm" name="belong" style="margin-right:5px;width:80px;">
                         <option value="0" <if condition="$_belong eq ''">selected=selected</if>>-选择-</option>
@@ -141,8 +122,9 @@
                 <td width="3%" align="center" class="tb_title">合同金额</td>
 
                 <td width="5%" align="center" class="tb_title">负责人</td>
+                <!--
                 <td width="26%" align="center" class="tb_title">操作</td>
-
+                -->
             </tr>
             <notempty name="data['list']">
                 <foreach name="data['list']" key="key" item="vo">
@@ -156,6 +138,7 @@
 
                         <td align="center">{$vo.fname}</td>
 
+                        <!--
                         <td align="center">
 
                             <if condition="$vo.isactive eq 0">
@@ -176,6 +159,7 @@
                             </if>
                             <a href="{:U("listex?id=$vo[id]")}">执行列表</a>
                         </td>
+                        -->
                     </tr>
                 </foreach>
                 <else />

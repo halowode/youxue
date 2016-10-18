@@ -2444,6 +2444,7 @@ class IndexController extends Controller {
         $arr = [];
         if($_blname){
             $arr[] = " a.blname like '%{$_blname}%' ";
+            $url['blname']=$_blname;
         }
 
         if($_pname){
@@ -2455,13 +2456,16 @@ class IndexController extends Controller {
             if($fstr){
                 $arr[] = " a.pid in ($fstr) ";
             }
+            $url['pname']=$_pname;
         }
         if($_gname){
             $arr[] = "a.gname like '%{$_gname}%'";
+            $url['gname']=$_gname;
         }
 
         if($_belong){
             $arr[] = "a.belong = '{$_belong}'";
+            $url['belong']=$_belong;
         }
 
         //硬性条件
@@ -2559,6 +2563,146 @@ class IndexController extends Controller {
         $requesturl = $_SERVER['REQUEST_URI'];
         $this->assign('dqurl',base64url_encode($requesturl));// 当前URL
         $this->assign('vari',$vari);// 序号累加变量
+        $this->assign('url',$url);
+        $this->display();
+    }
+    public function downctxls(){
+        $uid = session('uid');
+        $where = '';
+        $_blname = I('get.blname');
+        $this->assign('_blname',$_blname);
+        $_pname = I('get.pname');
+        $this->assign('_pname',$_pname);
+        $_gname = I('get.gname');
+        $this->assign('_gname',$_gname);
+        $_belong = I('get.belong');
+        $this->assign('_belong',$_belong);
+        $arr = [];
+        if($_blname){
+            $arr[] = " a.blname like '%{$_blname}%' ";
+            $url['blname']=$_blname;
+        }
+
+        if($_pname){
+            $pidarr = M('project')->where("pname like '%{$_pname}%'")->field('id')->select();
+            $fstr = '';
+            if($pidarr){
+                $fstr = getSingleFieldStr($pidarr);
+            }
+            if($fstr){
+                $arr[] = " a.pid in ($fstr) ";
+            }
+            $url['pname']=$_pname;
+        }
+        if($_gname){
+            $arr[] = "a.gname like '%{$_gname}%'";
+            $url['gname']=$_gname;
+        }
+
+        if($_belong){
+            $arr[] = "a.belong = '{$_belong}'";
+            $url['belong']=$_belong;
+        }
+
+        //硬性条件
+        $arr[] = " a.kinds = 0 ";
+        $proids = M("promg")->where("uid = $uid")->field('proid')->select();
+        $realid = [];
+        if($proids){
+            foreach($proids as $v){
+                $strarr[] = $v['proid'];
+            }
+            $strarr = array_unique($strarr);
+            $str = implode(',',$strarr);
+            $cids = M('contract')->where("pid in ($str)")->field('id')->select();
+            $ycids = M('contract')->where("bluid = $uid")->field('id')->select();
+            $newcids = array_merge($cids,$ycids);
+
+            if($newcids){
+                foreach($newcids as $vsid){
+                    $asids[] = $vsid['id'];
+                }
+                $asids = array_unique($asids);
+                $asstr = implode(',',$asids);
+                $M = new \Think\Model();
+                $sres = $M->query("select cid, sum(btotal) as total from bill where cid in ($asstr) and bstatus = 4 group by cid ");
+                if($sres){
+                    foreach($sres as $vts){
+                        $rs = $M->query("select sum(btotal) as rtotal from reback where cid = 14 and rstatus = 3");
+                        $rtotal = $rs[0]['rtotal']?:0;
+                        if($vts['total'] > $rtotal){
+                            $realid[] = $vts['cid'];
+                        }
+
+                    }
+                }
+                if($realid){
+                    $asstr = implode(',',$realid);
+                }
+                $arr[] = " a.id in ($asstr)";
+            }
+        }else{
+            $newcids = M('contract')->where("bluid = $uid")->field('id')->select();
+            if($newcids){
+                foreach($newcids as $vsid){
+                    $asids[] = $vsid['id'];
+                }
+                $asids = array_unique($asids);
+                $asstr = implode(',',$asids);
+                $M = new \Think\Model();
+                $sres = $M->query("select cid, sum(btotal) as total from bill where cid in ($asstr) and bstatus = 4 group by cid ");
+                if($sres){
+                    foreach($sres as $vts){
+                        $rs = $M->query("select sum(btotal) as rtotal from reback where cid = 14 and rstatus = 3");
+                        $rtotal = $rs[0]['rtotal']?:0;
+                        if($vts['total'] > $rtotal){
+                            $realid[] = $vts['cid'];
+                        }
+
+                    }
+                }
+                if($realid){
+                    $asstr = implode(',',$realid);
+                }
+                $arr[] = " a.id in ($asstr)";
+            }
+        }
+        if(!$realid){
+            $arr[] = "a.id = -100";
+        }
+
+
+
+
+
+        if(!empty($arr)){
+            $where = implode(' and ',$arr);
+        }
+
+        $isexc = 0; //是否有编辑权限
+
+        //$data = $this->Tmodel->getAllByPage('contract',$where,1);
+        //$data = $this->Tmodel->getJoinByPage('contract','project',$where, $this->pagesize);
+        $data = M('contract')->join("a left join project b on a.pid = b.id")->where($where)->select();
+        foreach($data as $ink => $v){
+            $data[$ink]['stampis'] = 0;
+            $rs = M('stamp')->where("cid = {$v['id']}")->getField('id');
+            if($rs) $data[$ink]['stampis'] = 1;
+        }
+        dump($data);
+        exit;
+        //判断除基本用户外是否有编辑权限
+        $x = M('role_user')->join("a left join role_node b on a.rid = b.rid")->where("a.uid = {$uid} and a.rid != 2")->field("b.nid")->select();
+        if(in_array(54,$x)){
+            $isexc = 1;
+        }
+        $this->assign('isexc',$isexc);
+        $this->assign('data' , $data);
+        if(I('get.p') == '' || I('get.p') == 1){$vari = 1;}else{$vari = $pagesize * (I('get.p') - 1) + 1;}
+        $requesturl = $_SERVER['REQUEST_URI'];
+        $this->assign('dqurl',base64url_encode($requesturl));// 当前URL
+        $this->assign('vari',$vari);// 序号累加变量
+        $this->assign('url',$url);
         $this->display();
     }
 }

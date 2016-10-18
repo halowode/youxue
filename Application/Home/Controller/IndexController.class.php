@@ -2567,6 +2567,8 @@ class IndexController extends Controller {
         $this->display();
     }
     public function downctxls(){
+        set_time_limit(0);
+        @ini_set('memory_limit', '500M');
         $uid = session('uid');
         $where = '';
         $_blname = I('get.blname');
@@ -2690,19 +2692,50 @@ class IndexController extends Controller {
             if($rs) $data[$ink]['stampis'] = 1;
         }
         dump($data);
-        exit;
-        //判断除基本用户外是否有编辑权限
-        $x = M('role_user')->join("a left join role_node b on a.rid = b.rid")->where("a.uid = {$uid} and a.rid != 2")->field("b.nid")->select();
-        if(in_array(54,$x)){
-            $isexc = 1;
+
+        $filename = '导出数据';
+        header("Content-type:application/octet-stream");
+        header("Accept-Ranges:bytes");
+        header("Content-type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=".$filename.".xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $titles = [
+            '合同编号',
+            '归属公司',
+            '合同名称',
+            '项目名称',
+            '客户名称',
+            '合同金额',
+            '创建人',
+            '归属人',
+            '已出发票总额',
+            '已确认回款额',
+        ];
+        foreach ($titles as $k => $v) {
+            $titles[$k]=iconv("UTF-8", "GB2312",$v);
         }
-        $this->assign('isexc',$isexc);
-        $this->assign('data' , $data);
-        if(I('get.p') == '' || I('get.p') == 1){$vari = 1;}else{$vari = $pagesize * (I('get.p') - 1) + 1;}
-        $requesturl = $_SERVER['REQUEST_URI'];
-        $this->assign('dqurl',base64url_encode($requesturl));// 当前URL
-        $this->assign('vari',$vari);// 序号累加变量
-        $this->assign('url',$url);
-        $this->display();
+        $titles= implode("\t", $titles);
+        echo "$titles\n";
+        foreach($data as $k => $v){
+            $arr = [];
+            $arr[] = $v['cno'];
+            $arr[] = $v['belong'];
+            $arr[] = $v['cname'];
+            $arr[] = $v['pname'];
+            $arr[] = $v['gname'];
+            $arr[] = $v['total'];
+            $arr[] = $v['fname'];
+            $arr[] = $v['blname'];
+            $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']}");
+            $arr[] = $restl[0]['total']?:0;
+            $restls = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']}");
+            $arr[] = $restls[0]['rtotal']?:0;
+            ob_flush();
+            flush();
+            echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");
+        }
+
+
     }
 }

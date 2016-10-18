@@ -122,7 +122,7 @@
                 <td width="3%" align="center" class="tb_title">合同金额</td>
                 <td width="3%" align="center" class="tb_title">已出票总额</td>
                 <td width="3%" align="center" class="tb_title">已确认回款额</td>
-                <td width="5%" align="center" class="tb_title">创建人</td>
+                <td width="5%" align="center" class="tb_title">差额</td>
                 <td width="5%" align="center" class="tb_title">归属人</td>
                 <!--
                 <td width="26%" align="center" class="tb_title">操作</td>
@@ -139,7 +139,7 @@
                         <td align="center">{:number_format($vo[total],2)}</td>
                         <td align="center">{:number_format($vo[bt],2)}</td>
                         <td align="center">{:number_format($vo[rt],2)}</td>
-                        <td align="center">{$vo.fname}</td>
+                        <td align="center">{:number_format($vo[bt] - $vo[rt])}</td>
                         <td align="center">{$vo.blname}</td>
                         <!--
                         <td align="center">

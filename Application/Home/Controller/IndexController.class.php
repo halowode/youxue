@@ -2691,7 +2691,6 @@ class IndexController extends Controller {
             $rs = M('stamp')->where("cid = {$v['id']}")->getField('id');
             if($rs) $data[$ink]['stampis'] = 1;
         }
-        dump($data);
 
         $filename = '导出数据';
         header("Content-type:application/octet-stream");

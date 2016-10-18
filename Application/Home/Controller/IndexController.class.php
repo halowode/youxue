@@ -54,9 +54,11 @@ class IndexController extends Controller {
             $res = M('project')->where('status = 1')->select();
             $cusers = M('role_user')->join(" a left join user b on a.uid = b.id ")->where("a.rid = 3")->field('a.rid,b.*')->select();
             $exuser = M('role_user')->join(" a left join user b on a.uid = b.id ")->where("a.rid = 6")->field('a.rid,b.*')->select();
+            $users = M('user')->where("status = 1")->field("username,id")->select();
             $this->assign('cuser',$cusers);
             $this->assign('exuser',$exuser);
             $this->assign('data',$res);
+            $this->assign('users',$users);
             $this->display();
         }else{
             $uid = session('uid');
@@ -73,6 +75,12 @@ class IndexController extends Controller {
             }
             $data['cno'] = $tstr.date('YmdHis').'-'.mt_rand(1,10);
             $data['fname'] = M('user')->where("id = {$uid}")->getField('username');
+            if($data['bluid']){
+                $data['blname'] = M('user')->where("id = {$data['bluid']}")->getField('username');
+            }else{
+                $data['bluid'] = $uid;
+                $data['blname'] = $data['fname'];
+            }
             $data['ctime'] = time();
             $data['check'] = 0;
             $data['isback'] = 0;
@@ -2420,9 +2428,137 @@ class IndexController extends Controller {
     /**
      * 合同按项目归属（管理者角色）等多条件查询
      * 俗称已开票未回款额查询
+     * 只查询销售合同（已开票金额之和>回款之和的合同）
      */
     public function ctsearch(){
+        $uid = session('uid');
+        $where = '';
+        $_blname = I('get.blname');
+        $this->assign('_blname',$_blname);
+        $_pname = I('get.pname');
+        $this->assign('_pname',$_pname);
+        $_gname = I('get.gname');
+        $this->assign('_gname',$_gname);
+        $_belong = I('get.belong');
+        $this->assign('_belong',$_belong);
+        $arr = [];
+        if($_blname){
+            $arr[] = "a.blname like '%{$_blname}%'";
+        }
 
+        if($_pname){
+            $pidarr = M('project')->where("pname like '%{$_pname}%'")->field('id')->select();
+            $fstr = '';
+            if($pidarr){
+                $fstr = getSingleFieldStr($pidarr);
+            }
+            if($fstr){
+                $arr[] = " a.pid in ($fstr) ";
+            }
+        }
+        if($_gname){
+            $arr[] = "a.gname like '%{$_gname}%'";
+        }
+
+        if($_belong){
+            $arr[] = "a.belong = '{$_belong}'";
+        }
+
+        //硬性条件
+        $arr[] = " a.kinds = 0 ";
+        $proids = M("promg")->where("uid = $uid")->field('proid')->select();
+        $realid = [];
+        if($proids){
+            foreach($proids as $v){
+                $strarr[] = $v['proid'];
+            }
+            $strarr = array_unique($strarr);
+            $str = implode(',',$strarr);
+            $cids = M('contract')->where("pid in ($str)")->field('id')->select();
+            $ycids = M('contract')->where("bluid = $uid")->field('id')->select();
+            $newcids = array_merge($cids,$ycids);
+
+            if($newcids){
+                foreach($newcids as $vsid){
+                    $asids[] = $vsid['id'];
+                }
+                $asids = array_unique($asids);
+                $asstr = implode(',',$asids);
+                $M = new \Think\Model();
+                $sres = $M->query("select cid, sum(btotal) as total from bill where cid in ($asstr) and bstatus = 4 group by cid ");
+                if($sres){
+                    foreach($sres as $vts){
+                        $rs = $M->query("select sum(btotal) as rtotal from reback where cid = 14 and rstatus = 3");
+                        $rtotal = $rs[0]['rtotal']?:0;
+                        if($vts['total'] > $rtotal){
+                            $realid[] = $vts['cid'];
+                        }
+
+                    }
+                }
+                if($realid){
+                    $asstr = implode(',',$realid);
+                }
+                $arr[] = " a.id in ($asstr)";
+            }
+        }else{
+            $newcids = M('contract')->where("bluid = $uid")->field('id')->select();
+            if($newcids){
+                foreach($newcids as $vsid){
+                    $asids[] = $vsid['id'];
+                }
+                $asids = array_unique($asids);
+                $asstr = implode(',',$asids);
+                $M = new \Think\Model();
+                $sres = $M->query("select cid, sum(btotal) as total from bill where cid in ($asstr) and bstatus = 4 group by cid ");
+                if($sres){
+                    foreach($sres as $vts){
+                        $rs = $M->query("select sum(btotal) as rtotal from reback where cid = 14 and rstatus = 3");
+                        $rtotal = $rs[0]['rtotal']?:0;
+                        if($vts['total'] > $rtotal){
+                            $realid[] = $vts['cid'];
+                        }
+
+                    }
+                }
+                if($realid){
+                    $asstr = implode(',',$realid);
+                }
+                $arr[] = " a.id in ($asstr)";
+            }
+        }
+        if(!$realid){
+            $arr[] = "a.id = -100";
+        }
+
+
+
+
+
+        if(!empty($arr)){
+            $where = implode(' and ',$arr);
+        }
+
+        $isexc = 0; //是否有编辑权限
+        
+        //$data = $this->Tmodel->getAllByPage('contract',$where,1);
+        $data = $this->Tmodel->getJoinByPage('contract','project',$where, $this->pagesize);
+        foreach($data['list'] as $ink => $v){
+            $data['list'][$ink]['stampis'] = 0;
+            $rs = M('stamp')->where("cid = {$v['id']}")->getField('id');
+            if($rs) $data['list'][$ink]['stampis'] = 1;
+        }
+        //判断除基本用户外是否有编辑权限
+        $x = M('role_user')->join("a left join role_node b on a.rid = b.rid")->where("a.uid = {$uid} and a.rid != 2")->field("b.nid")->select();
+        if(in_array(54,$x)){
+            $isexc = 1;
+        }
+        $this->assign('isexc',$isexc);
+        $this->assign('data' , $data);
+        if(I('get.p') == '' || I('get.p') == 1){$vari = 1;}else{$vari = $pagesize * (I('get.p') - 1) + 1;}
+        $requesturl = $_SERVER['REQUEST_URI'];
+        $this->assign('dqurl',base64url_encode($requesturl));// 当前URL
+        $this->assign('vari',$vari);// 序号累加变量
         $this->display();
     }
 }

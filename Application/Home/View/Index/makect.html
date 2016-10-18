@@ -66,6 +66,16 @@
                     <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
                 </div>
                 <div class="login_box1 form-group">
+                    <span class="login_title1 col-sm-2 control-label">合同归属人</span>
+                    <select  class="use_name form-control input-sm" name="bluid"  style="width:100px">
+                        <option value="0"> 当前用户</option>
+                        <volist name="users" id="vlid">
+                            <option value="{$vlid.id}"> {$vlid.username}</option>
+                        </volist>
+                    </select>
+                    <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
+                <div class="login_box1 form-group">
                     <span class="login_title1 col-sm-2 control-label" >合同名称</span>
                     <input class="use_name form-control" name='cname'  type="text" placeholder="合同内容名称" /><font style="color:#FF0000;line-height:40px;">&nbsp;</font>
                 </div>

@@ -2540,7 +2540,7 @@ class IndexController extends Controller {
         }
 
         $isexc = 0; //是否有编辑权限
-        
+
         //$data = $this->Tmodel->getAllByPage('contract',$where,1);
         $data = $this->Tmodel->getJoinByPage('contract','project',$where, $this->pagesize);
         foreach($data['list'] as $ink => $v){

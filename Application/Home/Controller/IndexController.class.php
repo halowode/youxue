@@ -2551,6 +2551,11 @@ class IndexController extends Controller {
             $data['list'][$ink]['stampis'] = 0;
             $rs = M('stamp')->where("cid = {$v['id']}")->getField('id');
             if($rs) $data['list'][$ink]['stampis'] = 1;
+
+            $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']} and bstatus = 4");
+            $data['list'][$ink]['bt'] = $restl[0]['total']?:0;
+            $ap = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']} and rstatus = 3");
+            $data['list'][$ink]['rt'] = $ap[0]['rtotal']?:0;
         }
         //判断除基本用户外是否有编辑权限
         $x = M('role_user')->join("a left join role_node b on a.rid = b.rid")->where("a.uid = {$uid} and a.rid != 2")->field("b.nid")->select();

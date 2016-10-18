@@ -2728,8 +2728,8 @@ class IndexController extends Controller {
             $arr[] = $v['blname'];
             $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']} and bstatus = 4");
             $arr[] = $restl[0]['total']?:0;
-            $restls = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']} and rstatus = 3");
-            $arr[] = $restls[0]['rtotal']?:0;
+            $ap = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']} and rstatus = 3");
+            $arr[] = $ap[0]['rtotal']?:0;
             ob_flush();
             flush();
             echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");

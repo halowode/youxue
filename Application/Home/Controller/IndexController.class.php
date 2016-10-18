@@ -2685,7 +2685,7 @@ class IndexController extends Controller {
 
         //$data = $this->Tmodel->getAllByPage('contract',$where,1);
         //$data = $this->Tmodel->getJoinByPage('contract','project',$where, $this->pagesize);
-        $data = M('contract')->join("a left join project b on a.pid = b.id")->where($where)->select();
+        $data = M('contract')->join("a left join project b on a.pid = b.id")->where($where)->field("a.*,b.pname")->select();
         foreach($data as $ink => $v){
             $data[$ink]['stampis'] = 0;
             $rs = M('stamp')->where("cid = {$v['id']}")->getField('id');

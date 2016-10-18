@@ -2492,7 +2492,7 @@ class IndexController extends Controller {
                 $sres = $M->query("select cid, sum(btotal) as total from bill where cid in ($asstr) and bstatus = 4 group by cid ");
                 if($sres){
                     foreach($sres as $vts){
-                        $rs = $M->query("select sum(btotal) as rtotal from reback where cid = 14 and rstatus = 3");
+                        $rs = $M->query("select sum(btotal) as rtotal from reback where cid = {$vts['cid']} and rstatus = 3");
                         $rtotal = $rs[0]['rtotal']?:0;
                         if($vts['total'] > $rtotal){
                             $realid[] = $vts['cid'];
@@ -2517,7 +2517,7 @@ class IndexController extends Controller {
                 $sres = $M->query("select cid, sum(btotal) as total from bill where cid in ($asstr) and bstatus = 4 group by cid ");
                 if($sres){
                     foreach($sres as $vts){
-                        $rs = $M->query("select sum(btotal) as rtotal from reback where cid = 14 and rstatus = 3");
+                        $rs = $M->query("select sum(btotal) as rtotal from reback where cid = {$vts['cid']} and rstatus = 3");
                         $rtotal = $rs[0]['rtotal']?:0;
                         if($vts['total'] > $rtotal){
                             $realid[] = $vts['cid'];
@@ -2630,7 +2630,7 @@ class IndexController extends Controller {
                 $sres = $M->query("select cid, sum(btotal) as total from bill where cid in ($asstr) and bstatus = 4 group by cid ");
                 if($sres){
                     foreach($sres as $vts){
-                        $rs = $M->query("select sum(btotal) as rtotal from reback where cid = 14 and rstatus = 3");
+                        $rs = $M->query("select sum(btotal) as rtotal from reback where cid = {$vts['cid']} and rstatus = 3");
                         $rtotal = $rs[0]['rtotal']?:0;
                         if($vts['total'] > $rtotal){
                             $realid[] = $vts['cid'];
@@ -2640,8 +2640,9 @@ class IndexController extends Controller {
                 }
                 if($realid){
                     $asstr = implode(',',$realid);
+                    $arr[] = " a.id in ($asstr)";
                 }
-                $arr[] = " a.id in ($asstr)";
+
             }
         }else{
             $newcids = M('contract')->where("bluid = $uid")->field('id')->select();
@@ -2655,7 +2656,7 @@ class IndexController extends Controller {
                 $sres = $M->query("select cid, sum(btotal) as total from bill where cid in ($asstr) and bstatus = 4 group by cid ");
                 if($sres){
                     foreach($sres as $vts){
-                        $rs = $M->query("select sum(btotal) as rtotal from reback where cid = 14 and rstatus = 3");
+                        $rs = $M->query("select sum(btotal) as rtotal from reback where cid = {$vts['cid']} and rstatus = 3");
                         $rtotal = $rs[0]['rtotal']?:0;
                         if($vts['total'] > $rtotal){
                             $realid[] = $vts['cid'];
@@ -2665,8 +2666,9 @@ class IndexController extends Controller {
                 }
                 if($realid){
                     $asstr = implode(',',$realid);
+                    $arr[] = " a.id in ($asstr)";
                 }
-                $arr[] = " a.id in ($asstr)";
+
             }
         }
         if(!$realid){

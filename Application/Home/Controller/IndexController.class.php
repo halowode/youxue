@@ -2443,7 +2443,7 @@ class IndexController extends Controller {
         $this->assign('_belong',$_belong);
         $arr = [];
         if($_blname){
-            $arr[] = "a.blname like '%{$_blname}%'";
+            $arr[] = " a.blname like '%{$_blname}%' ";
         }
 
         if($_pname){

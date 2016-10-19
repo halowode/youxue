@@ -2478,10 +2478,7 @@ class IndexController extends Controller {
             }
             $strarr = array_unique($strarr);
             $str = implode(',',$strarr);
-            $cids = M('contract')->where("pid in ($str)")->field('id')->select();
-            $ycids = M('contract')->where("bluid = $uid")->field('id')->select();
-            $newcids = array_merge($cids,$ycids);
-
+            $newcids = M('contract')->where("pid in ($str) or bluid = $uid")->field('id')->select();
             if($newcids){
                 foreach($newcids as $vsid){
                     $asids[] = $vsid['id'];
@@ -2621,10 +2618,7 @@ class IndexController extends Controller {
             }
             $strarr = array_unique($strarr);
             $str = implode(',',$strarr);
-            $cids = M('contract')->where("pid in ($str)")->field('id')->select();
-            $ycids = M('contract')->where("bluid = $uid")->field('id')->select();
-            $newcids = array_merge($cids,$ycids);
-
+            $newcids = M('contract')->where("pid in ($str) or bluid = $uid")->field('id')->select();
             if($newcids){
                 foreach($newcids as $vsid){
                     $asids[] = $vsid['id'];
@@ -2743,5 +2737,272 @@ class IndexController extends Controller {
         }
 
 
+    }
+
+    public function bldetail(){
+        $uid = session('uid');
+        $where = '';
+        $_fname = I('get.fname');
+        $this->assign('_fname',$_fname);
+        $_pname = I('get.pname');
+        $this->assign('_pname',$_pname);
+        $_cname = I('get.cname');
+        $this->assign('_cname',$_cname);
+        $_gname = I('get.gname');
+        $this->assign('_gname',$_gname);
+        /*
+        $_isstamp = I('get.isstamp');
+        $this->assign('_isstamp',$_isstamp);
+        $_isfiling = I('get.isfiling');
+        $this->assign('_isfiling',$_isfiling);
+        */
+        $_ptime = I('get.p_time');
+        $_petime = I('get.p_etime');
+        $this->assign('_ptime',$_ptime);
+        $this->assign('_petime',$_petime);
+        if($_ptime || $_petime){
+            if($_ptime && $_petime){
+                $startTime = strtotime($_petime);
+                $endTime = strtotime($_petime);
+                $arr[] = " a.isfiling = 3 and a.filingtime > $startTime and a.filingtime < $endTime";
+                $url['p_time']=$_ptime;
+                $url['p_etime']=$_petime;
+            }else{
+                $this->error("开始和结束时间都要选择");
+                exit;
+            }
+        }
+        $_btime = I('get.begin_time');
+        $_ntime = I('get.end_time');
+        $this->assign('_btime',$_btime);
+        $this->assign('_ntime',$_ntime);
+        if($_btime || $_ntime){
+            if($_btime && $_ntime){
+                $arr[] = " a.isstamp = 1 and b.stime >$_btime and b.stime < $_ntime ";
+                $url['begin_time']=$_btime;
+                $url['end_time'] = $_ntime;
+            }else{
+                $this->error("开始和结束时间都要选择");
+                exit;
+            }
+        }
+
+        $_belong = I('get.belong');
+        $this->assign('_belong',$_belong);
+        $_ct = I('get.ct');
+        $this->assign('_ct',$_ct);
+        $arr = [];
+        if($_fname){
+            $arr[] = "a.fname like '%{$_fname}%'";
+            $url['fname']=$_fname;
+        }
+        if($_ct){
+            $ty = ($_ct == 1)?0:1;
+            $arr[] = " a.kinds = $ty ";
+            $url['ct']=$_ct;
+        }
+        if($_pname){
+            $pidarr = M('project')->where("pname like '%{$_pname}%'")->field('id')->select();
+            $fstr = '';
+            if($pidarr){
+                $fstr = getSingleFieldStr($pidarr);
+            }
+            if($fstr){
+                $arr[] = " a.pid in ($fstr) ";
+            }
+            $url['pname']=$_pname;
+        }
+        if($_gname){
+            $arr[] = "a.gname like '%{$_gname}%'";
+            $url['gname']=$_gname;
+        }
+        if($_cname){
+            $arr[] = "a.cname like '%{$_cname}%'";
+            $url['cname']=$_cname;
+        }
+        if($_belong){
+            $arr[] = "a.belong like '%{$_belong}%'";
+            $url['belong']=$_belong;
+        }
+
+        //硬性条件
+        $proidarr = M('promg')->where('uid = '.$uid)->field('proid')->select();
+        if($proidarr){
+            $tmpstr = '';
+            foreach($proidarr as $vproid){
+                $tmpstr .= $vproid['proid'].',';
+            }
+            $tmpstr = trim($tmpstr,',');
+            $arr[] = " (a.pid in ($tmpstr) or a.bluid = $uid) ";
+        }else{
+            $arr[] = " a.bluid = $uid ";
+        }
+
+
+        if(!empty($arr)){
+            $where = implode(' and ',$arr);
+        }
+
+        //$data = $this->Tmodel->getAllByPage('contract',$where,1);
+        $data = $this->Tmodel->getJoinByPagest('contract','stamp',$where, $this->pagesize);
+        foreach($data['list'] as $ink => $v){
+            $data['list'][$ink]['pname'] = M('project')->where("id = {$v['pid']}")->getfield('pname');
+        }
+        $this->assign('data' , $data);
+        if(I('get.p') == '' || I('get.p') == 1){$vari = 1;}else{$vari = $pagesize * (I('get.p') - 1) + 1;}
+        $requesturl = $_SERVER['REQUEST_URI'];
+        $this->assign('dqurl',base64url_encode($requesturl));// 当前URL
+        $this->assign('vari',$vari);// 序号累加变量
+        $this->assign('url',$url);
+        $this->display();
+    }
+
+    public function downdetail(){
+        set_time_limit(0);
+        @ini_set('memory_limit', '500M');
+        $uid = session('uid');
+        $where = '';
+        $_fname = I('get.fname');
+        $this->assign('_fname',$_fname);
+        $_pname = I('get.pname');
+        $this->assign('_pname',$_pname);
+        $_cname = I('get.cname');
+        $this->assign('_cname',$_cname);
+        $_gname = I('get.gname');
+        $this->assign('_gname',$_gname);
+        $_ptime = I('get.p_time');
+        $_petime = I('get.p_etime');
+        $this->assign('_ptime',$_ptime);
+        $this->assign('_petime',$_petime);
+        if($_ptime || $_petime){
+            if($_ptime && $_petime){
+                $startTime = strtotime($_petime);
+                $endTime = strtotime($_petime);
+                $arr[] = " a.isfiling = 3 and a.filingtime > $startTime and a.filingtime < $endTime";
+                $url['p_time']=$_ptime;
+                $url['p_etime']=$_petime;
+            }else{
+                $this->error("开始和结束时间都要选择");
+                exit;
+            }
+        }
+        $_btime = I('get.begin_time');
+        $_ntime = I('get.end_time');
+        $this->assign('_btime',$_btime);
+        $this->assign('_ntime',$_ntime);
+        if($_btime || $_ntime){
+            if($_btime && $_ntime){
+                $arr[] = " a.isstamp = 1 and b.stime >$_btime and b.stime < $_ntime ";
+                $url['begin_time']=$_btime;
+                $url['end_time'] = $_ntime;
+            }else{
+                $this->error("开始和结束时间都要选择");
+                exit;
+            }
+        }
+
+        $_belong = I('get.belong');
+        $this->assign('_belong',$_belong);
+        $_ct = I('get.ct');
+        $this->assign('_ct',$_ct);
+        $arr = [];
+        if($_fname){
+            $arr[] = "a.fname like '%{$_fname}%'";
+            $url['fname']=$_fname;
+        }
+        if($_ct){
+            $ty = ($_ct == 1)?0:1;
+            $arr[] = " a.kinds = $ty ";
+            $url['ct']=$_ct;
+        }
+        if($_pname){
+            $pidarr = M('project')->where("pname like '%{$_pname}%'")->field('id')->select();
+            $fstr = '';
+            if($pidarr){
+                $fstr = getSingleFieldStr($pidarr);
+            }
+            if($fstr){
+                $arr[] = " a.pid in ($fstr) ";
+            }
+            $url['pname']=$_pname;
+        }
+        if($_gname){
+            $arr[] = "a.gname like '%{$_gname}%'";
+            $url['gname']=$_gname;
+        }
+        if($_cname){
+            $arr[] = "a.cname like '%{$_cname}%'";
+            $url['cname']=$_cname;
+        }
+        if($_belong){
+            $arr[] = "a.belong like '%{$_belong}%'";
+            $url['belong']=$_belong;
+        }
+
+        //硬性条件
+        $proidarr = M('promg')->where('uid = '.$uid)->field('proid')->select();
+        if($proidarr){
+            $tmpstr = '';
+            foreach($proidarr as $vproid){
+                $tmpstr .= $vproid['proid'].',';
+            }
+            $tmpstr = trim($tmpstr,',');
+            $arr[] = " (a.pid in ($tmpstr) or a.bluid = $uid) ";
+        }else{
+            $arr[] = " a.bluid = $uid ";
+        }
+
+
+        if(!empty($arr)){
+            $where = implode(' and ',$arr);
+        }
+        //$data = $this->Tmodel->getJoinByPagest('contract','stamp',$where, $this->pagesize);
+        $data = M('contract')->join("a left join stamp b on a.id = b.cid")->where($where)->field('a.*,b.stime')->select();
+        foreach($data as $ink => $v){
+            $data[$ink]['pname'] = M('project')->where("id = {$v['pid']}")->getfield('pname');
+        }
+        $filename = '导出数据';
+        header("Content-type:application/octet-stream");
+        header("Accept-Ranges:bytes");
+        header("Content-type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=".$filename.".xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $titles = [
+            '合同编号',
+            '归属公司',
+            '合同名称',
+            '项目名称',
+            '客户名称',
+            '合同金额',
+            '创建人',
+            '归属人',
+            '已出发票总额',
+            '已确认回款额',
+        ];
+        foreach ($titles as $k => $v) {
+            $titles[$k]=iconv("UTF-8", "GB2312",$v);
+        }
+        $titles= implode("\t", $titles);
+        $M = new \Think\Model();
+        echo "$titles\n";
+        foreach($data as $k => $v){
+            $arr = [];
+            $arr[] = $v['cno'];
+            $arr[] = $v['belong'];
+            $arr[] = $v['cname'];
+            $arr[] = $v['pname'];
+            $arr[] = $v['gname'];
+            $arr[] = $v['total'];
+            $arr[] = $v['fname'];
+            $arr[] = $v['blname'];
+            $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']} and bstatus = 4");
+            $arr[] = $restl[0]['total']?:0;
+            $ap = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']} and rstatus = 3");
+            $arr[] = $ap[0]['rtotal']?:0;
+            ob_flush();
+            flush();
+            echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");
+        }
     }
 }

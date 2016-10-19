@@ -2876,7 +2876,7 @@ class IndexController extends Controller {
         $this->assign('_petime',$_petime);
         if($_ptime || $_petime){
             if($_ptime && $_petime){
-                $startTime = strtotime($_petime);
+                $startTime = strtotime($_ptime);
                 $endTime = strtotime($_petime);
                 $arr[] = " a.isfiling = 3 and a.filingtime > $startTime and a.filingtime < $endTime";
                 $url['p_time']=$_ptime;
@@ -2892,7 +2892,7 @@ class IndexController extends Controller {
         $this->assign('_ntime',$_ntime);
         if($_btime || $_ntime){
             if($_btime && $_ntime){
-                $arr[] = " a.isstamp = 1 and b.stime >$_btime and b.stime < $_ntime ";
+                $arr[] = " a.isstamp = 1 and b.stime >'$_btime' and b.stime < '$_ntime' ";
                 $url['begin_time']=$_btime;
                 $url['end_time'] = $_ntime;
             }else{

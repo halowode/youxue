@@ -2947,7 +2947,7 @@ class IndexController extends Controller {
                 $tmpstr .= $vproid['proid'].',';
             }
             $tmpstr = trim($tmpstr,',');
-            $arr[] = " (a.pid in ($tmpstr) or a.bluid = $uid) ";
+            $arr[] = " a.pid in ($tmpstr) or a.bluid = $uid ";
         }else{
             $arr[] = " a.bluid = $uid ";
         }

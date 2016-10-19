@@ -2742,6 +2742,7 @@ class IndexController extends Controller {
     public function bldetail(){
         $uid = session('uid');
         $where = '';
+	$arr=[];
         $_fname = I('get.fname');
         $this->assign('_fname',$_fname);
         $_pname = I('get.pname');
@@ -2762,7 +2763,7 @@ class IndexController extends Controller {
         $this->assign('_petime',$_petime);
         if($_ptime || $_petime){
             if($_ptime && $_petime){
-                $startTime = strtotime($_petime);
+                $startTime = strtotime($_ptime);
                 $endTime = strtotime($_petime);
                 $arr[] = " a.isfiling = 3 and a.filingtime > $startTime and a.filingtime < $endTime";
                 $url['p_time']=$_ptime;
@@ -2778,7 +2779,7 @@ class IndexController extends Controller {
         $this->assign('_ntime',$_ntime);
         if($_btime || $_ntime){
             if($_btime && $_ntime){
-                $arr[] = " a.isstamp = 1 and b.stime >$_btime and b.stime < $_ntime ";
+                $arr[] = " a.isstamp = 1 and b.stime >'$_btime' and b.stime < '$_ntime' ";
                 $url['begin_time']=$_btime;
                 $url['end_time'] = $_ntime;
             }else{
@@ -2791,7 +2792,6 @@ class IndexController extends Controller {
         $this->assign('_belong',$_belong);
         $_ct = I('get.ct');
         $this->assign('_ct',$_ct);
-        $arr = [];
         if($_fname){
             $arr[] = "a.fname like '%{$_fname}%'";
             $url['fname']=$_fname;
@@ -2833,7 +2833,7 @@ class IndexController extends Controller {
                 $tmpstr .= $vproid['proid'].',';
             }
             $tmpstr = trim($tmpstr,',');
-            $arr[] = " (a.pid in ($tmpstr) or a.bluid = $uid) ";
+            $arr[] = " a.pid in ($tmpstr) or a.bluid = $uid ";
         }else{
             $arr[] = " a.bluid = $uid ";
         }
@@ -2842,11 +2842,9 @@ class IndexController extends Controller {
         if(!empty($arr)){
             $where = implode(' and ',$arr);
         }
-        echo $where;
-        exit;
 
-        //$data = $this->Tmodel->getAllByPage('contract',$where,1);
         $data = $this->Tmodel->getJoinByPagest('contract','stamp',$where, $this->pagesize);
+
         foreach($data['list'] as $ink => $v){
             $data['list'][$ink]['pname'] = M('project')->where("id = {$v['pid']}")->getfield('pname');
         }

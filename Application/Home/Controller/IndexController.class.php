@@ -3028,6 +3028,7 @@ class IndexController extends Controller {
     public function rebksrch(){
         $uid = session('uid');
         $paycomp = I('get.paycomp');
+        $this->assign('paycomp',$paycomp);
         $arr=[];
         //硬性条件
         $M = new \Think\Model();
@@ -3057,19 +3058,19 @@ class IndexController extends Controller {
             $url['paycomp'] = $paycomp;
         }
         $blname = I('get.blname');
-        $this->assign('_blname',$blname);
+        $this->assign('blname',$blname);
         if($blname){
             $arr[] = " b.blname like '%{$blname}%' ";
             $url['blname'] = $blname;
         }
         $gname = I('get.gname');
-        $this->assign('_gname',$gname);
+        $this->assign('gname',$gname);
         if($gname){
             $arr[] = " b.gname like '%{$gname}%' ";
             $url['gname'] = $gname;
         }
         $pname = I('get.pname');
-        $this->assign('_pname',$pname);
+        $this->assign('pname',$pname);
         if($pname){
             $pids = M('project')->where("pname like '%{$pname}%'")->field('id')->select();
             $tmpstr = '';

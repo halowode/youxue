@@ -3211,7 +3211,7 @@ class IndexController extends Controller {
         $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid,b.blname";
         //$order = "a.id desc";
         //$data = $this->Tmodel->getCommonList('reback', 'contract', $on, $where, $field, $order, $this->pagesize);
-        $data = M('reback')->join("a left join contract b ".$on)->where($where)->field($field)->select();
+        $data = M('reback')->join("a left join contract b on ".$on)->where($where)->field($field)->select();
 
         foreach($data as $k => $v){
             $data[$k]['bno'] = M('bank')->where("id = {$v['bankno']}")->getField('bankno');

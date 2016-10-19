@@ -2755,6 +2755,8 @@ class IndexController extends Controller {
         $this->assign('_cname',$_cname);
         $_gname = I('get.gname');
         $this->assign('_gname',$_gname);
+        $_zc = I('get.zc',0);
+        $this->assign('_zc',$_zc);
         /*
         $_isstamp = I('get.isstamp');
         $this->assign('_isstamp',$_isstamp);
@@ -2828,6 +2830,10 @@ class IndexController extends Controller {
             $arr[] = "a.belong like '%{$_belong}%'";
             $url['belong']=$_belong;
         }
+        if($_zc){
+            $arr[] = " a.isactive = 1 and isfiling != 3 ";
+            $url['zc'] = $_zc;
+        }
 
         //硬性条件
         $proidarr = M('promg')->where('uid = '.$uid)->field('proid')->select();
@@ -2882,6 +2888,8 @@ class IndexController extends Controller {
         $_petime = I('get.p_etime');
         $this->assign('_ptime',$_ptime);
         $this->assign('_petime',$_petime);
+        $_zc = I('get.zc',0);
+        $this->assign('_zc',$_zc);
         if($_ptime || $_petime){
             if($_ptime && $_petime){
                 $startTime = strtotime($_ptime);
@@ -2946,7 +2954,10 @@ class IndexController extends Controller {
             $arr[] = "a.belong like '%{$_belong}%'";
             $url['belong']=$_belong;
         }
-
+        if($_zc){
+            $arr[] = " a.isactive = 1 and isfiling != 3 ";
+            $url['zc'] = $_zc;
+        }
         //硬性条件
         $proidarr = M('promg')->where('uid = '.$uid)->field('proid')->select();
         if($proidarr){

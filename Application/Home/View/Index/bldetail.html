@@ -143,6 +143,11 @@
                     <label style="margin-left:5px;">项目名称:&nbsp;&nbsp;</label>
                     <input type="text" class="input-sm" name="pname"  style="float:none;" placeholder="请输入关键字" value="{$keyword}" />
                     <input type="submit" name="search" id="search" value="搜索" class="bj_btn" />
+                    <label style="margin-left:5px;">执行未归档:&nbsp;&nbsp;</label>
+                    <select class="input-sm" name="zc" style="margin-right:5px;width:80px;">
+                        <option value="0" <if condition="$_zc eq 0">selected=selected</if>>-选择-</option>
+                        <option value="1" <if condition="$_zc eq 1">selected=selected</if>>已执行未归档</option>
+                    </select>
                 </td>
             </tr>
             <tr>

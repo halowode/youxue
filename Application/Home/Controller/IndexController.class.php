@@ -2842,6 +2842,8 @@ class IndexController extends Controller {
         if(!empty($arr)){
             $where = implode(' and ',$arr);
         }
+        echo $where;
+        exit;
 
         //$data = $this->Tmodel->getAllByPage('contract',$where,1);
         $data = $this->Tmodel->getJoinByPagest('contract','stamp',$where, $this->pagesize);

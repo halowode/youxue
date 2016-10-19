@@ -2911,7 +2911,7 @@ class IndexController extends Controller {
         $this->assign('_ct',$_ct);
         $arr = [];
         if($_fname){
-            $arr[] = "a.fname like '%{$_fname}%'";
+            $arr[] = "a.blname like '%{$_fname}%'";
             $url['fname']=$_fname;
         }
         if($_ct){

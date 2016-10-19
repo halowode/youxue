@@ -2844,7 +2844,7 @@ class IndexController extends Controller {
         }
 
         $data = $this->Tmodel->getJoinByPagest('contract','stamp',$where, $this->pagesize);
-
+        $M = new \Think\Model();
         foreach($data['list'] as $ink => $v){
             $data['list'][$ink]['pname'] = M('project')->where("id = {$v['pid']}")->getfield('pname');
             $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']} and bstatus = 4");

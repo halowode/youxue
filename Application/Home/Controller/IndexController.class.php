@@ -3064,7 +3064,7 @@ class IndexController extends Controller {
         }
         $gname = I('get.gname');
         $this->assign('_gname',$gname);
-        if($blname){
+        if($gname){
             $arr[] = " b.gname like '%{$gname}%' ";
             $url['gname'] = $gname;
         }
@@ -3167,7 +3167,7 @@ class IndexController extends Controller {
         }
         $gname = I('get.gname');
         $this->assign('_gname',$gname);
-        if($blname){
+        if($gname){
             $arr[] = " b.gname like '%{$gname}%' ";
             $url['gname'] = $gname;
         }

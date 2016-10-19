@@ -3105,7 +3105,7 @@ class IndexController extends Controller {
         }
 
         $on = "a.cid = b.id";
-        $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid";
+        $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid,b.blname";
         $order = "a.id desc";
         $data = $this->Tmodel->getCommonList('reback', 'contract', $on, $where, $field, $order, $this->pagesize);
 

@@ -2742,7 +2742,7 @@ class IndexController extends Controller {
     public function bldetail(){
         $uid = session('uid');
         $where = '';
-	$arr=[];
+	    $arr=[];
         $_fname = I('get.fname');
         $this->assign('_fname',$_fname);
         $_pname = I('get.pname');
@@ -2793,7 +2793,7 @@ class IndexController extends Controller {
         $_ct = I('get.ct');
         $this->assign('_ct',$_ct);
         if($_fname){
-            $arr[] = "a.fname like '%{$_fname}%'";
+            $arr[] = "a.blname like '%{$_fname}%'";
             $url['fname']=$_fname;
         }
         if($_ct){
@@ -2847,6 +2847,10 @@ class IndexController extends Controller {
 
         foreach($data['list'] as $ink => $v){
             $data['list'][$ink]['pname'] = M('project')->where("id = {$v['pid']}")->getfield('pname');
+            $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']} and bstatus = 4");
+            $data['list'][$ink]['bt'] = $restl[0]['total']?:0;
+            $ap = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']} and rstatus = 3");
+            $data['list'][$ink]['rt'] = $ap[0]['rtotal']?:0;
         }
         $this->assign('data' , $data);
         if(I('get.p') == '' || I('get.p') == 1){$vari = 1;}else{$vari = $pagesize * (I('get.p') - 1) + 1;}

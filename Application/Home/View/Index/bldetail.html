@@ -128,7 +128,7 @@
                     </select>
                     <label style="margin-left:5px;">归属公司:&nbsp;&nbsp;</label>
                     <input type="text" class="input-sm" name="belong" style="float:none;" placeholder="请输入关键字" value="{$_belong}" />
-                    <label style="margin-left:5px;">负责人:&nbsp;&nbsp;</label>
+                    <label style="margin-left:5px;">归属人:&nbsp;&nbsp;</label>
                     <input type="text" class="input-sm" name="fname" style="float:none;" placeholder="请输入关键字" value="{$_fname}" />
                     <label style="margin-left:5px;">合同名称:&nbsp;&nbsp;</label>
                     <input type="text" class="input-sm" name="cname" style="float:none;" placeholder="请输入关键字" value="{$_cname}" />
@@ -152,8 +152,10 @@
                 <td width="10%" align="center" class="tb_title">项目名称</td>
                 <td width="8%" align="center" class="tb_title">客户名称</td>
                 <td width="3%" align="center" class="tb_title">合同金额</td>
-
-                <td width="5%" align="center" class="tb_title">负责人</td>
+                <td width="3%" align="center" class="tb_title">已开票总额</td>
+                <td width="3%" align="center" class="tb_title">确认回款额</td>
+                <td width="5%" align="center" class="tb_title">创建人</td>
+                <td width="5%" align="center" class="tb_title">归属人</td>
 
             </tr>
             <notempty name="data['list']">
@@ -165,8 +167,10 @@
                         <td align="center">{$vo.pname}</td>
                         <td align="center">{$vo.gname}</td>
                         <td align="center">{:number_format($vo[total],2)}</td>
-
+                        <td align="center">{:number_format($vo[bt],2)}</td>
+                        <td align="center">{:number_format($vo[rt],2)}</td>
                         <td align="center">{$vo.fname}</td>
+                        <td align="center">{$vo.blname}</td>
 <!--
                         <td align="center">
 
@@ -196,12 +200,12 @@
                 </foreach>
                 <else />
                 <tr>
-                    <td colspan="7">暂无信息</td>
+                    <td colspan="10">暂无信息</td>
                 </tr>
             </notempty>
             <if condition="($data['list'] neq null)">
                 <tr>
-                    <td colspan="7">
+                    <td colspan="10">
                         {$data.show}
                     </td>
                 </tr>

@@ -3127,6 +3127,136 @@ class IndexController extends Controller {
     }
 
     public function downrebxls(){
+        set_time_limit(0);
+        @ini_set('memory_limit', '500M');
+        $uid = session('uid');
+        $paycomp = I('get.paycomp');
+        $arr=[];
+        //硬性条件
+        $M = new \Think\Model();
+        $ids = $M->query("select id from contract where pid in (select proid from promg where uid = $uid) or bluid = $uid");
+        if($ids){
+            $idstr = '';
+            foreach($ids as $vt){
+                $resid = M('reback')->where("cid = {$vt['id']} and rstatus = 3")->getfield('id');
+                if($resid){
+                    $idstr .= $resid.',';
+                }
+            }
+            $idstr = trim($idstr,',');
+            if($idstr){
+                $arr[] = " a.id in ($idstr) and a.rstatus = 3 ";
+            }
+            if(!$arr){
+                $arr[] = " a.id = -10 ";
+                goto zg;
+            }
+        }else{
+            $arr[] = " a.id = -10 ";
+            goto zg;
+        }
+        if($paycomp){
+            $arr[] = " a.paycomp like '%{$paycomp}%' ";
+            $url['paycomp'] = $paycomp;
+        }
+        $blname = I('get.blname');
+        $this->assign('_blname',$blname);
+        if($blname){
+            $arr[] = " b.blname like '%{$blname}%' ";
+            $url['blname'] = $blname;
+        }
+        $gname = I('get.gname');
+        $this->assign('_gname',$gname);
+        if($blname){
+            $arr[] = " b.gname like '%{$gname}%' ";
+            $url['gname'] = $gname;
+        }
+        $pname = I('get.pname');
+        $this->assign('_pname',$pname);
+        if($pname){
+            $pids = M('project')->where("pname like '%{$pname}%'")->field('id')->select();
+            $tmpstr = '';
+            if($pids){
+                foreach($pids as $vp){
+                    $tmpstr .= $vp['id'].',';
+                }
+                $tmpstr = trim($tmpstr,',');
+            }
+            if($tmpstr){
+                $arr[] = " b.pid in ($tmpstr) ";
+            }
+
+            $url['pname'] = $pname;
+        }
+        $p_time = I('get.p_time');
+        $this->assign('p_time',$p_time);
+        $p_etime = I('get.p_etime');
+        $this->assign('p_etime',$p_etime);
+        if($p_time || $p_etime){
+            if($p_time && $p_etime){
+                $arr[] = " a.btime >'$p_time' and a.btime < '$p_etime' ";
+                $url['p_time']=$p_time;
+                $url['p_etime'] = $p_etime;
+            }else{
+                $this->error("开始和结束时间都要选择");
+                exit;
+            }
+        }
+        zg:
+        if(!empty($arr)){
+            $where = implode(' and ',$arr);
+        }
+
+        $on = "a.cid = b.id";
+        $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid,b.blname";
+        //$order = "a.id desc";
+        //$data = $this->Tmodel->getCommonList('reback', 'contract', $on, $where, $field, $order, $this->pagesize);
+        $data = M('reback')->join("a left join contract b ".$on)->where($where)->field($field)->select();
+
+        foreach($data as $k => $v){
+            $data[$k]['bno'] = M('bank')->where("id = {$v['bankno']}")->getField('bankno');
+        }
+        $filename = '导出数据';
+        header("Content-type:application/octet-stream");
+        header("Accept-Ranges:bytes");
+        header("Content-type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=".$filename.".xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $titles = [
+            '回款iD',
+            '关联合同',
+            '回款金额',
+            '付款公司',
+            '收款公司',
+            '款项性质',
+            '收款账号',
+            '回款时间',
+            '归属人',
+            '管理状态',
+        ];
+        foreach ($titles as $k => $v) {
+            $titles[$k]=iconv("UTF-8", "GB2312",$v);
+        }
+        $titles= implode("\t", $titles);
+        $M = new \Think\Model();
+        echo "$titles\n";
+        foreach($data as $k => $v){
+            $arr = [];
+            $arr[] = $v['id'];
+            $arr[] = $v['cno'];
+            $arr[] = $v['btotal'];
+            $arr[] = $v['paycomp'];
+            $arr[] = $v['payee'];
+            $arr[] = $v['btype'];
+            $arr[] = $v['bno'];
+            $arr[] = $v['btime'];
+            $arr[] = $v['blname'];
+            $arr[] = '已确认回款';
+            ob_flush();
+            flush();
+            echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");
+        }
 
     }
 }

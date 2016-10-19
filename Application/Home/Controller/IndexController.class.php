@@ -1933,6 +1933,10 @@ class IndexController extends Controller {
             $kuid = session('uid');
             if($type == 'pas'){
                 $res = M('reback')->where("id = $rid")->save(['ckuid'=>$kuid,'rstatus'=>3]);
+                $cid = M('reback')->where("id = $rid")->getField('cid');
+                if($cid){
+                    M('contract')->where("id = $cid")->save(['isactive'=>1]);
+                }
                 $rs = M('message')->add(['mtype'=>'reback','fid'=>$rid,'msg'=>$msg,'ctime'=>time(),'uid'=>session('uid'),'uname'=>session('uinfo')['username'],'mattr'=>2]);
                 if($res && $rs){
                     $this->success('通过成功！');

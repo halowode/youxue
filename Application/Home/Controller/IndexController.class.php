@@ -316,7 +316,7 @@ class IndexController extends Controller {
                 $stamp[$ky]['ckuname'] = M('user')->where("id = {$cdata['checkuid']}")->getField('username');
             }
         }
-        $payback = M("reback")->join("a left join bank b on a.bankno = b.id")->where("a.cid = $cid and (a.rstatus = 2 or a.rstatus = 3)")->field('a.*,b.bankno as banknum')->select();
+        $payback = M("reback")->join("a left join bank b on a.bankno = b.id")->where("a.cid = $cid ")->field('a.*,b.bankno as banknum')->select();
         $spaytotal = 0;
         $wpaytotal = 0;
         foreach($payback as $vl){
@@ -2188,7 +2188,7 @@ class IndexController extends Controller {
                     $arr[] = $sdt['adposition'];
                     $arr[] = $sdt['settleitem'];
                 }
-                $payback = M("reback")->join("a left join bank b on a.bankno = b.id")->where("a.cid = {$value['id']} and (a.rstatus = 2 or a.rstatus = 3)")->field('a.*,b.bankno as banknum')->select();
+                $payback = M("reback")->join("a left join bank b on a.bankno = b.id")->where("a.cid = {$value['id']}")->field('a.*,b.bankno as banknum')->select();
                 $spaytotal = 0;
                 $wpaytotal = 0;
                 foreach($payback as $vl){

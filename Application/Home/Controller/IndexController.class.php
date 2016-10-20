@@ -3033,12 +3033,14 @@ class IndexController extends Controller {
         //硬性条件
         $M = new \Think\Model();
         $ids = $M->query("select id from contract where pid in (select proid from promg where uid = $uid) or bluid = $uid");
-        if($ids){
+	if($ids){
             $idstr = '';
             foreach($ids as $vt){
-                $resid = M('reback')->where("cid = {$vt['id']} and rstatus = 3")->getfield('id');
+                $resid = M('reback')->where("cid = {$vt['id']} and rstatus = 3")->field('id')->select();
                 if($resid){
-                    $idstr .= $resid.',';
+                    foreach($resid as $vss){
+		    	$idstr .= $vss['id'].',';
+                    }
                 }
             }
             $idstr = trim($idstr,',');
@@ -3139,9 +3141,11 @@ class IndexController extends Controller {
         if($ids){
             $idstr = '';
             foreach($ids as $vt){
-                $resid = M('reback')->where("cid = {$vt['id']} and rstatus = 3")->getfield('id');
+                $resid = M('reback')->where("cid = {$vt['id']} and rstatus = 3")->field('id')->select();
                 if($resid){
-                    $idstr .= $resid.',';
+		    foreach($resid as $vss){
+			$idstr .= $vss['id'].',';
+		    }
                 }
             }
             $idstr = trim($idstr,',');

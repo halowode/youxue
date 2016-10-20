@@ -2192,13 +2192,13 @@ class IndexController extends Controller {
                 $spaytotal = 0;
                 $wpaytotal = 0;
                 foreach($payback as $vl){
-                    if($rstatus == 2){
+                    if($rstatus == 3){
                         $wpaytotal += $vl['btotal'];
                     }else{
                         $spaytotal += $vl['btotal'];
                     }
                 }
-                $arr[] = $spaytotal;
+                $arr[] = $wpaytotal;
                 $arr[] = ($spaytotal + $wpaytotal);
                 ob_flush();
                 flush();

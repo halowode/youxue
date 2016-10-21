@@ -2803,7 +2803,7 @@ class IndexController extends Controller {
             $url['fname']=$_fname;
         }
         if($_ct){
-            $ty = ($_ct == 1)?0:1;
+            $ty = $_ct == 2?1:0;
             $arr[] = " a.kinds = $ty ";
             $url['ct']=$_ct;
         }

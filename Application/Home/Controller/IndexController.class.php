@@ -2785,7 +2785,7 @@ class IndexController extends Controller {
         $this->assign('_ntime',$_ntime);
         if($_btime || $_ntime){
             if($_btime && $_ntime){
-                $arr[] = " a.isstamp = 1 and b.stime >'$_btime' and b.stime < '$_ntime' ";
+                $arr[] = " a.isstamp = 1 and b.stime >='$_btime' and b.stime <= '$_ntime' ";
                 $url['begin_time']=$_btime;
                 $url['end_time'] = $_ntime;
             }else{
@@ -2831,7 +2831,7 @@ class IndexController extends Controller {
             $url['belong']=$_belong;
         }
         if($_zc){
-            $arr[] = " a.isactive = 1 and isfiling != 3 ";
+            $arr[] = " a.isactive = 1 and a.isfiling != 3 and a.kinds = 0 ";
             $url['zc'] = $_zc;
         }
 
@@ -2854,7 +2854,6 @@ class IndexController extends Controller {
         }
 
         $data = $this->Tmodel->getJoinByPagest('contract','stamp',$where, $this->pagesize);
-	echo M('contract')->getlastsql();
         $M = new \Think\Model();
         foreach($data['list'] as $ink => $v){
             $data['list'][$ink]['pname'] = M('project')->where("id = {$v['pid']}")->getfield('pname');
@@ -2895,7 +2894,7 @@ class IndexController extends Controller {
             if($_ptime && $_petime){
                 $startTime = strtotime($_ptime);
                 $endTime = strtotime($_petime);
-                $arr[] = " a.isfiling = 3 and a.filingtime > $startTime and a.filingtime < $endTime";
+                $arr[] = " a.isfiling = 3 and a.filingtime >= $startTime and a.filingtime <= $endTime";
                 $url['p_time']=$_ptime;
                 $url['p_etime']=$_petime;
             }else{
@@ -2956,7 +2955,7 @@ class IndexController extends Controller {
             $url['belong']=$_belong;
         }
         if($_zc){
-            $arr[] = " a.isactive = 1 and isfiling != 3 ";
+            $arr[] = " a.isactive = 1 and a.isfiling != 3 and a.kinds = 0 ";
             $url['zc'] = $_zc;
         }
         //硬性条件
@@ -3095,7 +3094,7 @@ class IndexController extends Controller {
         $this->assign('p_etime',$p_etime);
         if($p_time || $p_etime){
             if($p_time && $p_etime){
-                $arr[] = " a.btime >'$p_time' and a.btime < '$p_etime' ";
+                $arr[] = " a.btime >='$p_time' and a.btime <= '$p_etime' ";
                 $url['p_time']=$p_time;
                 $url['p_etime'] = $p_etime;
             }else{
@@ -3200,7 +3199,7 @@ class IndexController extends Controller {
         $this->assign('p_etime',$p_etime);
         if($p_time || $p_etime){
             if($p_time && $p_etime){
-                $arr[] = " a.btime >'$p_time' and a.btime < '$p_etime' ";
+                $arr[] = " a.btime >='$p_time' and a.btime <= '$p_etime' ";
                 $url['p_time']=$p_time;
                 $url['p_etime'] = $p_etime;
             }else{

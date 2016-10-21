@@ -2843,7 +2843,7 @@ class IndexController extends Controller {
                 $tmpstr .= $vproid['proid'].',';
             }
             $tmpstr = trim($tmpstr,',');
-            $arr[] = " a.pid in ($tmpstr) or a.bluid = $uid ";
+            $arr[] = " (a.pid in ($tmpstr) or a.bluid = $uid) ";
         }else{
             $arr[] = " a.bluid = $uid ";
         }
@@ -2854,6 +2854,7 @@ class IndexController extends Controller {
         }
 
         $data = $this->Tmodel->getJoinByPagest('contract','stamp',$where, $this->pagesize);
+	echo M('contract')->getlastsql();
         $M = new \Think\Model();
         foreach($data['list'] as $ink => $v){
             $data['list'][$ink]['pname'] = M('project')->where("id = {$v['pid']}")->getfield('pname');
@@ -2966,7 +2967,7 @@ class IndexController extends Controller {
                 $tmpstr .= $vproid['proid'].',';
             }
             $tmpstr = trim($tmpstr,',');
-            $arr[] = " a.pid in ($tmpstr) or a.bluid = $uid ";
+            $arr[] = " (a.pid in ($tmpstr) or a.bluid = $uid) ";
         }else{
             $arr[] = " a.bluid = $uid ";
         }

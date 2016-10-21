@@ -2796,7 +2796,7 @@ class IndexController extends Controller {
 
         $_belong = I('get.belong');
         $this->assign('_belong',$_belong);
-        $_ct = I('get.ct');
+        $_ct = I('get.ctes');
         $this->assign('_ct',$_ct);
         if($_fname){
             $arr[] = "a.blname like '%{$_fname}%'";
@@ -2805,7 +2805,7 @@ class IndexController extends Controller {
         if($_ct){
             $ty = $_ct == 2?1:0;
             $arr[] = " a.kinds = $ty ";
-            $url['ct']=$_ct;
+            $url['ctes']=$_ct;
         }
         if($_pname){
             $pidarr = M('project')->where("pname like '%{$_pname}%'")->field('id')->select();

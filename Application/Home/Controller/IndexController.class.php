@@ -2548,8 +2548,18 @@ class IndexController extends Controller {
 
         //$data = $this->Tmodel->getAllByPage('contract',$where,1);
         $data = $this->Tmodel->getJoinByPage('contract','project',$where, $this->pagesize);
-        $_btotal_ = M('contract')->join("a left join contract b on a.pid = b.id")->where($where)->sum('a.total');
-        echo $_btotal_;
+        $_ctotal_ = M('contract')->join("a left join contract b on a.pid = b.id")->where($where)->sum('a.total');
+        $_realcid = M('contract')->join("a left join contract b on a.pid = b.id")->where($where)->field('a.id')->select();
+        $_btotal_ = 0;
+        $_rtotal_ = 0;
+        if($_realcid){
+            foreach($_realcid as $vrealcid){
+                $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']} and bstatus = 4");
+                $_btotal_ += $restl[0]['total']?:0;
+                $ap = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']} and rstatus = 3");
+                $_rtotal_ += $ap[0]['rtotal']?:0;
+            }
+        }
         foreach($data['list'] as $ink => $v){
             $data['list'][$ink]['stampis'] = 0;
             $rs = M('stamp')->where("cid = {$v['id']}")->getField('id');
@@ -2572,6 +2582,9 @@ class IndexController extends Controller {
         $this->assign('dqurl',base64url_encode($requesturl));// 当前URL
         $this->assign('vari',$vari);// 序号累加变量
         $this->assign('url',$url);
+        $this->assign('_ctotal_',$_ctotal_);
+        $this->assign('_btotal_',$_btotal_);
+        $this->assign('_rtotal_',$_rtotal_);
         $this->display();
     }
     public function downctxls(){

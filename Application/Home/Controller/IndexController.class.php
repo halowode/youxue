@@ -2548,6 +2548,8 @@ class IndexController extends Controller {
 
         //$data = $this->Tmodel->getAllByPage('contract',$where,1);
         $data = $this->Tmodel->getJoinByPage('contract','project',$where, $this->pagesize);
+        $_btotal_ = M('contract')->join("a left join contract b on a.pid = b.id")->where($where)->sum('a.total');
+        echo $_btotal_;
         foreach($data['list'] as $ink => $v){
             $data['list'][$ink]['stampis'] = 0;
             $rs = M('stamp')->where("cid = {$v['id']}")->getField('id');

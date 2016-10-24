@@ -2553,7 +2553,7 @@ class IndexController extends Controller {
         $_btotal_ = 0;
         $_rtotal_ = 0;
         if($_realcid){
-            foreach($_realcid as $vrealcid){
+            foreach($_realcid as $v){
                 $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']} and bstatus = 4");
                 $_btotal_ += $restl[0]['total']?:0;
                 $ap = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']} and rstatus = 3");

@@ -421,7 +421,7 @@ class IndexController extends Controller {
         dend:
         if($gname){
             if($where){
-                $where .= " and a.gname like '%{$gname}%' ";
+                $where = " ($where) and a.gname like '%{$gname}%' ";
             }else{
                 $where = " a.gname like '%{$gname}%' ";
             }

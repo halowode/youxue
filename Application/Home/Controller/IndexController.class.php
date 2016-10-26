@@ -1871,6 +1871,10 @@ class IndexController extends Controller {
         }else{
             $rid = I('post.rbid');
             $cid = I('post.cid');
+            if(!$cid){
+                $this->error("请选择关联合同！");
+                exit;
+            }
             $uid = session('uid');
             $res = M('reback')->where("id = {$rid}")->save(['guid'=>$uid,'cid'=>$cid,'rstatus'=>2]);
             M('contract')->where("id = $cid")->save(['isactive'=>1]);

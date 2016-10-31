@@ -2123,6 +2123,7 @@ class IndexController extends Controller {
         $titles = [
             '合同编号',
             '创建合同人',
+            '合同归属人',
             '归属公司',
             '合同类别',
             '是否框架合同',
@@ -2155,6 +2156,7 @@ class IndexController extends Controller {
 
                 $arr[] = $value['cno'];
                 $arr[] = $value['fname'];
+                $arr[] = $value['blname'];
                 $arr[] = $value['belong'];
                 $arr[] = $value['kinds']==0?'销售合同':'采购合同';
                 $arr[] = $value['isframe']==0?'非':'是';

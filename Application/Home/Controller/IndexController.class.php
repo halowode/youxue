@@ -2141,7 +2141,8 @@ class IndexController extends Controller {
             '推广位置',
             '结算条款',
             '已确认回款总额',
-            '全部回款金额'
+            '全部回款金额',
+            'num',
         ];
         foreach ($titles as $k => $v) {
             $titles[$k]=iconv("UTF-8", "GB2312",$v);
@@ -2206,9 +2207,15 @@ class IndexController extends Controller {
                 }
                 $arr[] = $wpaytotal;
                 $arr[] = ($spaytotal + $wpaytotal);
+                $arr[] = $index;
                 ob_flush();
                 flush();
-                echo iconv('UTF-8','GB2312',implode("\t", $arr)."\n");
+                $istr = iconv('UTF-8','GB2312',implode("\t", $arr)."\n");
+                if($istr){
+                    echo $istr;
+                }else{
+                    echo implode("\t", $arr)."\n";
+                }
             }
 
         }

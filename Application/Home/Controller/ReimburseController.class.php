@@ -198,6 +198,21 @@ class ReimburseController extends Controller
         $id = I('get.id');
         $rbno = I('get.rbno');
         $record = M("reimburse_record")->where("id = $id")->find();
+        $zstr = '';
+        if($record['confirmid']){
+            $zstr .= ('出纳：'.M('user')->where("id = {$record['confirmid']}")->getField('username').' ');
+
+        }
+        if($record['reconfirmid']){
+            $zstr .= ('初审：'.M('user')->where("id = {$record['reconfirmid']}")->getField('username').' ');
+        }
+        if($record['agconfirmid']){
+            $zstr .= ('复审：'.M('user')->where("id = {$record['agconfirmid']}")->getField('username').' ');
+        }
+        if($record['lastconfirm']){
+            $zstr .= ('终审：'.M('user')->where("id = {$record['lastconfirm']}")->getField('username').' ');
+        }
+        $this->assign('zstr',$zstr);
         $uname = M('user')->where("id = {$record['uid']}")->getField('username');
         $cgcon = '';
         if($record['cgid']) $cgcon = M('contract')->where("id = {$record['cgid']}")->find();

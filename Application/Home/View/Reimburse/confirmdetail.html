@@ -23,6 +23,12 @@
             $("#tobv").attr('value',a);
             $("#topass").attr('value',a);
         }
+        function addhang(){
+            $("#d_table").append('<tr class="info"><td><input class="form-control" name="ab[]" type="text"/></td><td><input class="form-control" name="etime[]" type="text" placeholder="格式：2016-06"/></td><td><input class="form-control" name="etotal[]" type="text"/></td><td><input class="form-control" name="atotal[]" type="text"/></td><td><a class="btn btn-danger" onclick="delpic(this)">删除此行</a></td></tr>');
+        }
+        function delpic(obj){
+            $(obj).parent().parent().remove();
+        }
     </script>
 </head>
 
@@ -105,7 +111,7 @@
                         </ol>
                 </div>
                 </notempty>
-                <table id="d_table" class=" table table-bordered" style="margin-left:30px;margin-top:20px">
+                <table id="d_tables" class=" table table-bordered" style="margin-left:30px;margin-top:20px">
                     <tr class="danger">
                         <th>所属项目</th>
                         <th>所属销售合同</th>
@@ -180,11 +186,29 @@
                         <span><img width="100" src="{$bill['path']}" data-toggle="modal" data-target="#myModal" onclick="ddd(this)"/></span>
                     </div>
                 </volist>
+                <table id="d_table" class=" table table-bordered" style="margin-left:30px;margin-top:-20px">
+                    <tr class="active">
+                        <th>报销摘要</th>
+                        <th>发生月份</th>
+                        <th>报销金额</th>
+                        <th>付款金额</th>
+                        <th></th>
+                    </tr>
+                    <tr class="info">
+                        <td width="35%"><input class="form-control" name="ab[]" type="text"/></td>
+                        <td><input class="form-control" name="etime[]" type="text" placeholder="格式：2016-06"/></td>
+                        <td><input class="form-control" name="etotal[]" type="text"/></td>
+                        <td><input class="form-control" name="atotal[]" type="text"/></td>
+                        <td><a class="btn btn-info" onclick="addhang(this)">增加一行</a></td>
+                    </tr>
+                </table>
                 <div class="login_box1 form-group">
                     <span class="login_title1 col-sm-2 control-label" >备注</span>
                     <textarea class="use_name form-control" name="remark"></textarea>
                     <input type="hidden" name="type" value="pas"/>
                     <input type="hidden" name="id" value="{$id}"/>
+                    <input type="hidden" name="ast" value="{$ast}"/>
+                    <input type="hidden" name="est" value="{$est}"/>
                 </div>
             </div>
 

@@ -204,7 +204,10 @@ class ReimburseController extends Controller
         $scon = '';
         if($record['cid']) $scon = M('contract')->where("id = {$record['cid']}")->find();
         $pname = M('project')->where("id = {$record['pid']}")->getField('pname');
-        $data = M('reimbursement')->where("sid = $id")->select();
+        $data = M('oreimburse')->where("recordid = $id")->select();
+        if(!$data){
+            $data = M('reimbursement')->where("sid = $id")->select();
+        }
         $msgdata = M('message')->where("mtype = 'reimburse' and fid = $id")->select();
         $fpath = M('files')->where("type = 'reimburse' and sid = $id")->field('path')->select()?:'';
         $paypath = M('files')->where("type='reimburse_pay' and sid = $id")->field('path')->select()?:'';
@@ -321,6 +324,12 @@ class ReimburseController extends Controller
             }
             $pics = M('files')->where("type = 'reimburse' and sid = $id")->select();
             $reimbursment = M('reimbursement')->where("sid = $id")->select();
+            $est = 0;
+            $ast = 0;
+            foreach($reimbursment as $v){
+                $est += $v['etotal'];
+                $ast += $v['atotal'];
+            }
             $bcmsg = M('message')->where("fid = $id and mtype= 'reimburse'")->select();
             $this->assign('bcmsg',$bcmsg);
             $this->assign('reimbursement',$reimbursment);
@@ -330,6 +339,8 @@ class ReimburseController extends Controller
             $this->assign('data',$data);
             $this->assign('checklev',$checklev);
             $this->assign('id',$id);
+            $this->assign('est',$est);
+            $this->assign('ast',$ast);
             if($checklev == 1){
                 $recusers = M('user')->join("a left join role_user b on a.id = b.uid")->where("b.rid = 4")->field("a.*")->select();
                 $this->assign('recusers',$recusers);
@@ -564,6 +575,29 @@ class ReimburseController extends Controller
             $type = I('post.type');
             $id = I('post.id');
             if($type == 'pas'){
+                $datas = I('post.');
+                foreach($datas['ab'] as $k=>$vl){
+                    $dat[] = [
+                        'ab'=>$vl,
+                        'etime'=>$datas['etime'][$k],
+                        'atotal'=>$datas['atotal'][$k],
+                        'etotal'=>$datas['etotal'][$k],
+                        'recordid'=>$id,
+                    ];
+                }
+                $est = array_sum($datas['etotal']);
+                $ast = array_sum($datas['atotal']);
+                $sest = I('post.est');
+                $sast = I('post.ast');
+                if($est != 0 || $ast != 0 ){
+                    if($est == $sest && $ast == $sast){
+                        $rses = M('oreimburse')->addAll($dat);
+                    }else{
+                        $this->error("数据之和不匹配！");
+                        exit;
+                    }
+                }
+
                 $bsmid = I('post.bsmid');
                 $etype1 = I('post.fcate');
                 $etype2 = I('post.scate');

@@ -199,18 +199,26 @@ class ReimburseController extends Controller
         $rbno = I('get.rbno');
         $record = M("reimburse_record")->where("id = $id")->find();
         $zstr = '';
+        if($record['checkuid']){
+            $zstr .= ('初审：'.M('user')->where("id = {$record['checkuid']}")->getField('username').' ');
+
+        }
+        if($record['recheckuid']){
+            $zstr .= ('复审：'.M('user')->where("id = {$record['recheckuid']}")->getField('username').' ');
+
+        }
         if($record['confirmid']){
             $zstr .= ('出纳：'.M('user')->where("id = {$record['confirmid']}")->getField('username').' ');
 
         }
         if($record['reconfirmid']){
-            $zstr .= ('初审：'.M('user')->where("id = {$record['reconfirmid']}")->getField('username').' ');
+            $zstr .= ('确认初审：'.M('user')->where("id = {$record['reconfirmid']}")->getField('username').' ');
         }
         if($record['agconfirmid']){
-            $zstr .= ('复审：'.M('user')->where("id = {$record['agconfirmid']}")->getField('username').' ');
+            $zstr .= ('确认复审：'.M('user')->where("id = {$record['agconfirmid']}")->getField('username').' ');
         }
         if($record['lastconfirm']){
-            $zstr .= ('终审：'.M('user')->where("id = {$record['lastconfirm']}")->getField('username').' ');
+            $zstr .= ('确认终审：'.M('user')->where("id = {$record['lastconfirm']}")->getField('username').' ');
         }
         $this->assign('zstr',$zstr);
         $uname = M('user')->where("id = {$record['uid']}")->getField('username');

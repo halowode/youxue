@@ -376,6 +376,8 @@ class ReimburseController extends Controller
                 $sk = M('catelog')->where("ctype = 2")->select();
                 $fee = M('feetype')->select();
                 $banks = M('bank')->where("status = '1'")->select();
+                $orecord = M('oreimburse')->where("recordid = {$id}")->select();
+                $this->assign('orecord',$orecord);
                 $this->assign('banks',$banks);
                 $this->assign('fk',$fk);
                 $this->assign('sk',$sk);
@@ -614,6 +616,7 @@ class ReimburseController extends Controller
                 $sast = I('post.ast');
                 if($est != 0 || $ast != 0 ){
                     if($est == $sest && $ast == $sast){
+                        M('oreimburse')->where("recordid = {$id}")->delete();
                         $rses = M('oreimburse')->addAll($dat);
                     }else{
                         $this->error("数据之和不匹配！");

@@ -194,13 +194,35 @@
                         <th>付款金额</th>
                         <th></th>
                     </tr>
-                    <tr class="info">
-                        <td width="35%"><input class="form-control" name="ab[]" type="text"/></td>
-                        <td><input class="form-control" name="etime[]" type="text" placeholder="格式：2016-06"/></td>
-                        <td><input class="form-control" name="etotal[]" type="text"/></td>
-                        <td><input class="form-control" name="atotal[]" type="text"/></td>
-                        <td><a class="btn btn-info" onclick="addhang(this)">增加一行</a></td>
-                    </tr>
+                    <empty name="orecord">
+                        <tr class="info">
+                            <td width="35%"><input class="form-control" name="ab[]" type="text"/></td>
+                            <td><input class="form-control" name="etime[]" type="text" placeholder="格式：2016-06"/></td>
+                            <td><input class="form-control" name="etotal[]" type="text"/></td>
+                            <td><input class="form-control" name="atotal[]" type="text"/></td>
+                            <td><a class="btn btn-info" onclick="addhang(this)">增加一行</a></td>
+                        </tr>
+                        <else/>
+                        <volist name="orecord" id="volls" key="k">
+                            <if condition="$k eq 1">
+                                <tr class="info">
+                                    <td width="35%"><input value="{$volls['ab']}" class="form-control" name="ab[]" type="text"/></td>
+                                    <td><input value="{$volls.etime}"  class="form-control" name="etime[]" type="text" placeholder="格式：2015-06"/></td>
+                                    <td><input value="{$volls.etotal}" class="form-control" name="etotal[]" type="text"/></td>
+                                    <td><input value="{$volls.atotal}" class="form-control" name="atotal[]" type="text"/></td>
+                                    <td><a class="btn btn-info" onclick="addhang(this)">增加一行</a></td>
+                                </tr>
+                                <else/>
+                                <tr class="info">
+                                    <td width="35%"><input value="{$volls['ab']}" class="form-control" name="ab[]" type="text"/></td>
+                                    <td><input value="{$volls.etime}" class="form-control" name="etime[]" type="text" placeholder="格式：2016-06"/></td>
+                                    <td><input value="{$volls.etotal}" class="form-control" name="etotal[]" type="text"/></td>
+                                    <td><input value="{$volls.atotal}" class="form-control" name="atotal[]" type="text"/></td>
+                                    <td><a class="btn btn-danger" onclick="delpic(this)">删除此行</a></td>
+                                </tr>
+                            </if>
+                        </volist>
+                    </empty>
                 </table>
                 <div class="login_box1 form-group">
                     <span class="login_title1 col-sm-2 control-label" >备注</span>

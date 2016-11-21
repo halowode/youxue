@@ -94,7 +94,8 @@
                 </div>
                 <div class="login_box1 form-group">
                     <span class="login_title1 col-sm-2 control-label" >选择初审人员</span>
-                    <select class="use_name form-control input-sm" name="checkuid"  style="width:200px">
+                    <select id="checkids" class="use_name form-control input-sm" name="checkuid"  style="width:200px">
+                        <option value="" > -请选择-</option>
                         <foreach name="cuser" item="vo" >
                             <option value="{$vo.id}" > {$vo.username}</option>
                         </foreach>
@@ -159,6 +160,10 @@
     $("#daniel_form").submit(function () {
         if($("#gname").val() == ''){
             alert('客户名称不可为空！');
+            return false;
+        }
+        if($("#checkids").children('option:selected').val() == ''){
+            alert('审核人不可不选！');
             return false;
         }
 

@@ -1977,11 +1977,17 @@ class IndexController extends Controller {
             }
         }
         $on = "a.cid = b.id";
-        $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid";
+        $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid,b.blname,b.pid";
         $order = "a.id desc";
         $data = $this->Tmodel->getCommonList('reback', 'contract', $on, $where, $field, $order, $this->pagesize);
         foreach($data['list'] as $k => $v){
             $data['list'][$k]['bno'] = M('bank')->where("id = {$v['bankno']}")->getField('bankno');
+            if(isset($v['pid']) && $v['pid'] != 0){
+                $data['list'][$k]['proname'] = M('project')->where("id = {$v['pid']}")->getField('pname');
+            }else{
+                $data['list'][$k]['proname'] = '';
+            }
+
         }
         $this->assign('data', $data);
         if (I('get.p') == '' || I('get.p') == 1) {
@@ -2306,6 +2312,8 @@ class IndexController extends Controller {
             '收款账号',
             '回款状态',
             '所属合同编号',
+            '归属人',
+            '所属项目',
         ];
         foreach ($titles as $k => $ve) {
             $titles[$k]=iconv("UTF-8", "GB2312",$ve);
@@ -2332,15 +2340,24 @@ class IndexController extends Controller {
                 if($v['rstatus'] == 0){
                     $arr[] = '被驳回';
                     $arr[] = '';
+                    $arr[] = '';
+                    $arr[] = '';
                 }elseif($v['rstatus'] == 1){
                     $arr[] = '未认领';
+                    $arr[] = '';
+                    $arr[] = '';
                     $arr[] = '';
                 }elseif($v['rstatus'] == 2){
                     $arr[] = '审核中';
                     $arr[] = '';
+                    $arr[] = '';
+                    $arr[] = '';
                 }else{
                     $arr[] = '已关联';
-                    $arr[] = M('contract')->where("id = {$v['cid']}")->getField('cno');
+                    $rs = M('contract')->where("id = {$v['cid']}")->find();
+                    $arr[] = $rs['cno'];
+                    $arr[] = $rs['blname'];;
+                    $arr[] = $rs['pid'] != 0 ?M('project')->where("id = {$rs['pid']}")->getField('pname'):'';
                 }
 		        $optstr = implode("\t", $arr)."\n";
                 echo iconv('UTF-8','GB2312',$optstr);

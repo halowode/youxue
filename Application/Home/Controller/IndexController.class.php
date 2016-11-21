@@ -105,6 +105,8 @@ class IndexController extends Controller {
                 $res = M('project')->where('status = 1')->select();
                 $cusers = M('role_user')->join(" a left join user b on a.uid = b.id ")->where("a.rid = 3")->field('a.rid,b.*')->select();
                 $exuser = M('role_user')->join(" a left join user b on a.uid = b.id ")->where("a.rid = 6")->field('a.rid,b.*')->select();
+                $bluids = M('user')->select();
+                $this->assign('bluids',$bluids);
                 $this->assign('cuser',$cusers);
                 $this->assign('exuser',$exuser);
                 $this->assign('projects',$res);
@@ -116,6 +118,9 @@ class IndexController extends Controller {
             $data = I("post.");
             $cid = I("post.cid");
             $newcno = trim($data['cno']);
+            if($data['bluid']){
+                $data['blname'] = M('user')->where("id = {$data['bluid']}")->getField('username');
+            }
             $srcno = M('contract')->where("id != {$cid} and cno = '{$newcno}'")->find();
             if($srcno){
                 $this->error('已存在该合同编号！',U('index/search'));

@@ -2882,6 +2882,8 @@ class IndexController extends Controller {
         }
 
         $data = $this->Tmodel->getJoinByPagest('contract','stamp',$where, $this->pagesize);
+        echo M('contract')->getLastSql();
+        //exit;
         $M = new \Think\Model();
         $_ctotal_ = M('contract')->join("a left join stamp b on a.id = b.cid")->where($where)->sum('a.total');
         $_realcid = M('contract')->join("a left join stamp b on a.id = b.cid")->where($where)->field('a.id')->select();

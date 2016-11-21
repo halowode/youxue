@@ -3173,13 +3173,19 @@ class IndexController extends Controller {
         }
 
         $on = "a.cid = b.id";
-        $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid,b.blname";
+        $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid,b.blname,b.pid";
         $order = "a.id desc";
         $data = $this->Tmodel->getCommonList('reback', 'contract', $on, $where, $field, $order, $this->pagesize);
 
 
         foreach($data['list'] as $k => $v){
             $data['list'][$k]['bno'] = M('bank')->where("id = {$v['bankno']}")->getField('bankno');
+            if($v['pid']){
+                $data['list'][$k]['pname'] = M('project')->where("id = {$v['pid']}")->getField('pname');
+            }else{
+                $data['list'][$k]['pname'] = '';
+            }
+
         }
         $this->assign('data', $data);
         if (I('get.p') == '' || I('get.p') == 1) {
@@ -3278,13 +3284,18 @@ class IndexController extends Controller {
         }
 
         $on = "a.cid = b.id";
-        $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid,b.blname";
+        $field = " a.* , b.cno,b.cname,b.fname,b.gname,b.belong,b.checkuid,b.blname,b.pid";
         //$order = "a.id desc";
         //$data = $this->Tmodel->getCommonList('reback', 'contract', $on, $where, $field, $order, $this->pagesize);
         $data = M('reback')->join("a left join contract b on ".$on)->where($where)->field($field)->select();
 
         foreach($data as $k => $v){
             $data[$k]['bno'] = M('bank')->where("id = {$v['bankno']}")->getField('bankno');
+            if($v['pid']){
+                $data[$k]['pname'] = M('project')->where("id = {$v['pid']}")->getField('pname');
+            }else{
+                $data[$k]['pname'] = '-';
+            }
         }
         $filename = '导出数据';
         header("Content-type:application/octet-stream");
@@ -3303,6 +3314,7 @@ class IndexController extends Controller {
             '收款账号',
             '回款时间',
             '归属人',
+            '所属项目',
             '管理状态',
         ];
         foreach ($titles as $k => $v) {
@@ -3322,6 +3334,7 @@ class IndexController extends Controller {
             $arr[] = $v['bno'];
             $arr[] = $v['btime'];
             $arr[] = $v['blname'];
+            $arr[] = $v['pname'];
             $arr[] = '已确认回款';
             ob_flush();
             flush();

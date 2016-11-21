@@ -98,6 +98,7 @@
                 <td width="5%" align="center" class="tb_title">收款账号</td>
                 <td width="6%" align="center" class="tb_title">回款时间</td>
                 <td width="5%" align="center" class="tb_title">归属人</td>
+                <td width="5%" align="center" class="tb_title">所属项目</td>
                 <td width="7%" align="center" class="tb_title">管理状态</td>
 
             </tr>
@@ -113,6 +114,7 @@
                         <td align="center">{$vo.bno}</td>
                         <td align="center">{$vo.btime}</td>
                         <td align="center">{$vo.blname}</td>
+                        <td align="center">{$vo.pname}</td>
                         <td align="center">已确认回款</td>
                         <!--
                         <td align="center">
@@ -136,12 +138,12 @@
                 </foreach>
                 <else />
                 <tr>
-                    <td colspan="10">暂无信息</td>
+                    <td colspan="11">暂无信息</td>
                 </tr>
             </notempty>
             <if condition="($data['list'] neq null)">
                 <tr>
-                    <td colspan="10">
+                    <td colspan="11">
                         {$data.show}
                     </td>
                 </tr>

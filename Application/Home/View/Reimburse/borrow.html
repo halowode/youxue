@@ -85,7 +85,7 @@
                     </div>
                     <div class="login_box1 form-group">
                         <span class="login_title1 col-sm-2 control-label">审核人</span>
-                        <select id="checkid" class="use_name form-control input-xsm" name="checkuid"   style="width:200px">
+                        <select id="checkidss" class="use_name form-control input-xsm" name="checkuid"   style="width:200px">
                             <volist name="checkusers" id="vo">
                                 <if condition="$vo['id'] eq $records['checkuid']">
                                     <option value="{$vo.id}" > {$vo.username}</option>
@@ -143,7 +143,8 @@
                     </div>
                     <div class="login_box1 form-group">
                         <span class="login_title1 col-sm-2 control-label">审核人</span>
-                        <select id="checkid" class="use_name form-control input-xsm" name="checkuid"   style="width:200px">
+                        <select id="checkidss" class="use_name form-control input-xsm" name="checkuid"   style="width:200px">
+                            <option value=""  > -请选择-</option>
                             <volist name="checkusers" id="vo">
                                 <option value="{$vo.id}" > {$vo.username}</option>
                             </volist>
@@ -170,6 +171,7 @@
                     <div class="login_box1 form-group">
                         <span class="login_title1 col-sm-2 control-label">归属公司</span>
                         <select  class="use_name form-control input-xsm" id="belongs" name="belong"   style="width:200px">
+                            <option value="">-请选择-</option>
                             <option value="华睿互动">华睿互动</option>
                             <option value="极速传媒">极速传媒</option>
                             <option value="优学教育">优学教育</option>
@@ -215,11 +217,11 @@
             alert('所属项目不可为空！');
             return false;
         }
-        if($("#checkid").val() == ''){
+        if($("#checkidss").children('option:selected').val() == ''){
             alert('审核人不可不选！');
             return false;
         }
-        if($("#belongs").val() == ''){
+        if($("#belongs").children('option:selected').val() == ''){
             alert('归属公司不可不选！');
             return false;
         }

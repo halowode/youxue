@@ -55,6 +55,8 @@ class IndexController extends Controller {
             $cusers = M('role_user')->join(" a left join user b on a.uid = b.id ")->where("a.rid = 3")->field('a.rid,b.*')->select();
             $exuser = M('role_user')->join(" a left join user b on a.uid = b.id ")->where("a.rid = 6")->field('a.rid,b.*')->select();
             $users = M('user')->where("status = 1")->field("username,id")->select();
+            $intro = M('intro')->find();
+            $this->assign('intro',$intro['introct']);
             $this->assign('cuser',$cusers);
             $this->assign('exuser',$exuser);
             $this->assign('data',$res);
@@ -536,6 +538,8 @@ class IndexController extends Controller {
             if($cid){
                 $res = M('contract')->where("id = {$cid}")->find();
                 $res['pname'] = M('project')->where("id = {$res['pid']}")->getField('pname');
+                $intro = M('intro')->find();
+                $this->assign('intro',$intro['introst']);
                 $this->assign('data',$res);
                 $this->assign('contract',$res);
                 $this->assign('cid',$cid);
@@ -2450,14 +2454,61 @@ class IndexController extends Controller {
      */
     public function intro(){
         if(IS_GET){
-            $intro = M('intro')->where("id = 1")->find();
-            $this->assign('msg',$intro['intromsg']);
-            $this->display();
+            $fr = I('get.fr','mg');
+            switch($fr){
+                case 'mg':
+                    $intro = M('intro')->where("id = 1")->find();
+                    $this->assign('msg',$intro['intromsg']);
+                    $this->assign('fr','mg');
+                    $this->display();
+                    exit;
+                case 'ct':
+                    $intro = M('intro')->where("id = 1")->find();
+                    $this->assign('msg',$intro['introct']);
+                    $this->assign('fr','ct');
+                    $this->display();
+                    exit;
+                case 'st':
+                    $intro = M('intro')->where("id = 1")->find();
+                    $this->assign('msg',$intro['introst']);
+                    $this->assign('fr','st');
+                    $this->display();
+                    exit;
+                case 'ap';
+                    $intro = M('intro')->where("id = 1")->find();
+                    $this->assign('msg',$intro['introap']);
+                    $this->assign('fr','ap');
+                    $this->display();
+                    exit;
+                default:
+                    $intro = M('intro')->where("id = 1")->find();
+                    $this->assign('msg',$intro['intromsg']);
+                    $this->assign('fr','mg');
+                    $this->display();
+                    exit;
+            }
+
         }else{
             //dump(I('post.intro'));
-
+            $fr = I('post.fr','mg');
+            switch($fr){
+                case 'mg':
+                    $cl = 'intromsg';
+                    break;
+                case 'ct':
+                    $cl = 'introct';
+                    break;
+                case 'st':
+                    $cl = 'introst';
+                    break;
+                case 'ap';
+                    $cl = 'introap';
+                    break;
+                default:
+                    $cl = 'intromsg';
+            }
             $intro = I('post.intro');
-            M('intro')->where("id = 1")->save(['intromsg'=>$intro]);
+            M('intro')->where("id = 1")->save([$cl => $intro]);
             //echo M('intro')->getlastsql();
             //exit;
             $this->success('编辑成功');

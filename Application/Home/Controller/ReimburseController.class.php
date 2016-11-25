@@ -48,6 +48,8 @@ class ReimburseController extends Controller
             }else{
                 $this->assign('dp','ap');
             }
+            $intro = M('intro')->find();
+            $this->assign('intro',$intro['introap']);
             $this->assign('records',$records);
             $this->display();
         }else{

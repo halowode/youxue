@@ -3393,4 +3393,119 @@ class IndexController extends Controller {
         }
 
     }
+
+    /**
+     * 回款汇总
+     */
+    public function bksum(){
+        $uid = session('uid');
+        $where = '';
+        $arr=[];
+        $_payee = I('get.payee');
+        $this->assign('_payee',$_payee);
+        $_blname = I('get.blname');
+        $this->assign('_blname',$_blname);
+        $_pname = I('get.pname');
+        $this->assign('_pname',$_pname);
+        $_gname = I('get.gname');
+        $this->assign('_gname',$_gname);
+        $_ptime = I('get.p_time');
+        $_petime = I('get.p_etime');
+        $this->assign('_ptime',$_ptime);
+        $this->assign('_petime',$_petime);
+        if($_ptime || $_petime){
+            if($_ptime && $_petime){
+                $startTime = $_ptime;
+                $endTime = $_petime;
+                $arr[] = " b.btime > '$startTime' and b.btime < '$endTime'";
+                $url['p_time']=$_ptime;
+                $url['p_etime']=$_petime;
+            }else{
+                $this->error("开始和结束时间都要选择");
+                exit;
+            }
+        }
+
+        if($_blname){
+            $arr[] = "a.blname like '%{$_blname}%'";
+            $url['blname']=$_blname;
+        }
+        if($_pname){
+            $pidarr = M('project')->where("pname like '%{$_pname}%'")->field('id')->select();
+            $fstr = '';
+            if($pidarr){
+                $fstr = getSingleFieldStr($pidarr);
+            }
+            if($fstr){
+                $arr[] = " a.pid in ($fstr) ";
+            }
+            $url['pname']=$_pname;
+        }
+        if($_gname){
+            $arr[] = "a.gname like '%{$_gname}%'";
+            $url['gname']=$_gname;
+        }
+
+        if($_payee){
+            $arr[] = "b.payee like '%{$_payee}%'";
+            $url['payee']=$_payee;
+        }
+
+
+        //硬性条件
+        $proidarr = M('promg')->where('uid = '.$uid)->field('proid')->select();
+        if($proidarr){
+            $tmpstr = '';
+            foreach($proidarr as $vproid){
+                $tmpstr .= $vproid['proid'].',';
+            }
+            $tmpstr = trim($tmpstr,',');
+            if($_blname){
+                $arr[] = " a.pid in ($tmpstr) ";
+            }else{
+                $arr[] = " (a.pid in ($tmpstr) or a.bluid = $uid) ";
+            }
+
+        }else{
+            $arr[] = " a.bluid = $uid ";
+        }
+
+        $arr[] = " b.rstatus = 3 ";
+        if(!empty($arr)){
+            $where = implode(' and ',$arr);
+        }
+
+        $data = $this->Tmodel->getCommonListct('contract','reback','a.id = b.cid',$where,'sum(b.btotal) as bt,a.bluid,a.blname',$order='bt desc',20);
+
+        /*
+        $M = new \Think\Model();
+        $_ctotal_ = M('contract')->join("a left join stamp b on a.id = b.cid")->where($where)->sum('a.total');
+        $_realcid = M('contract')->join("a left join stamp b on a.id = b.cid")->where($where)->field('a.id')->select();
+        $_btotal_ = 0;
+        $_rtotal_ = 0;
+        if($_realcid){
+            foreach($_realcid as $v){
+                $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']} and bstatus = 4");
+                $_btotal_ += $restl[0]['total']?:0;
+                $ap = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']} and rstatus = 3");
+                $_rtotal_ += $ap[0]['rtotal']?:0;
+            }
+        }
+
+        foreach($data['list'] as $ink => $v){
+            $data['list'][$ink]['pname'] = M('project')->where("id = {$v['pid']}")->getfield('pname');
+            $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']} and bstatus = 4");
+            $data['list'][$ink]['bt'] = $restl[0]['total']?:0;
+            $ap = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']} and rstatus = 3");
+            $data['list'][$ink]['rt'] = $ap[0]['rtotal']?:0;
+        }
+        */
+        $this->assign('data' , $data);
+        if(I('get.p') == '' || I('get.p') == 1){$vari = 1;}else{$vari = $pagesize * (I('get.p') - 1) + 1;}
+        $requesturl = $_SERVER['REQUEST_URI'];
+        $this->assign('dqurl',base64url_encode($requesturl));// 当前URL
+        $this->assign('vari',$vari);// 序号累加变量
+        $this->assign('url',$url);
+        $this->display();
+    }
 }

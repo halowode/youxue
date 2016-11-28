@@ -67,5 +67,19 @@ class TmodelModel extends \Think\Model {
         $data['show']  = $Page->show();// 分页显示输出
         return $data;
     }
+    public function getCommonListct($table='',$table2='',$on='',$where='',$field='',$order='',$pagesize=0){
+        $subscribe = M($table);
+        $count = $subscribe->join("a left join {$table2} b on {$on}")->where($where)->group('a.bluid')->select();
+        $count = count($count);
+        $Page  = new \Think\Page($count,$pagesize);// 实例化分页类 传入总记录数和每页显示的记录数(20)
+        $data['list']  = $subscribe->join("a left join {$table2} b on {$on}")->field($field)->limit($Page->firstRow.','.$Page->listRows)->where($where)->group('a.bluid')->order($order)->select();
+        $Page->setConfig('first','首页');
+        $Page->setConfig('prev','上一页');
+        $Page->setConfig('next','下一页');
+        $Page->setConfig('last','尾页');
+        $Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% <span>&nbsp;&nbsp;共 %TOTAL_ROW% 条记录</span>');
+        $data['show']  = $Page->show();// 分页显示输出
+        return $data;
+    }
 
 }

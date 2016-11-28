@@ -2225,7 +2225,10 @@ class IndexController extends Controller {
                 $arr[] = $index;
                 ob_flush();
                 flush();
-                $istr = iconv('UTF-8','GB2312',implode("\t", $arr)."\n");
+                foreach($arr as $k => $vdl){
+                    $arr[$k] = iconv('UTF-8','GB2312',$vdl);
+                }
+                $istr = implode("\t", $arr)."\n";
                 if($istr){
                     echo $istr;
                 }else{

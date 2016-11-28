@@ -2171,9 +2171,9 @@ class IndexController extends Controller {
                 $arr = [];
 
                 $arr[] = $value['cno'];
-                $arr[] = $value['fname'];
-                $arr[] = $value['blname'];
-                $arr[] = $value['belong'];
+                $arr[] = trim($value['fname']);
+                $arr[] = trim($value['blname']);
+                $arr[] = trim($value['belong']);
                 $arr[] = $value['kinds']==0?'销售合同':'采购合同';
                 $arr[] = $value['isframe']==0?'非':'是';
                 $arr[] = $value['cname'];

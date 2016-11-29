@@ -3511,4 +3511,152 @@ class IndexController extends Controller {
         $this->assign('url',$url);
         $this->display();
     }
+    /**
+     * 合同汇总
+     */
+    public function ctsum(){
+        $uid = session('uid');
+        $where = '';
+        $arr=[];
+        $_fname = I('get.fname');
+        $this->assign('_fname',$_fname);
+        $_pname = I('get.pname');
+        $this->assign('_pname',$_pname);
+        $_cname = I('get.cname');
+        $this->assign('_cname',$_cname);
+        $_gname = I('get.gname');
+        $this->assign('_gname',$_gname);
+        $_zc = I('get.zc',0);
+        $this->assign('_zc',$_zc);
+        /*
+        $_isstamp = I('get.isstamp');
+        $this->assign('_isstamp',$_isstamp);
+        $_isfiling = I('get.isfiling');
+        $this->assign('_isfiling',$_isfiling);
+        */
+        $_ptime = I('get.p_time');
+        $_petime = I('get.p_etime');
+        $this->assign('_ptime',$_ptime);
+        $this->assign('_petime',$_petime);
+        if($_ptime || $_petime){
+            if($_ptime && $_petime){
+                $startTime = strtotime($_ptime);
+                $endTime = strtotime($_petime);
+                $arr[] = " a.isfiling = 3 and a.filingtime > $startTime and a.filingtime < $endTime";
+                $url['p_time']=$_ptime;
+                $url['p_etime']=$_petime;
+            }else{
+                $this->error("开始和结束时间都要选择");
+                exit;
+            }
+        }
+        $_btime = I('get.begin_time');
+        $_ntime = I('get.end_time');
+        $this->assign('_btime',$_btime);
+        $this->assign('_ntime',$_ntime);
+        if($_btime || $_ntime){
+            if($_btime && $_ntime){
+                $arr[] = " a.isstamp = 1 and b.stime >='$_btime' and b.stime <= '$_ntime' ";
+                $url['begin_time']=$_btime;
+                $url['end_time'] = $_ntime;
+            }else{
+                $this->error("开始和结束时间都要选择");
+                exit;
+            }
+        }
+
+        $_belong = I('get.belong');
+        $this->assign('_belong',$_belong);
+        $_ct = I('get.ctes');
+        $this->assign('_ct',$_ct);
+        if($_fname){
+            $arr[] = "a.blname like '%{$_fname}%'";
+            $url['fname']=$_fname;
+        }
+        if($_ct){
+            $ty = $_ct == 2?1:0;
+            $arr[] = " a.kinds = $ty ";
+            $url['ctes']=$_ct;
+        }
+        if($_pname){
+            $pidarr = M('project')->where("pname like '%{$_pname}%'")->field('id')->select();
+            $fstr = '';
+            if($pidarr){
+                $fstr = getSingleFieldStr($pidarr);
+            }
+            if($fstr){
+                $arr[] = " a.pid in ($fstr) ";
+            }
+            $url['pname']=$_pname;
+        }
+        if($_gname){
+            $arr[] = "a.gname like '%{$_gname}%'";
+            $url['gname']=$_gname;
+        }
+        if($_cname){
+            $arr[] = "a.cname like '%{$_cname}%'";
+            $url['cname']=$_cname;
+        }
+        if($_belong){
+            $arr[] = "a.belong like '%{$_belong}%'";
+            $url['belong']=$_belong;
+        }
+        if($_zc){
+            $arr[] = " a.isactive = 1 and a.isfiling != 3 and a.kinds = 0 ";
+            $url['zc'] = $_zc;
+        }
+
+        //硬性条件
+        $proidarr = M('promg')->where('uid = '.$uid)->field('proid')->select();
+        if($proidarr){
+            $tmpstr = '';
+            foreach($proidarr as $vproid){
+                $tmpstr .= $vproid['proid'].',';
+            }
+            $tmpstr = trim($tmpstr,',');
+            $arr[] = " (a.pid in ($tmpstr) or a.bluid = $uid) ";
+        }else{
+            $arr[] = " a.bluid = $uid ";
+        }
+
+
+        if(!empty($arr)){
+            $where = implode(' and ',$arr);
+        }
+
+
+        $data = $this->Tmodel->getCommonListct('contract','stamp','a.id = b.cid',$where,'sum(a.total) as ctotals,a.bluid,a.blname',$order='ctotals desc',20);
+
+
+        /*
+        $M = new \Think\Model();
+        $_ctotal_ = M('contract')->join("a left join stamp b on a.id = b.cid")->where($where)->sum('a.total');
+        $_realcid = M('contract')->join("a left join stamp b on a.id = b.cid")->where($where)->field('a.id')->select();
+        $_btotal_ = 0;
+        $_rtotal_ = 0;
+        if($_realcid){
+            foreach($_realcid as $v){
+                $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']} and bstatus = 4");
+                $_btotal_ += $restl[0]['total']?:0;
+                $ap = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']} and rstatus = 3");
+                $_rtotal_ += $ap[0]['rtotal']?:0;
+            }
+        }
+
+        foreach($data['list'] as $ink => $v){
+            $data['list'][$ink]['pname'] = M('project')->where("id = {$v['pid']}")->getfield('pname');
+            $restl = $M->query("select sum(btotal) as total from bill where cid = {$v['id']} and bstatus = 4");
+            $data['list'][$ink]['bt'] = $restl[0]['total']?:0;
+            $ap = $M->query("select sum(btotal) as rtotal from reback where cid = {$v['id']} and rstatus = 3");
+            $data['list'][$ink]['rt'] = $ap[0]['rtotal']?:0;
+        }
+        */
+        $this->assign('data' , $data);
+        if(I('get.p') == '' || I('get.p') == 1){$vari = 1;}else{$vari = $pagesize * (I('get.p') - 1) + 1;}
+        $requesturl = $_SERVER['REQUEST_URI'];
+        $this->assign('dqurl',base64url_encode($requesturl));// 当前URL
+        $this->assign('vari',$vari);// 序号累加变量
+        $this->assign('url',$url);
+        $this->display();
+    }
 }

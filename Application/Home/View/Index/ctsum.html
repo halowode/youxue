@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>查询管理</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/Iframe.css" />
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/laydate/laydate.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/main.js"></script>
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function ddd(obj){
+            var a = $(obj).attr('aid');
+            $("#tobid").attr('value',a);
+        }
+        $(function(){
+
+            $("#mgcity").change(function(){
+                var sid = $(this).val();
+                $.ajax({
+                    url:'getTown',
+                    type:'GET',
+                    data:"sid="+sid+"&type=getcity",
+                    cache: false,
+                    async:false,
+                    dataType: "json",
+                    success:function(datas){
+                        $("#towns").html('<option value="">-选择-</option>');
+                        $("#school").html('<option value="">-选择-</option>');
+                        $("#class").html('<option value="">-选择-</option>');
+                        $.each(datas,function(k,v){
+                            $("#towns").append("<option value='"+k+"'>"+v+"</option>");
+                        });
+                    },
+                    error:function(){
+                        alert('网络错误，请刷新页面！');
+                        return false;
+                    }
+                });
+
+            });
+            $("#towns").change(function(){
+                var tid = $(this).val();
+                var sid = $("#mgcity").val();
+                $.ajax({
+                    url:'getTown',
+                    type:'GET',
+                    data:"tid="+tid+"&type=getschool&sid="+sid,
+                    cache: false,
+                    async:false,
+                    dataType: "json",
+                    success:function(datas){
+                        $("#school").html('<option value="">-选择-</option>');
+                        $("#class").html('<option value="">-选择-</option>');
+                        $.each(datas,function(k,v){
+                            $("#school").append("<option value='"+k+"'>"+v+"</option>");
+                        });
+                    },
+                    error:function(){
+                        alert('网络错误，请刷新页面！');
+                        return false;
+                    }
+                });
+
+
+            });
+            $("#school").change(function(){
+                var scid = $(this).val();
+                $.ajax({
+                    url:'getTown',
+                    type:'GET',
+                    data:"scid="+scid+"&type=getclass",
+                    cache: false,
+                    async:false,
+                    dataType: "json",
+                    success:function(datas){
+                        $("#class").html('<option value="">-选择-</option>');
+                        $.each(datas,function(k,v){
+                            $("#class").append("<option value='"+k+"'>"+v+"</option>");
+                        });
+                    },
+                    error:function(){
+                        alert('网络错误，请刷新页面！');
+                        return false;
+                    }
+                });
+
+
+            });
+        })
+    </script>
+</head>
+
+<body style="height:100%;overflow-y:auto;">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{:U('delct')}" method="get">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">删除合同及其发票和回款</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="tobid" type="hidden" name="id" value=""/>
+                    <textarea class="form-control" name="msg">本次操作将删除该合同及其所有发票和回款的记录，删除后不可恢复！</textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">确定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<span class="cp_title" >查询管理</span>
+<div class="table_con">
+    <form method="get" action="">
+        <table cellpadding="0" cellspacing="1" class="table-striped">
+            <tr>
+                <td align="right" colspan="11">
+                    <label style="margin-left:5px;">合同类型:&nbsp;&nbsp;</label>
+                    <select class="input-sm" name="ctes" style="margin-right:5px;width:80px;">
+                        <option value="0" <if condition="$_ct eq ''">selected=selected</if>>-选择-</option>
+                        <option value="1" <if condition="$_ct eq 1">selected=selected</if>>销售合同</option>
+                        <option value="2" <if condition="$_ct eq 2">selected=selected</if>>采购合同</option>
+                    </select>
+                    <label style="margin-left:5px;">归属公司:&nbsp;&nbsp;</label>
+                    <input type="text" class="input-sm" name="belong" style="float:none;" placeholder="请输入关键字" value="{$_belong}" />
+                    <label style="margin-left:5px;">归属人:&nbsp;&nbsp;</label>
+                    <input type="text" class="input-sm" name="fname" style="float:none;" placeholder="请输入关键字" value="{$_fname}" />
+                    <label style="margin-left:5px;">合同名称:&nbsp;&nbsp;</label>
+                    <input type="text" class="input-sm" name="cname" style="float:none;" placeholder="请输入关键字" value="{$_cname}" />
+                    <label style="margin-left:5px;">客户名称:&nbsp;&nbsp;</label>
+                    <input type="text" class="input-sm" name="gname"  style="float:none;" placeholder="请输入关键字" value="{$_gname}" />
+                    <label style="margin-left:5px;">按归档时间:&nbsp;&nbsp;</label>
+                    <input type="text" name="p_time" id="p_time" class="laydate-icon" value="{$Think.get.p_time}" style="width:110px;margin-right:3px;" onclick="calendar.show({ id: this })" placeholder="开始时间" />
+                    <input type="text" name="p_etime" id="p_etime" class="laydate-icon" value="{$Think.get.p_etime}" style="width:110px;margin-right:3px;" onclick="calendar.show({ id: this })" placeholder="结束时间" />
+                    <label style="margin-left:5px;">按盖章时间:&nbsp;&nbsp;</label>
+                    <input type="text" name="begin_time" id="start" class="laydate-icon" value="{$Think.get.begin_time}" style="width:110px;margin-right:3px;" onclick="calendar.show({ id: this })" placeholder="开始时间" />
+                    <input type="text" name="end_time" id="end" class="laydate-icon"  value="{$Think.get.end_time}" style="width:110px;margin-right:3px;" onclick="calendar.show({ id: this })" placeholder="结束时间"/>
+                    <label style="margin-left:5px;">项目名称:&nbsp;&nbsp;</label>
+                    <input type="text" class="input-sm" name="pname"  style="float:none;" placeholder="请输入关键字" value="{$keyword}" />
+                    <label style="margin-left:5px;">执行未归档:&nbsp;&nbsp;</label>
+                    <select class="input-sm" name="zc" style="margin-right:5px;width:80px;">
+                        <option value="0" <if condition="$_zc eq 0">selected=selected</if>>-选择-</option>
+                        <option value="1" <if condition="$_zc eq 1">selected=selected</if>>已执行未归档</option>
+                    </select>
+                    <input type="submit" name="search" id="search" value="搜索" class="bj_btn" />
+                </td>
+            </tr>
+
+            <tr>
+                <td width="5%" align="center" class="tb_title">员工iD</td>
+                <td width="8%" align="center" class="tb_title">员工姓名</td>
+                <td width="10%" align="center" class="tb_title">合同金额汇总</td>
+
+            </tr>
+            <notempty name="data['list']">
+                <foreach name="data['list']" key="key" item="vo">
+                    <tr>
+                        <td align="center">{$vo.bluid}</td>
+                        <td align="center">{$vo.blname}</td>
+                        <td align="center">{:number_format($vo['ctotals'],2)}</td>
+
+                        <!--
+                                                <td align="center">
+
+                                                    <if condition="$vo.isactive eq 0">
+
+                                                        <a class="btn btn-warning btn-xs" href="{:U("ctedit?id=$vo[id]")}">编辑</a>
+                                                        <else/>
+                                                        <if condition="$isexc eq 1">
+                                                            <a class="btn btn-warning btn-xs" href="{:U("ctedit?id=$vo[id]")}">编辑</a>
+                                                        </if>
+
+                                                    </if>
+                                                    <if condition="$isexc eq 1">
+                                                        <a aid="{$vo.id}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal" onclick="ddd(this)" >删除合同发票回款</a>
+                                                    </if>
+                                                    <a class="btn btn-info btn-xs" href="{:U("bill?id=$vo[id]")}">申请发票</a>
+                                                    <if condition="$vo.stampis eq 0">
+                                                        <a class="btn btn-primary btn-xs" href="{:U("stamp?id=$vo[id]")}">申请盖章</a>
+                                                    </if>
+                                                    <if condition="($vo.isfiling eq 0) or ($vo.isfiling eq 1)">
+                                                        <a class="btn btn-warning btn-xs" href="{:U("filing?id=$vo[id]")}">申请归档</a>
+                                                    </if>
+
+                                                </td>
+                                                -->
+                    </tr>
+                </foreach>
+                <else />
+                <tr>
+                    <td colspan="3">暂无信息</td>
+                </tr>
+            </notempty>
+            <if condition="($data['list'] neq null)">
+                <tr>
+                    <td colspan="3">
+                        {$data.show}
+                    </td>
+                </tr>
+            </if>
+        </table>
+    </form>
+</div>
+<script>
+    var p_time = {
+        elem: '#p_time',
+        format: 'YYYY-MM-DD',
+        min: '2015-06-16 23:59:59',//laydate.now(), //设定最小日期为当前日期
+        max: '2099-06-16 23:59:59', //最大日期
+        istime: false,
+        istoday: false,
+        choose: function(datas){
+            end.min = datas; //开始日选好后，重置结束日的最小日期
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var p_etime = {
+        elem: '#p_etime',
+        format: 'YYYY-MM-DD',
+        min: '2015-06-16 23:59:59',//laydate.now(), //设定最小日期为当前日期
+        max: '2099-06-16 23:59:59', //最大日期
+        istime: false,
+        istoday: false,
+        choose: function(datas){
+            end.min = datas; //开始日选好后，重置结束日的最小日期
+            end.start = datas; //将结束日的初始值设定为开始日
+        }
+    };
+    var start = {
+        elem: '#start',
+        format: 'YYYY-MM-DD',
+        min: '2015-06-16 23:59:59',//laydate.now(), //设定最小日期为当前日期
+        max: '2099-06-16 23:59:59', //最大日期
+        istime: false,
+        istoday: false,
+        choose: function(datas){
+            end.min = datas; //开始日选好后，重置结束日的最小日期
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var end = {
+        elem: '#end',
+        format: 'YYYY-MM-DD',
+        min: '2015-06-16 23:59:59',
+        max: '2099-06-16 23:59:59',
+        istime: false,
+        istoday: false,
+        choose: function(datas){
+            start.max = datas; //结束日选好后，重置开始日的最大日期
+        }
+    };
+    laydate(p_time);
+    laydate(p_etime);
+    laydate(start);
+    laydate(end);
+</script>
+</body>
+</html>

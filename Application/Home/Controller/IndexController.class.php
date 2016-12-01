@@ -1084,6 +1084,22 @@ class IndexController extends Controller {
     }
 
     /**
+     * 项目完结
+     */
+    public function prodone(){
+        $id = I('get.id');
+        if($id){
+            $rs = M('project')->where("id = $id")->save(['status'=>2]);
+            if($rs){
+                $this->success('更改完成！');
+            }else{
+                $this->error('无更新操作!');
+            }
+        }else{
+            $this->error("为有效选择数据，请重新操作！");
+        }
+    }
+    /**
      * @param: int $type
      * @param: int $id
      */

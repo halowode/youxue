@@ -49,6 +49,8 @@
                 <td width="8%"  class="  danger"><b>归档状态：</b><i>
                     <if condition="$cdata.isfiling eq 3">
                         <a href="{:U("showfiling?cid=$cdata[id]")}">{$cdata['filingtime']|date="y-m-d",###}</a>
+                        <elseif condition="$cdata.isfiling eq 2"/>
+                        <a href="{:U("showfiling?cid=$cdata[id]")}">申请中</a>
                         <else />
                         未归档
                     </if>

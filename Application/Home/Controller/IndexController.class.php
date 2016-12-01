@@ -1055,6 +1055,16 @@ class IndexController extends Controller {
                 $this->assign('id',$id);
                 $this->display('editpro');
             }
+            if($type == 'reuse'){
+                $id = I('get.id');
+                $rs = M('project')->where("id = $id")->save(['status'=>1]);
+                if($rs){
+                    $this->success("修改成功！");
+                }else{
+                    $this->error("没有任何更新操作！");
+                }
+
+            }
         }else{
             $id = I('post.id');
             $mgs = I('post.mg');

@@ -3166,7 +3166,10 @@ class IndexController extends Controller {
             $arr[] = $ap[0]['rtotal']?:0;
             ob_flush();
             flush();
-            echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");
+            foreach($arr as $kt => $vt){
+                $arr[$kt] = iconv("UTF-8","GB2312",$vt);
+            }
+            echo implode("\t", $arr)."\n";
         }
     }
 

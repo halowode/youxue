@@ -2322,7 +2322,10 @@ class IndexController extends Controller {
                 $arr[] = M('contract')->where("id = {$v['cid']}")->getField('cno');
                 ob_flush();
                 flush();
-                echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");
+                foreach($arr as $kt => $vt){
+                    $arr[$kt] = iconv("UTF-8","GB2312",$vt);
+                }
+                echo implode("\t", $arr)."\n";
             }
 
         }
@@ -2397,8 +2400,12 @@ class IndexController extends Controller {
                     $arr[] = $rs['blname'];;
                     $arr[] = $rs['pid'] != 0 ?M('project')->where("id = {$rs['pid']}")->getField('pname'):'';
                 }
-		        $optstr = implode("\t", $arr)."\n";
-                echo iconv('UTF-8','GB2312',$optstr);
+		        //$optstr = implode("\t", $arr)."\n";
+                //echo iconv('UTF-8','GB2312',$optstr);
+                foreach($arr as $kt => $vt){
+                    $arr[$kt] = iconv("UTF-8","GB2312",$vt);
+                }
+                echo implode("\t", $arr)."\n";
                 ob_flush();
                 flush();
             }
@@ -2467,7 +2474,11 @@ class IndexController extends Controller {
                                 $arr[] = $vl['remark'];
                                 ob_flush();
                                 flush();
-                                echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");
+                                //echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");
+                                foreach($arr as $kt => $vt){
+                                    $arr[$kt] = iconv("UTF-8","GB2312",$vt);
+                                }
+                                echo implode("\t", $arr)."\n";
                             }
 
                         }
@@ -2867,7 +2878,11 @@ class IndexController extends Controller {
             $arr[] = $ap[0]['rtotal']?:0;
             ob_flush();
             flush();
-            echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");
+            //echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");
+            foreach($arr as $kt => $vt){
+                $arr[$kt] = iconv("UTF-8","GB2312",$vt);
+            }
+            echo implode("\t", $arr)."\n";
         }
 
 
@@ -3421,7 +3436,10 @@ class IndexController extends Controller {
             $arr[] = '已确认回款';
             ob_flush();
             flush();
-            echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");
+            foreach($arr as $kt => $vt){
+                $arr[$kt] = iconv("UTF-8","GB2312",$vt);
+            }
+            echo implode("\t", $arr)."\n";
         }
 
     }

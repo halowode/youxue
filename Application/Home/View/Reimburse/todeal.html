@@ -97,7 +97,7 @@
                     <input type="hidden" name="type" value="pas"/>
                     <input type="hidden" name="checklev" value="{$checklev}"/>
                     <input id="topass" type="hidden" name="id" value="{$id}"/>
-                    <textarea class="form-control" name="msg"></textarea>
+                    <textarea class="form-control" name="msg">通过</textarea>
                     <if condition="$checklev eq 5">
                         <label class="col-sm-2 control-label">通过方式</label>
                         <select class="form-control" name="isceo">
@@ -213,6 +213,7 @@
                 <button class="submit btn btn-warning">
                     付款信息确认
                 </button>
+                <a class="btn btn-info" href="{:U("reimbursep?id=$id&rt=0&rbno=$vo[rbno]")}">打印</a>
                 <a class="btn btn-primary" onclick="JavaScript:history.back(-1);" style="text-emphasis:center;">返回上一页</a>
             </div>
         </div>

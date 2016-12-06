@@ -38,7 +38,7 @@
                 <div class="modal-body">
                     <input type="hidden" name="type" value="bac"/>
                     <input id="tobv" type="hidden" name="id" value="{$id}"/>
-                    <textarea class="form-control" name="msg"></textarea>
+                    <textarea class="form-control" name="msg">请写出原因</textarea>
 
                     <label class="col-sm-2 control-label">通过方式</label>
                     <select class="form-control" name="whichto">
@@ -68,7 +68,7 @@
                     <input type="hidden" name="type" value="pas"/>
                     <input type="hidden" name="checklev" value="{$checklev}"/>
                     <input id="topass" type="hidden" name="id" value="{$id}"/>
-                    <textarea class="form-control" name="msg"></textarea>
+                    <textarea class="form-control" name="msg">同意</textarea>
                     <if condition="$checklev eq 5">
                         <label class="col-sm-2 control-label">通过方式</label>
                         <select class="form-control" name="isceo">

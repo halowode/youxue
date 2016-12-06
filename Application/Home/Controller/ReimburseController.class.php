@@ -1080,11 +1080,16 @@ class ReimburseController extends Controller
             //$ck = I('post.cktotal');
             $rs = 1;
             foreach($bsid as $k => $v){
+                if(!$ptime[$k]){
+                    $ptime[$k] = date('Y-m-d');
+                }
                 $rst = M('reimbursement')->where("id = $v")->save(['ptime'=>$ptime[$k]]);
+                /*
                 if($pway[$k] != 0){
                     $res = $Model->execute("update bank set total = total - '{$atotal[$k]}' where id='{$pway[$k]}'");
                     if(!$res) $rs = 0;
                 }
+                */
                 if(!$rst) $rs = 0;
             }
             $res = M('reimburse_record')->where("id = $id")->save(['bstatus'=>8]);

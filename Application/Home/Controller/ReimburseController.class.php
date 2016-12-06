@@ -403,11 +403,12 @@ class ReimburseController extends Controller
                 $data['ctime'] = time();
                 $rs = M('message')->add($data);
                 wu:
-                $rst = M('reimburse_record')->where("id = $sid")->save(['bstatus'=>$checklev+1,'recheckuid'=>$recheckuid]);
-                if($rs && $rst){
+                if($rs){
                     if($checklev == 1){
+                        M('reimburse_record')->where("id = $sid")->save(['bstatus'=>$checklev+1,'recheckuid'=>$recheckuid]);
                         $this->success("审核通过",U('check'));
                     }elseif($checklev == 2){
+                        M('reimburse_record')->where("id = $sid")->save(['bstatus'=>$checklev+1,'recheckuid'=>session('uid')]);
                         $this->success("审核通过",U('recheck'));
                     }elseif($checklev == 3){
                         $this->success("审核通过",U('confirm'));

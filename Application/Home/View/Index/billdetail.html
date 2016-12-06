@@ -61,7 +61,7 @@
                 <div class="modal-body">
                     <input type="hidden" name="type" value="bac"/>
                     <input id="tobv" type="hidden" name="billid" value=""/>
-                    <textarea class="form-control" name="msg"></textarea>
+                    <textarea class="form-control" name="msg">请填写驳回原因...</textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -83,7 +83,7 @@
                     <input type="hidden" name="type" value="pas"/>
                     <input id="topass" type="hidden" name="billid" value=""/>
                     <input  type="hidden" name="cid" value="{$cid}"/>
-                    <textarea class="form-control" name="msg"></textarea>
+                    <textarea class="form-control" name="msg">同意..</textarea>
                     <if condition="$checklev eq 1">
                     <label class="col-sm-2 control-label">选择复审</label>
                     <select class="form-control" name="reckuid">

@@ -794,6 +794,16 @@ class IndexController extends Controller {
                 $contract['pname'] = M('project')->where("id = {$contract['pid']}")->getField('pname');
                 $contract['checkuname'] = M('user')->where("id = {$contract['checkuid']}")->getField('username');
                 $bill = M('stamp')->where("id = $id")->find();
+                $ckuname = '';
+                $reckuname = '';
+                if($bill['ckuid']){
+                    $ckuname = M('user')->where("id = {$bill['ckuid']}")->getField('username');
+                }
+                if($bill['reckuid']){
+                    $reckuname = M('user')->where("id = {$bill['ckuid']}")->getField('username');
+                }
+                $this->assign('ckuname',$ckuname);
+                $this->assign('reckuname',$reckuname);
                 $this->assign('contract',$contract);
                 $this->assign('bill',$bill);
                 $this->display('stampsee');
@@ -1321,6 +1331,16 @@ class IndexController extends Controller {
                 $contract['pname'] = M('project')->where("id = {$contract['pid']}")->getField('pname');
                 $contract['checkuname'] = M('user')->where("id = {$contract['checkuid']}")->getField('username');
                 $bill = M('bill')->where("id = $id")->find();
+                $ckuname = '';
+                $reckuname = '';
+                if($bill['ckuid']){
+                    $ckuname = M('user')->where("id = {$bill['ckuid']}")->getField('username');
+                }
+                if($bill['reckuid']){
+                    $reckuname = M('user')->where("id = {$bill['ckuid']}")->getField('username');
+                }
+                $this->assign('ckuname',$ckuname);
+                $this->assign('reckuname',$reckuname);
                 $this->assign('contract',$contract);
                 $this->assign('bill',$bill);
                 $this->display('billsee');

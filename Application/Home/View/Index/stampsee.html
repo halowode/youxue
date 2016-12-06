@@ -63,7 +63,7 @@
             <div class="modal-body">
                 <input type="hidden" name="type" value="bac"/>
                 <input id="tobv" type="hidden" name="sid" value="{$bill.id}"/>
-                <textarea class="form-control" name="msg"></textarea>
+                <textarea class="form-control" name="msg">驳回意见..</textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -104,6 +104,7 @@
 <div class="logo_content1">
     <div class="logo_ccon1">
         <div class="logo_enter1" style="border:none;float:left;">
+            <span style="color:red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;初审人：{$ckuname} &nbsp;&nbsp;&nbsp;复审人：{$reckuname}</span>
             <form id="billup" class="form-inline" action="{:U('index/makestamp')}" method="post">
                 <!--
                 <div class="login_box1 " >

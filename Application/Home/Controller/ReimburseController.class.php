@@ -236,6 +236,10 @@ class ReimburseController extends Controller
         $msgdata = M('message')->where("mtype = 'reimburse' and fid = $id")->select();
         $fpath = M('files')->where("type = 'reimburse' and sid = $id")->field('path')->select()?:'';
         $paypath = M('files')->where("type='reimburse_pay' and sid = $id")->field('path')->select()?:'';
+        if(I('get.fr') == 'zz'){
+            $zzarr = ['hasp'=>1];
+            M("reimburse_record")->where("id = $id")->save($zzarr);
+        }
         $this->assign('uname',$uname);
         $this->assign('paypath',$paypath);
         $this->assign('fpath',$fpath);

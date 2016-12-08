@@ -51,6 +51,7 @@
         <table cellpadding="0" cellspacing="1">
             <tr>
                 <td width="5%" align="center" class="tb_title">报销单号</td>
+                <td width="5%" align="center" class="tb_title">申请ID</td>
                 <td width="11%" align="center" class="tb_title">报销项目</td>
                 <td width="8%" align="center" class="tb_title">申请性质</td>
                 <td width="5%" align="center" class="tb_title">销售合同</td>
@@ -62,6 +63,7 @@
                 <foreach name="data['list']" key="key" item="vo">
                     <tr>
                         <td align="center">{$vo.rbno}</td>
+                        <td align="center">{$vo.id}</td>
                         <td align="center">{$vo.pname}</td>
                         <td align="center">
                             <if condition="$vo.rbtype eq 1">

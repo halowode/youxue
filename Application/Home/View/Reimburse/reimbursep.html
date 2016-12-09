@@ -95,6 +95,7 @@
 
             <span style=""><h5>所属公司：{$record.belong} 申请单号：{$rbno} &nbsp;&nbsp;申请ID:{$record.id} &nbsp;&nbsp;申请人：{$uname} 打印日期：{$sstime}</h5></span>
             <table>
+                <!--
                 <tr>
                     <th width="12%" class="tb_title th">项目名称</th>
                     <th width="8%"  class="tb_title th">关联销售合同</th>
@@ -107,6 +108,7 @@
                     <td align="center">{$cgcon.cno}</td>
                     <td align="center">{$record.charge}</td>
                 </tr>
+                -->
                 <tr>
 
                     <th width="12%" class="tb_title th">摘要</th>
@@ -151,8 +153,10 @@
                     </if>
                     -->
                     <tr>
+                        <th class="tb_title th">收款方</th>
+                        <td >{$record.charge}</td>
                         <th class="tb_title th">附单据张数</th>
-                        <td colspan="3"></td>
+                        <td ></td>
                     </tr>
                     <else />
                     <tr>

@@ -764,10 +764,12 @@ class ReimburseController extends Controller
             $this->assign('checklev',$checklev);
             $this->assign('id',$id);
             if($checklev == 4 or $checklev == 5 or $checklev == 6){
+                $os = M('oreimburse')->where("recordid = $id")->select();
                 $fk = M('catelog')->where("ctype = 1")->select();
                 $sk = M('catelog')->where("ctype = 2")->select();
                 $fee = M('feetype')->select();
                 $banks = M('bank')->where("status = '1'")->select();
+                $this->assign('os',$os);
                 $this->assign('banks',$banks);
                 $this->assign('fk',$fk);
                 $this->assign('sk',$sk);

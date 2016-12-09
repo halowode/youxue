@@ -165,7 +165,23 @@
                         </td>
                         </tr>
                     </volist>
-
+                    <notempty name="os">
+                        <tr><td colspan="9"><h4>如下确认信息</h4></td></tr>
+                        <tr>
+                            <td>报销摘要</td>
+                            <td colspan="2">发生月份</td>
+                            <td colspan="2">报销金额</td>
+                            <td colspan="2">付款金额</td>
+                        </tr>
+                        <volist name="os" id="volls" key="k">
+                                <tr class="info">
+                                    <td width="35%"><input value="{$volls['ab']}" class="form-control" name="ab[]" type="text"/></td>
+                                    <td colspan="2"><input value="{$volls.etime}" class="form-control" name="etime[]" type="text" placeholder="格式：2016-06"/></td>
+                                    <td colspan="2"><input value="{$volls.etotal}" class="form-control" name="etotal[]" type="text"/></td>
+                                    <td colspan="2"><input value="{$volls.atotal}" class="form-control" name="atotal[]" type="text"/></td>
+                                </tr>
+                        </volist>
+                    </notempty>
                 </table>
                 <volist name="pics" id="bill">
                     <div class="login_box1" style="width:90%">

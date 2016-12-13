@@ -1068,6 +1068,8 @@ class ReimburseController extends Controller
                 }
                 $reimbursment[$k]['fee'] = M('feetype')->where("id = {$v['eattr']}")->getField('feetpname');
             }
+            $bcmsg = M('message')->where("fid = $id and mtype= 'reimburse'")->select();
+            $this->assign('bcmsg',$bcmsg);
             $this->assign('reimbursement',$reimbursment);
             $this->assign('pics',$pics);
             $this->assign('scon',$scon);

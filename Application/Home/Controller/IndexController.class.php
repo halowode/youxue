@@ -1337,7 +1337,7 @@ class IndexController extends Controller {
                     $ckuname = M('user')->where("id = {$bill['ckuid']}")->getField('username');
                 }
                 if($bill['reckuid']){
-                    $reckuname = M('user')->where("id = {$bill['ckuid']}")->getField('username');
+                    $reckuname = M('user')->where("id = {$bill['reckuid']}")->getField('username');
                 }
                 $this->assign('ckuname',$ckuname);
                 $this->assign('reckuname',$reckuname);

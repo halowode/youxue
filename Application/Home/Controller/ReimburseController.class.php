@@ -626,7 +626,7 @@ class ReimburseController extends Controller
                         M('oreimburse')->where("recordid = {$id}")->delete();
                         $rses = M('oreimburse')->addAll($dat);
                     }else{
-                        $this->error("数据之和不匹配！");
+                        $this->error("数据之和不匹配！est=".$est.' ast='.$ast);
                         exit;
                     }
                 }

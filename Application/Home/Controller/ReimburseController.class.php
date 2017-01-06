@@ -518,7 +518,7 @@ class ReimburseController extends Controller
             if($res){
                 $this->success("更新成功！",U('catelog'));
             }else{
-                $this->error("更新失败！",U('catelog'));
+                $this->error("更新失败！", U('catelog'));
             }
         }
 

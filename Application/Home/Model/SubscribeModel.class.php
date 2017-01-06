@@ -64,5 +64,5 @@ class SubscribeModel extends \Think\Model {
 		$Page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% <span>&nbsp;&nbsp;共 %TOTAL_ROW% 条记录</span>');
 		$data['show']  = $Page->show();// 分页显示输出
 		return $data;
-	}//得到订阅日志列表
+	}     //得到订阅日志列表
 }

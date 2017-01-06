@@ -101,6 +101,7 @@
 </div>
 <form name="product_form" id="daniel_form" enctype="multipart/form-data" action="{:U('reimburse/confirm')}" method="post">
     <div class="logo_content1">
+
         <div class="logo_ccon1">
             <div id="daniel_so" class="logo_enter1" style="border:none;float:left;">
                 <notempty name="bcmsg">
@@ -167,6 +168,15 @@
                     </volist>
 
                 </table>
+                <div class="nav_tcon1" style="margin-left:160px;float:left;width:78%;">
+                    <a class=" btn btn-success" bid="{$id}" data-toggle="modal" data-target="#myModal3" onclick="ddds(this)">
+                        审核通过
+                    </a>
+                    <a class="btn btn-danger" bid="{$id}" data-toggle="modal" data-target="#myModal2" onclick="ddds(this)">
+                        驳回申请
+                    </a>
+                    <a class="btn btn-primary" onclick="JavaScript:history.back(-1);" style="text-emphasis:center;">返回上一页</a>
+                </div>
                 <volist name="pics" id="bill">
                     <div class="login_box1" style="width:90%">
                         <span>相关图片证明：</span>
@@ -175,15 +185,7 @@
                 </volist>
             </div>
 
-            <div class="nav_tcon1" style="margin-left:160px;float:left;width:78%;">
-                <a class=" btn btn-success" bid="{$id}" data-toggle="modal" data-target="#myModal3" onclick="ddds(this)">
-                    审核通过
-                </a>
-                <a class="btn btn-danger" bid="{$id}" data-toggle="modal" data-target="#myModal2" onclick="ddds(this)">
-                    驳回申请
-                </a>
-                <a class="btn btn-primary" onclick="JavaScript:history.back(-1);" style="text-emphasis:center;">返回上一页</a>
-            </div>
+
             <table class=" table table-bordered" style="margin-left:30px;margin-top:20px">
                 <notempty name="os">
                     <tr><td colspan="9"><h4>财务入账信息</h4></td></tr>

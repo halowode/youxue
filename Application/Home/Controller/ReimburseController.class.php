@@ -1035,7 +1035,7 @@ class ReimburseController extends Controller
             $requesturl = $_SERVER['REQUEST_URI'];
             $this->assign('dqurl', base64url_encode($requesturl));// 当前URL
             $this->assign('vari', $vari);// 序号累加变量
-            $this->display();
+            $this->display('deal');
         }else{
 
         }
@@ -1208,6 +1208,12 @@ class ReimburseController extends Controller
         $this->assign('data',$arr);
         $this->display();
 
+    }
+    public function dchuli(){
+        $id = I('get.id');
+        M('reimburse_record')->where("id = $id")->save(['ischuli'=>1]);
+        $this->deal();
+        exit;
     }
 
 }

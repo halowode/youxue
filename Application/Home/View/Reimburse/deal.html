@@ -24,24 +24,20 @@
 <body style="height:100%;overflow-y:auto;">
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <form action="" method="get">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">审核驳回</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="type" value="bac"/>
-                    <input id="tobid" type="hidden" name="billid" value=""/>
-                    <textarea class="form-control" name="msg">填写驳回信息...</textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-primary">确定</button>
-                </div>
-            </form>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">线下处理</h4>
+            </div>
+            <div class="modal-body">
+                <p>线下是否已经完成处理？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" id="chuli" class="btn btn-primary">点击处理</button>
+            </div>
         </div>
     </div>
 </div>
@@ -57,7 +53,7 @@
                 <td width="5%" align="center" class="tb_title">销售合同</td>
                 <td width="8%" align="center" class="tb_title">采购合同</td>
                 <td width="5%" align="center" class="tb_title">申请人</td>
-                <td width="8%" align="center" class="tb_title">操作</td>
+                <td width="12%" align="center" class="tb_title">操作</td>
             </tr>
             <notempty name="data['list']">
                 <foreach name="data['list']" key="key" item="vo">
@@ -92,6 +88,11 @@
                             <if condition="$vo['hasp'] eq 0">
                                 <a class="btn btn-info btn-xs" href="{:U("reimbursep?id=$vo[id]&rt=$vo[rbtype]&rbno=$vo[rbno]&fr=zz")}">打印</a>
                             </if>
+                            <if condition="$vo.ischuli eq 0">
+                                <button vl="{$vo.id}" type="button" class="vlchuli btn btn-xs btn-danger" data-toggle="modal" data-target=".bs-example-modal-sm">处理</button>
+                                <else/>
+                                <button type="button" class="btn btn-xs btn-primary">已处理</button>
+                            </if>
                         </td>
                     </tr>
                 </foreach>
@@ -110,5 +111,16 @@
         </table>
     </form>
 </div>
+<script>
+    $(function () {
+        var vlid = 0;
+        $('.vlchuli').click(function(){
+            vlid = $(this).attr('vl');
+        });
+        $('#chuli').click(function () {
+            location.href='/Reimburse/dchuli?id='+vlid;
+        });
+    });
+</script>
 </body>
 </html>

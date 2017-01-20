@@ -67,7 +67,10 @@
                         <td align="center">{$vo.gname}</td>
                         <td align="center">{$vo.fname}</td>
                         <td align="center">
+                            <!--
                             <a href="{:U("filingdetail?id=$vo[id]&cid=$vo[cid]&checklev=$checklev")}">去审核</a>
+                            -->
+                            <a href="{:U("detail?id=$vo[id]")}">去审核</a>
                         </td>
                     </tr>
                 </foreach>

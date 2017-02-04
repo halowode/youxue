@@ -2461,6 +2461,7 @@ class IndexController extends Controller {
             '付款金额',
             '付款时间',
             '备注',
+            '状态',
         ];
         foreach ($titles as $k => $v) {
             $titles[$k]=iconv("UTF-8", "GB2312",$v);
@@ -2492,6 +2493,35 @@ class IndexController extends Controller {
                                 $arr[] = $vt['etotal'];
                                 $arr[] = $vt['ptime'];
                                 $arr[] = $vl['remark'];
+                                if($vl['bstatus'] == 0){
+                                    $arr[] = '被驳回';
+                                }
+                                elseif($vl['bstatus'] == 1){
+                                    $arr[] = '初审中';
+                                }
+                                elseif($vl['bstatus'] == 3){
+                                    $arr[] = '出纳确认中';
+                                }
+                                elseif($vl['bstatus'] == 4){
+                                    $arr[] = '财务确认中';
+                                }
+                                elseif($vl['bstatus'] == 5){
+                                    $arr[] = 'CFO确认中';
+                                }
+                                elseif($vl['bstatus'] == 6){
+                                    $arr[] = 'CEO确认中';
+                                }
+                                elseif($vl['bstatus'] == 7){
+                                    $arr[] = '出纳付款中';
+                                }
+                                elseif($vl['bstatus'] == 8){
+                                    $arr[] = '完成';
+                                }
+                                elseif($vl['bstatus'] == 2){
+                                    $arr[] = '复审中';
+                                }else{
+                                    $arr[] = '暂无状态';
+                                }
                                 ob_flush();
                                 flush();
                                 //echo iconv("UTF-8", "GB2312",implode("\t", $arr)."\n");

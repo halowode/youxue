@@ -836,9 +836,19 @@ class ReimburseController extends Controller
 
 
                 if($rs && $res){
-                    $this->success("驳回成功",U('reimburse/reconfirm'));
+                    if(session('uid') == 14){
+                        $this->success("驳回成功",U('reimburse/lastconfirm'));
+                    }else{
+                        $this->success("驳回成功",U('reimburse/reconfirm'));
+                    }
+
                 }else{
-                    $this->error("驳回失败，请联系管理员",U('reimburse/reconfirm'));
+                    if(session('uid') == 14){
+                        $this->success("驳回失败，请联系管理员",U('reimburse/lastconfirm'));
+                    }else{
+                        $this->error("驳回失败，请联系管理员",U('reimburse/reconfirm'));
+                    }
+
                 }
             }
         }

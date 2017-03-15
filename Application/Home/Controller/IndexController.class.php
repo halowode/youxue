@@ -2044,7 +2044,7 @@ class IndexController extends Controller {
             }
 
         }
-        
+
         $this->assign('data', $data);
         if (I('get.p') == '' || I('get.p') == 1) {
             $vari = 1;

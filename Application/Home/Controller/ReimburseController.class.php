@@ -622,13 +622,13 @@ class ReimburseController extends Controller
                 $sest = I('post.est');
                 $sast = I('post.ast');
                 if($est != 0 || $ast != 0 ){
-                    if($est == $sest && $ast == $sast){
+                    //if($est == $sest && $ast == $sast){
                         M('oreimburse')->where("recordid = {$id}")->delete();
                         $rses = M('oreimburse')->addAll($dat);
-                    }else{
-                        $this->error("数据之和不匹配！est=".$est.' ast='.$ast);
-                        exit;
-                    }
+                    //}else{
+                    //    $this->error("数据之和不匹配！est=".$est.' ast='.$ast);
+                    //    exit;
+                    //}
                 }
 
                 $bsmid = I('post.bsmid');

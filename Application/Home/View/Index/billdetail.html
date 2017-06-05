@@ -234,6 +234,10 @@
                     <span class="login_title1" >开票内容：</span>
                     <input class="use_name form-control" value="{$bill.cbcontent}" readonly id="cbcontent" name='cbcontent'  type="text" placeholder="开票内容" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
                 </div>
+                <div class="login_box1 daniel_hide">
+                    <span class="login_title1" >&nbsp;税号：</span>
+                    <input class="use_name form-control" id="bno" value="{$bill.bno}" readonly name='bno'  type="text" placeholder="" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
                 <div class="login_box1">
                     <span class="login_title1" >开票金额：</span>
                     <input class="use_name form-control" id="btotal" value="{$bill.btotal}" readonly  name='btotal'  type="text" placeholder="开票金额，填写数字" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
@@ -256,10 +260,7 @@
                         <span style="font-size: 15px">专业发票信息</span>
                     </div>
                 </div>
-                <div class="login_box1 daniel_hide">
-                    <span class="login_title1" >&nbsp;税号：</span>
-                    <input class="use_name form-control" id="bno" value="{$bill.bno}" readonly name='bno'  type="text" placeholder="" /><font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
-                </div>
+
                 <div class="login_box1 daniel_hide">
                     <span class="login_title1" >地址：</span>
                     <textarea class="use_name form-control" id="baddress" name='baddress'>{$bill.baddress}</textarea><font style="color:#FF0000;line-height:40px;">&nbsp;</font>

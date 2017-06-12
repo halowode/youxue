@@ -123,6 +123,9 @@ class IndexController extends Controller {
             if($data['bluid']){
                 $data['blname'] = M('user')->where("id = {$data['bluid']}")->getField('username');
             }
+            if($data['uid']){
+                $data['fname'] = M('user')->where("id = {$data['uid']}")->getField('username');
+            }
             $srcno = M('contract')->where("id != {$cid} and cno = '{$newcno}'")->find();
             if($srcno){
                 $this->error('已存在该合同编号！',U('index/search'));

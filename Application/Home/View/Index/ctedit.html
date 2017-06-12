@@ -112,6 +112,15 @@
                     </select>
                     <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
                 </div>
+                <div class="login_box1 form-group">
+                    <span class="login_title1 col-sm-2 control-label" >合同创建人</span>
+                    <select class="use_name form-control input-sm" name="uid"  style="width:200px">
+                        <foreach name="bluids" item="vo" >
+                            <option <if condition="$datas.uid eq $vo['id']">selected=selected</if> value="{$vo.id}" > {$vo.username}</option>
+                        </foreach>
+                    </select>
+                    <font style="color:#FF0000;line-height:40px;">&nbsp;*</font>
+                </div>
                 <div class="login_box1 form-group" id="ctotals">
                     <span class="login_title1 col-sm-2 control-label" >合同金额</span>
                     <input type="hidden" id="stotal" value="{:number_format($datas['total'],2)}"/>

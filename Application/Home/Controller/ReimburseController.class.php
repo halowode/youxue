@@ -622,7 +622,7 @@ class ReimburseController extends Controller
                 $sest = I('post.est');
                 $sast = I('post.ast');
                 if($est != 0 || $ast != 0 ){
-                    if($est == $sest && $ast == $sast){
+                    if((floatval($est) == floatval($sest)) && (floatval($ast) == floatval($sast))){
                         M('oreimburse')->where("recordid = {$id}")->delete();
                         $rses = M('oreimburse')->addAll($dat);
                     }else{

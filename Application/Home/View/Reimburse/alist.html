@@ -140,8 +140,8 @@
                         </td>
                         <td align="center">
                             <if condition="$Think.session.uid eq $vo['uid'] or $Think.session.exc eq []">
-                                <a class="btn btn-info btn-xs" href="{:U("borrow?rbid=$vo[rbid]")}">添加新的借款</a>
-                                <a class="btn btn-warning btn-xs" href="{:U("index?rbid=$vo[rbid]")}">添加新的报销</a>
+                                <!--<a class="btn btn-info btn-xs" href="{:U("borrow?rbid=$vo[rbid]")}">添加新的借款</a>
+                                <a class="btn btn-warning btn-xs" href="{:U("index?rbid=$vo[rbid]")}">添加新的报销</a>-->
                                 <if condition="$vo.bstatus eq 0">
                                     <a class="btn btn-primary btn-xs" href="{:U("reimburse_edit?id=$vo[id]&rt=$vo[rbtype]")}">编辑并重新申请</a>
                                 </if>

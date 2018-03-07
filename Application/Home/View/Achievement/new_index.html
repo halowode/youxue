@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>业绩表</title>
+
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/Iframe.css" />
+
+    <!--
+    <link rel="stylesheet" href="__PUBLIC__/utilLib/bootstrap.min.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+    -->
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .table_con table{border:1px solid #ccc;}
+        .table_con table tr{border-bottom:1px solid #ccc;}
+        .table_con table td{border-right:1px solid #ccc;}
+        .cp_title { width: 100%;float: left;font-size: 16px;text-align:center;height:80px;margin-top:0;margin:0;}
+        .cp_title h4{line-height:80px;font-weight:bold !important;font-size:30px;}
+    </style>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <!--
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    -->
+    <script>
+        function ddd(obj){
+            var a = $(obj).attr('aid');
+            $("#tobid").attr('value',a);
+        }
+    </script>
+</head>
+
+<body style="height:100%;overflow-y:auto;">
+
+<span class="cp_title" ><h4>优学教育各部门销售业绩进度表</h4></span>
+<!--<a class="btn btn-primary" style="float: right;margin-right:20px;margin-top:30px" href="{:U("index/downreimburse")}">下载业绩表</a>
+-->
+<div class="table_con">
+
+
+    <table class="table table-striped">
+        <caption><h3>3月第1周2018-03-01~2018-03-07</h3></caption>
+        <thead>
+        <tr>
+            <th>部门</th>
+            <th>负责人</th>
+            <th>目标任务数</th>
+            <th>合同金额</th>
+            <th>完成比例</th>
+            <th>到账金额</th>
+            <th>完成比例</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+        <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>10000</td>
+            <td>1000</td>
+            <td>1000</td>
+            <td>10000</td>
+            <td>1000</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <table>
+        <thead>123</thead>
+        <tr>
+            <td>合同金额</td>
+            <td>完成比例</td>
+            <td>到账金额</td>
+            <td>完成比例</td>
+        </tr>
+        <foreach name="info" item="v" key="k" >
+            <td>{$v.hj}</td>
+            <td>{$v.hj/$v.task*100}%</td>
+            <td></td>
+            <td></td>
+        </foreach>
+    </table>
+</div>
+
+</body>
+</html>
+<script>
+    $.post('/home/achievement/new_index',function (msg) {
+        var html='';
+        $.each(msg,function (k,v) {
+            var son="";
+            var hjsum=0;
+            var djsum=0;
+            var tasksum=0;
+            $.each(v,function (kk,vv) {
+                if(vv.leading!='吴伟华'){
+                    var one=vv.hj/vv.task*100+'%';
+                    var two=vv.dj/vv.task*100+'%';
+                    hjsum=parseInt(hjsum)+parseInt(vv.hj);
+                    djsum=parseInt(djsum)+parseInt(vv.dj);
+                    tasksum=parseInt(tasksum)+parseInt(vv.task);
+                }else{
+                    vv.product='优学';
+                    vv.task='-';
+                    vv.hj='-';
+                    vv.dj='-';
+                    one='-';
+                    two='-'
+                }
+                son+=" <tr>\n" +
+                    "            <td>"+vv.product+"</td>\n" +
+                    "            <td>"+vv.leading+"</td>\n" +
+                    "            <td>"+vv.task+"</td>\n" +
+                    "            <td>"+vv.hj+"</td>\n" +
+                    "            <td>"+one+"</td>\n" +
+                    "            <td>"+vv.dj+"</td>\n" +
+                    "            <td>"+two+"</td>\n" +
+                    "        </tr>";
+            })
+            html+="  <table class=\"table table-striped\">\n" +
+                "        <caption><h3>"+k+"</h3></caption>\n" +
+                "        <thead>\n" +
+                "        <tr>\n" +
+                "            <th>部门</th>\n" +
+                "            <th>负责人</th>\n" +
+                "            <th>目标任务数</th>\n" +
+                "            <th>合同金额</th>\n" +
+                "            <th>完成比例</th>\n" +
+                "            <th>到账金额</th>\n" +
+                "            <th>完成比例</th>\n" +
+                "        </tr>\n" +
+                "        </thead>\n" +son+
+                "        <tbody>\n" +
+                "        \n" +
+                "        </tbody>\n" +
+                "        <tfoot>\n" +
+                "        <tr>\n" +
+                "            <td>总计</td>\n" +
+                "            <td>总计</td>\n" +
+                "            <td>"+tasksum+"</td>\n" +
+                "            <td>"+hjsum+"</td>\n" +
+                "            <td>"+hjsum/tasksum*100+"%</td>\n" +
+                "            <td>"+djsum+"</td>\n" +
+                "            <td>"+djsum/tasksum*100+"%</td>\n" +
+                "        </tr>\n" +
+                "        </tfoot>\n" +
+                "    </table>"
+        })
+        $('.table_con').html(html);
+    },'json')
+</script>
